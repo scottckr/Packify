@@ -19,7 +19,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
      */
 
     // TO-DO: create new object containing order information, send to database
-    public void save_order(View view) {
+    public void saveOrder(View view) {
         Toast toast = new Toast(this);
 
         Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
@@ -30,7 +30,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * @param view
      */
     // TO-DO: method shall delete order information in database
-    public void delete_order(View view) {
+    public void deleteOrder(View view) {
         Toast toast = new Toast(this);
 
         Toast.makeText(getApplicationContext(), "Order raderad", Toast.LENGTH_SHORT).show();
