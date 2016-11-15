@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Packify</string>
+    <string name="register_order">Hantera order:</string>
+    <string name="input_order_number">Hantera ordernummer:</string>
+    <string name="input_customer_id">Hantera kundnummer:</string>
+    <string name="input_order_sum">Hantera ordersumma:</string>
+    <string name="input_order_address">Hantera adress:</string>
+    <string name="btn_submit_order">Spara order</string>
+    <string name="btn_delete_order">Radera order</string>
+    <string name="register_user">Hantera användare</string>
+    <string name="input_user_name">Namn:</string>
+    <string name="input_user_password">Lösenord:</string>
+    <string name="input_user_phone">Telefonnummer:</string>
+    <string name="btn_submit_user">Spara</string>
+    <string name="btn_delete_user">Radera</string>
 </resources>

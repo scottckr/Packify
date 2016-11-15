@@ -10,4 +10,74 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.scottcrocker.packify.UserHandlerActivity">
 
+<LinearLayout
+    android:id="@+id/layout_register_order"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/register_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:paddingBottom="5dp"
+        android:text="@string/register_user" />
+
+    <Spinner
+        android:id="@+id/spinner_user_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <EditText
+        android:id="@+id/input_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingBottom="5dp"
+        android:hint="@string/input_user_name"/>
+
+    <EditText
+        android:id="@+id/input_user_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingBottom="5dp"
+        android:hint="@string/input_user_password"/>
+
+    <EditText
+        android:id="@+id/input_user_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingBottom="5dp"
+        android:hint="@string/input_user_phone"/>
+
+
+
+</LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true">
+
+    <Button
+        android:id="@+id/btn_submit_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/btn_submit_user"/>
+
+    <Button
+        android:id="@+id/btn_delete_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/btn_delete_user"/>
+</LinearLayout>
+
+
 </RelativeLayout>
