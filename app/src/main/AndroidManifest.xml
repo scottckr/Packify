@@ -28,7 +28,9 @@
         <activity android:name=".UserHandlerActivity"
             android:label="@string/user_handler_label"/>
         <activity android:name=".LoginActivity"
-            android:label="@string/login_label"/>
+            android:label="@string/login_label"
+            android:fitsSystemWindows="true"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>

@@ -15,14 +15,12 @@ import java.util.List;
 public class ActiveOrdersActivity extends AppCompatActivity {
     private ListView listView;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_active_orders);
 
-        final List<String> listViewArray = new ArrayList<>();
+        List<String> listViewArray = new ArrayList<>();
 
         listViewArray.add("Order 1");
         listViewArray.add("Order 2");
