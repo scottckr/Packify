@@ -25,7 +25,7 @@
     <string name="input_user_phone">Telefonnummer:</string>
     <string name="btn_submit_user">Spara</string>
     <string name="btn_delete_user">Radera</string>
-    <string name="LoginHeadline">Logga in</string>
+    <string name="login_activity_title">Logga in</string>
     <string name="btn_login_submit">SKICKA</string>
     <string name="order_number">Ordernummer</string>
     <string name="customer_id">Kundnummer</string>
@@ -34,4 +34,6 @@
     <string name="btn_deliver_order">Leverera</string>
     <string name="btn_open_map">Vägbeskrivning</string>
     <string name="delivery_date">Levererad 000000 00:00</string>
+    <string name="input_password">Lösenord</string>
+    <string name="input_userid">Användar ID</string>
 </resources>
