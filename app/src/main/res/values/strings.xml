@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Packify</string>
+    <string name="active_orders_label">Aktiva ordrar</string>
+    <string name="order_history_label">Orderhistorik</string>
+    <string name="specific_order_label">Orderspecifikation</string>
+    <string name="order_handler_label">Orderhantering</string>
+    <string name="settings_label">Inställningar</string>
+    <string name="user_handler_label">Användarhantering</string>
+    <string name="login_label">Inloggning</string>
 </resources>
