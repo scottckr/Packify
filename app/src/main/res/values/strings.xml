@@ -27,4 +27,11 @@
     <string name="btn_delete_user">Radera</string>
     <string name="LoginHeadline">Logga in</string>
     <string name="btn_login_submit">SKICKA</string>
+    <string name="order_number">Ordernummer</string>
+    <string name="customer_id">Kundnummer</string>
+    <string name="order_sum">Ordersumma</string>
+    <string name="address">Adress</string>
+    <string name="btn_deliver_order">Leverera</string>
+    <string name="btn_open_map">Vägbeskrivning</string>
+    <string name="delivery_date">Levererad 000000 00:00</string>
 </resources>
