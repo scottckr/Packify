@@ -25,7 +25,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //TODO : create the login validation for the application and send to proper activity.
-
     public void loginValidation(View view) {
         Intent intent = new Intent(this, ActiveOrdersActivity.class);
         startActivity(intent);
