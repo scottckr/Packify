@@ -25,4 +25,6 @@
     <string name="input_user_phone">Telefonnummer:</string>
     <string name="btn_submit_user">Spara</string>
     <string name="btn_delete_user">Radera</string>
+    <string name="LoginHeadline">Logga in</string>
+    <string name="btn_login_submit">SKICKA</string>
 </resources>
