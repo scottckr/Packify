@@ -17,7 +17,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_history);
 
-        historyListView = (ListView) findViewById(R.id.order_history_listView);
+        historyListView = (ListView) findViewById(R.id.order_history_listview);
 
         // test to populate the ListView
         List<String> your_array_list = new ArrayList<String>();
@@ -31,6 +31,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
         historyListView.setAdapter(arrayAdapter);
 
-
     }
+
 }

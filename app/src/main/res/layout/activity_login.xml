@@ -10,43 +10,39 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.scottcrocker.packify.LoginActivity">
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/LoginHeadline"
-
+        android:text="@string/login_activity_title"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/LoginHeadline"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:id="@+id/input_login_password"
-        android:hint="Lösenord"
-        android:layout_below="@+id/input_login_id"
-        android:layout_alignLeft="@+id/input_login_id"
-        android:layout_alignStart="@+id/input_login_id"/>
+        android:id="@+id/login_activity_title"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:id="@+id/input_login_id"
-        android:hint="Användar ID"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="41dp"
-        android:layout_marginEnd="41dp"/>
+        android:hint="@string/input_userid"
+        android:inputType="number"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/input_login_password"
+        android:inputType="textPassword"
+        android:hint="@string/input_password"
+        android:layout_below="@+id/input_login_id"
+        android:layout_alignLeft="@+id/input_login_id"
+        android:layout_alignStart="@+id/input_login_id"/>
 
     <Button
         android:text="@string/btn_login_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="58dp"
         android:id="@+id/btn_login_submit"
         android:layout_below="@+id/input_login_password"
         android:layout_centerHorizontal="true"
