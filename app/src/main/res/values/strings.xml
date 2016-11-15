@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Packify</string>
+    <string name="active_orders_label">Aktiva ordrar</string>
+    <string name="order_history_label">Orderhistorik</string>
+    <string name="specific_order_label">Orderspecifikation</string>
+    <string name="order_handler_label">Orderhantering</string>
+    <string name="settings_label">Inställningar</string>
+    <string name="user_handler_label">Användarhantering</string>
+    <string name="login_label">Inloggning</string>
+    <string name="btn_save_settings">Spara</string>
+    <string name="btn_logout">Logga ut</string>
+    <string name="settings_order_label">Antal visade ordrar:</string>
+    <string name="number_of_orders">0</string>
+    <string name="settings_number_label">Telefonnummer:</string>
 </resources>
