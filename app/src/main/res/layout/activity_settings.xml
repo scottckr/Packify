@@ -55,6 +55,7 @@
             android:id="@+id/btn_save_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="onSubmitChanges"
             android:text="@string/btn_save_settings"
              />
     <LinearLayout
