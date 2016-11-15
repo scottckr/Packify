@@ -15,6 +15,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ActiveOrdersActivity" />
+        <activity android:name=".OrderHistoryActivity" />
+        <activity android:name=".SpecificOrderActivity" />
+        <activity android:name=".OrderHandlerActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".UserHandlerActivity" />
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>
