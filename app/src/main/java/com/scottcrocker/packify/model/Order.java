@@ -8,10 +8,15 @@ import java.util.Date;
 
 public class Order {
 
-    public Order(String address, int orderSum, boolean delivered, Date deliveryDate, double latitude, double longitude, int customerNo) {
+    public Order() {
+
+    }
+
+    public Order(int orderNo, int customerNo, String address, int orderSum, String deliveryDate, boolean isDelivered, double longitude, double latitude) {
+        this.orderNo = orderNo;
         this.address = address;
         this.orderSum = orderSum;
-        this.delivered = delivered;
+        this.isDelivered = isDelivered;
         this.deliveryDate = deliveryDate;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -21,8 +26,8 @@ public class Order {
     private String address;
     private int orderSum;
     private static int orderNo;
-    private boolean delivered;
-    private Date deliveryDate;
+    private boolean isDelivered;
+    private String deliveryDate;
     private double latitude;
     private double longitude;
     private int customerNo;
@@ -51,23 +56,23 @@ public class Order {
         this.orderSum = orderSum;
     }
 
-    public static void setOrderNo(int orderNo) {
+    public void setOrderNo(int orderNo) {
         Order.orderNo = orderNo;
     }
 
-    public boolean isDelivered() {
-        return delivered;
+    public boolean getIsDelivered() {
+        return isDelivered;
     }
 
-    public void setDelivered(boolean delivered) {
-        this.delivered = delivered;
+    public void setIsDelivered(boolean isDelivered) {
+        this.isDelivered = isDelivered;
     }
 
-    public Date getDeliveryDate() {
+    public String getDeliveryDate() {
         return deliveryDate;
     }
 
-    public void setDeliveryDate(Date deliveryDate) {
+    public void setDeliveryDate(String deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 
@@ -87,8 +92,7 @@ public class Order {
         this.longitude = longitude;
     }
 
-
-    public static int getOrderNo() {
+    public int getOrderNo() {
         return orderNo;
     }
 }
