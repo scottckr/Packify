@@ -35,7 +35,7 @@ public class GPSHelper extends AppCompatActivity{
         if(addressList.size() > 0) {
             longitude = addressList.get(0).getLongitude();
         }
-
+        Log.d(TAG, "Longitude: " + longitude);
         return longitude;
     }
 
@@ -58,7 +58,7 @@ public class GPSHelper extends AppCompatActivity{
         if(addressList.size() > 0) {
             latitude = addressList.get(0).getLatitude();
         }
-
+            Log.d(TAG, "Latitude: " + latitude);
         return latitude;
     }
 
