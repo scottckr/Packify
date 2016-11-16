@@ -46,6 +46,7 @@
         android:id="@+id/btn_login_submit"
         android:layout_below="@+id/input_login_password"
         android:layout_centerHorizontal="true"
-        android:onClick="loginValidation"/>
+        android:onClick="loginValidation"
+        android:background="@drawable/button_style"/>
 
 </RelativeLayout>

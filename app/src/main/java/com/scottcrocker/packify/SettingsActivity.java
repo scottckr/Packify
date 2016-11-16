@@ -36,7 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
     /**
      * onSeekBarChanges senses when you change the value and displays it in textview field above the bar.
      */
-    public void onSeekBarChanges(){
+    private void onSeekBarChanges(){
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
             @Override
@@ -59,7 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
      * If the user input is valid it shows a confirm message. Else it shows or a warning message.
      * @param view
      */
-    public void onSubmitChanges(View view){
+    public void onSaveSettings(View view){
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
@@ -79,7 +79,7 @@ public class SettingsActivity extends AppCompatActivity {
     /**
      * loadSavedSettings gather the users most recent settings and updates the fields.
      */
-    public void loadSavedSettings(){
+    private void loadSavedSettings(){
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
         String sharedSeekBarValue = sharedPreferences.getString("seekBarValue", "0");
         String sharedPhoneNumber = sharedPreferences.getString("number", "");

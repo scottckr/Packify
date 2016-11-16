@@ -37,5 +37,4 @@
     <string name="toolbar_settings">Inställningar</string>
     <string name="input_password">Lösenord</string>
     <string name="input_userid">Användar-ID</string>
-    <string name="login_activity_title">Packify</string>
 </resources>
