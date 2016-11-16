@@ -7,13 +7,11 @@ import java.util.Date;
  */
 
 public class Order {
-
     public Order() {
 
     }
 
-    public Order(int orderNo, int customerNo, String address, int orderSum, String deliveryDate, boolean isDelivered, double longitude, double latitude) {
-        this.orderNo = orderNo;
+    public Order(int customerNo, String address, int orderSum, String deliveryDate, boolean isDelivered, double longitude, double latitude) {
         this.address = address;
         this.orderSum = orderSum;
         this.isDelivered = isDelivered;

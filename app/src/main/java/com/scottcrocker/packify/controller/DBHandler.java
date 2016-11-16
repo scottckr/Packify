@@ -44,37 +44,47 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(userSql);
     }
 
-    public void addOrder(int customerNo, String address, int orderSum, String deliveryDate, boolean isDelivered, double longitude, double latitude) {
+    public void addOrder(Order order) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues cvs = new ContentValues();
-        cvs.put("customerNo", customerNo);
-        cvs.put("address", address);
-        cvs.put("orderSum", orderSum);
-        cvs.put("deliveryDate", deliveryDate);
-        cvs.put("isDelivered", isDelivered);
-        cvs.put("longitude", longitude);
-        cvs.put("latitude", latitude);
+        cvs.put("customerNo", order.getCustomerNo());
+        cvs.put("address", order.getAddress());
+        cvs.put("orderSum", order.getOrderSum());
+        cvs.put("deliveryDate", order.getDeliveryDate());
+        int isDeliveredInt;
+        if (order.getIsDelivered()) {
+            isDeliveredInt = 1;
+        } else {
+            isDeliveredInt = 0;
+        }
+        cvs.put("isDelivered", isDeliveredInt);
+        cvs.put("longitude", order.getLongitude());
+        cvs.put("latitude", order.getLatitude());
 
         long id = db.insert("Orders", null, cvs);
-        Log.d("DATABASE", "Row ID: " + id);
-
         db.close();
+        Log.d("DATABASE", "Added order: " + id);
     }
 
-    public void addUser(String password, String name, int telephone, boolean isAdmin) {
+    public void addUser(User user) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues cvs = new ContentValues();
-        cvs.put("password", password);
-        cvs.put("name", name);
-        cvs.put("telephone", telephone);
-        cvs.put("isAdmin", isAdmin);
+        cvs.put("password", user.getPassword());
+        cvs.put("name", user.getName());
+        cvs.put("telephone", user.getTelephone());
+        int isAdminInt;
+        if (user.getIsAdmin()) {
+            isAdminInt = 1;
+        } else {
+            isAdminInt = 0;
+        }
+        cvs.put("isAdmin", isAdminInt);
 
         long id = db.insert("Users", null, cvs);
-        Log.d("DATABASE", "Row ID: " + id);
-
         db.close();
+        Log.d("DATABASE", "Added user: " + id);
     }
 
     public int editOrder(Order order) {
@@ -104,48 +114,62 @@ public class DBHandler extends SQLiteOpenHelper {
         return db.update("Users", cvs, "_id" + " = ?", new String[]{String.valueOf(user.getId())});
     }
 
-    public Order getOrder(int orderNo) {
+    public Order getOrder(Order orderToGet) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.query("Orders", new String[] {"_orderNo", "customerNo", "address",
-                "orderSum", "deliveryDate", "isDelivered", "longitude", "latitude"}, "_orderNo =?",
-                new String[]{String.valueOf(orderNo)}, null, null, null, null);
-        if (cursor != null) {
+        String selectQuery = "SELECT * FROM Orders WHERE _orderNo=?";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        Order order = new Order();
+
+        boolean isDeliveredBool;
+
+
+        if (cursor.moveToFirst()) {
             cursor.moveToFirst();
-        }
-        boolean isDelivered;
-        if (Integer.parseInt(cursor.getString(5)) == 1) {
-            isDelivered = true;
+            order.setCustomerNo(Integer.parseInt(cursor.getString(1)));
+            order.setAddress(cursor.getString(2));
+            order.setOrderSum(Integer.parseInt(cursor.getString(3)));
+            order.setDeliveryDate(cursor.getString(4));
+            if (cursor.getInt(5) == 1) {
+                isDeliveredBool = true;
+            } else {
+                isDeliveredBool = false;
+            }
+            order.setIsDelivered(isDeliveredBool);
+            order.setLongitude(0.0);
+            order.setLatitude(0.0);
         } else {
-            isDelivered = false;
+            order = null;
         }
-        Order order = new Order(Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(1)), cursor.getString(2),
-                Integer.parseInt(cursor.getString(3)), cursor.getString(4), isDelivered,
-                cursor.getDouble(6), cursor.getDouble(7));
 
-        cursor.close();
-
+        db.close();
         return order;
     }
 
-    public User getUser(int id) {
+    public User getUser(User userToGet) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.query("Users", new String[] {"_id", "password", "name",
-                        "telephone", "isAdmin"}, "_id =?",
-                new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-        boolean isAdmin;
-        if (Integer.parseInt(cursor.getString(4)) == 1) {
-            isAdmin = true;
-        } else {
-            isAdmin = false;
-        }
-        User user = new User(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),
-                Integer.parseInt(cursor.getString(3)), isAdmin);
+        String selectQuery = "SELECT _id, password, name, telephone, isAdmin " +
+                "FROM Orders WHERE _id =?";
 
-        cursor.close();
+        User user = new User();
 
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{String.valueOf(userToGet.getId())});
+
+        if (cursor.moveToFirst()) {
+            do {
+                user.setPassword(cursor.getString(cursor.getColumnIndex("password")));
+                user.setName(cursor.getString(cursor.getColumnIndex("name")));
+                user.setTelephone(cursor.getInt(cursor.getColumnIndex("telephone")));
+                boolean isAdminBool;
+                if (cursor.getInt(cursor.getColumnIndex("isAdmin")) == 1) {
+                    isAdminBool = true;
+                } else {
+                    isAdminBool = false;
+                }
+                user.setIsAdmin(isAdminBool);
+            } while (cursor.moveToNext());
+        }
         return user;
     }
 
