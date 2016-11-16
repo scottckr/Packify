@@ -5,18 +5,22 @@ package com.scottcrocker.packify.model;
  */
 
 public class User {
-    public User(int id, String name, int telephone, String password, boolean isAdmin) {
+    public User() {
+
+    }
+
+    public User(int id, String password, String name, int telephone, boolean isAdmin) {
         this.id = id;
+        this.password = password;
         this.name = name;
         this.telephone = telephone;
-        this.password = password;
         this.isAdmin = isAdmin;
     }
 
     private int id;
+    private String password;
     private String name;
     private int telephone;
-    private String password;
     private boolean isAdmin;
 
     public int getId() {
@@ -25,6 +29,14 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {
@@ -43,19 +55,11 @@ public class User {
         this.telephone = telephone;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isAdmin() {
+    public boolean getIsAdmin() {
         return isAdmin;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 }
