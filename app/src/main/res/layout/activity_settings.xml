@@ -47,6 +47,7 @@
             android:id="@+id/sms_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:text="0700123456"
             android:inputType="phone"
             />
@@ -74,6 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:onClick="logout"
         />
 
 

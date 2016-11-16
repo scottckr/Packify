@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="53a420cd4f49274db6bd43475f8006ba67ef6bbd">
+        <dex dex="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.0.0_35cacd5e8f9874378401801e057afe161af2a94a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
+        <dex dex="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_768524ece0ccf8c089c4bf8d167485133bc48d1a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="4ccbcda5c72027c7f7c14be9ff8640d9cb0d8da0">
+        <dex dex="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.0.0_0efa5766b011c07b82b664298dfe096bb8462d7e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="b302c02f7e59de1adfc5bd936b93d063b7532ed7">
+        <dex dex="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_a78f7e326095e0075021b370b644dc60956d8dfc/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="d29714cc76b38157e3cbd034c66e1ec808eb4c19">
+        <dex dex="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.0.0_06079d2236e8246ee888447414fba0a3312a936c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="3b61a70884adaf0be3fc06c70c801e3e6df13133">
+        <dex dex="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_26f76d0f855abf26378e19c5cd960f785b61315f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="cd36b81ac6bc61032d58da6b1246ce6099e254d1">
+        <dex dex="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_d3f2c681f65ef3ecbfe80630476174917e20b768/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="07daa0b6e1d455c82a38422ffe287c18823d339a">
+        <dex dex="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.0.0_7fc51241b191eadbb2cc1d13aa76b531a4a094e4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="26674000177e45447a0326a6ad84612761199a13">
+        <dex dex="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.0.0_b833e5f957f359849e6174804aec514528ddd09d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="f2e3b9bc1ec25f652e8007ce7774c991e38f6a00">
+        <dex dex="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_00cadada80145031eb467784c9f0aae25a290324/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="8bc45ce1f63d1a391fd38b32a201be5a42f9c95d">
+        <dex dex="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-25.0.0_85f48fcd29d0d096558589546f3cbc6fdd1e367b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/niklasbolwede/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.0.0/support-annotations-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="a22d2cc94da87b254451fa8ed28afc30b4653773">
+        <dex dex="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.0.0_ca2068fb3d53300cc23301d727b96a0e40939347/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.0.0_3c9a007bcb1d3c58fea4f094f92cd2c933bf2f21/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="665d21a8a069c96b4d9e8b434f5096d865b4e261">
+        <dex dex="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_b11b32667b3f674e7937422eb06b0b245fb663d8/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="75b1f366ff0bbc78f8b1f7cf0dc82e7c53afef6a">
+        <dex dex="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.0.0_45720b183eba03bd4c81050adf270a0a6250fce8/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="ee5faf4dee5b6a4364bf51587871047dde7c703a">
+        <dex dex="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_d2f9d6ce09bc3799c9db6b74f55c2759f1b2d900/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="76fb65a4b41ea42dab8a1310ed772a2420c96b52">
+        <dex dex="/Users/niklasbolwede/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-25.0.0_36aa488cb13b8516eb0e3647cf80e82f0bdf7e7b/classes.dex" />
+    </item>
+
+</items>
