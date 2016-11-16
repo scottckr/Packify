@@ -17,7 +17,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * Method to create a new order object, or handle an existing order object which will be sent to DB
      * @param view
      */
-
     // TO-DO: create new object containing order information, send to database
     public void saveOrder(View view) {
         Toast toast = new Toast(this);

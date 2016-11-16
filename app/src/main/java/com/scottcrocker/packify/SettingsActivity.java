@@ -59,7 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
      * If the user input is valid it shows a confirm message. Else it shows or a warning message.
      * @param view
      */
-    public void onSaveSettings(View view){
+    private void onSaveSettings(View view){
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
