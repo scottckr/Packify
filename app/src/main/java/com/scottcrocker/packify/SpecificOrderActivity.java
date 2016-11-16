@@ -27,7 +27,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
     public void openNavigation(View view) {
         //TODO Open google maps with coordinates. Not Amphitheater Parkway!
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                Uri.parse("geo:0,0?q=1600+Amphitheatre+Parkway%2C+CA"));
+                Uri.parse("geo:0,0?q=Ebbe+Lieberathsgatan+18C"));
         startActivity(intent);
     }
 }
