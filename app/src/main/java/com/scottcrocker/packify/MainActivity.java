@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.scottcrocker.packify.controller.DBHandler;
 import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
 
+import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
+
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
@@ -17,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         db = new DBHandler(this);
+
+        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
+
         if (sharedPreferences.getBoolean("isLoggedIn", false) == true) {
             Intent intent = new Intent(this, ActiveOrdersActivity.class);
             startActivity(intent);
