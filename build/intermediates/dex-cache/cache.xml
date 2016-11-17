@@ -3,6 +3,60 @@
 
     <item
         is-multidex="true"
+        jar="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="26674000177e45447a0326a6ad84612761199a13">
+        <dex dex="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.0.0_ab93cc9b381c6b099a9aecf4c15151cb453daaef/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="f2e3b9bc1ec25f652e8007ce7774c991e38f6a00">
+        <dex dex="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_64aa4acbc9bad60a15b0b785a331989213dc73a2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/samanthamorrison/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.0.0/support-annotations-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="a22d2cc94da87b254451fa8ed28afc30b4653773">
+        <dex dex="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.0.0_935398b95d77b732e03135f839df83583bcbb14b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="8bc45ce1f63d1a391fd38b32a201be5a42f9c95d">
+        <dex dex="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-25.0.0_1ae40c3a0acbd4a1e319a0d63885ebca57fe71a7/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="43394a47806353439ca2708d3a6b43d9162ff9e5">
+        <dex dex="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_50cf7c2195424c7cba7d8314ce12fe19ba52b1c9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="5eeb11ff7cbaa529b5184ab20b1ad9298e18e19e">
+        <dex dex="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9b7a253f77e11723afddb755791b77729c01b65f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.0/jars/libs/internal_impl-25.0.0.jar"
         jumboMode="true"
         optimize="true"
@@ -39,24 +93,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="26674000177e45447a0326a6ad84612761199a13">
-        <dex dex="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.0.0_ab93cc9b381c6b099a9aecf4c15151cb453daaef/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/libs/internal_impl-25.0.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="f2e3b9bc1ec25f652e8007ce7774c991e38f6a00">
-        <dex dex="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_64aa4acbc9bad60a15b0b785a331989213dc73a2/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -75,15 +111,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="/Users/samanthamorrison/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.0.0/support-annotations-25.0.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="a22d2cc94da87b254451fa8ed28afc30b4653773">
-        <dex dex="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.0.0_935398b95d77b732e03135f839df83583bcbb14b/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/libs/internal_impl-25.0.0.jar"
         jumboMode="true"
         optimize="true"
@@ -93,30 +120,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="8bc45ce1f63d1a391fd38b32a201be5a42f9c95d">
-        <dex dex="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-25.0.0_1ae40c3a0acbd4a1e319a0d63885ebca57fe71a7/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="4ccbcda5c72027c7f7c14be9ff8640d9cb0d8da0">
         <dex dex="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.0.0_455227e7b432c123583c8ea50398e8a41c227986/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="bc24f95b960de31481cf4906d4bf5dbe5e9e2a3e">
-        <dex dex="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_50cf7c2195424c7cba7d8314ce12fe19ba52b1c9/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -135,15 +144,6 @@
         revision="24.0.3"
         sha1="53a420cd4f49274db6bd43475f8006ba67ef6bbd">
         <dex dex="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.0.0_4f779c2e5f256559dbbc7f5d341070f7b5d9b704/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="3c60ce1ba7d3256ef57fb905fecb0f5fd87b2dd2">
-        <dex dex="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9b7a253f77e11723afddb755791b77729c01b65f/classes.dex" />
     </item>
     <item
         is-multidex="true"
