@@ -39,4 +39,6 @@
     <string name="input_userid">Användar-ID</string>
     <string name="toolbar_update_order">Uppdatera</string>
     <string name="toolbar_admin_settings">Admin</string>
+    <string name="new_user_id">ID</string>
+    <string name="is_admin">Admin</string>
 </resources>

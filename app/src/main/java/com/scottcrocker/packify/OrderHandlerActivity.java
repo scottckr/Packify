@@ -21,7 +21,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * Method to create a new order object, or handle an existing order object which will be sent to DB
      * @param view
      */
-
     // TO-DO: create new object containing order information, send to database
 
     public void addOrder(View view) {
@@ -39,7 +38,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
         MainActivity.db.addOrder(order);
 
-        Log.d("DATABASE", "Order: " + MainActivity.db.getOrder(order.getOrderNo()).getDeliveryDate());
+        //Log.d("DATABASE", "Order: " + MainActivity.db.getOrder(order.getOrderNo()).getDeliveryDate());
 
         Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
     }
