@@ -1,8 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <item
@@ -10,11 +7,13 @@
         android:orderInCategory="100"
         android:title="@string/toolbar_update_order"
         app:showAsAction="never"/>
+
     <item
         android:id="@+id/toolbar_settings"
         android:orderInCategory="100"
         android:title="@string/toolbar_settings"
         app:showAsAction="never"/>
+
     <item
         android:id="@+id/toolbar_admin_settings"
         android:orderInCategory="100"
