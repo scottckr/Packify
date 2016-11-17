@@ -114,36 +114,23 @@ public class DBHandler extends SQLiteOpenHelper {
         return db.update("Users", cvs, "_id" + " = ?", new String[]{String.valueOf(user.getId())});
     }
 
-    public Order getOrder(Order orderToGet) {
-        SQLiteDatabase db = getReadableDatabase();
-        String selectQuery = "SELECT * FROM Orders WHERE _orderNo=?";
-
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        Order order = new Order();
-
+    public Order getOrder(int orderNo) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("Orders", new String[] { "_orderNo", "customerNo", "address",
+                "orderSum", "deliveryDate", "isDelivered", "longitude", "latitude" }, "_orderNo" + "=?",
+                new String[] { String.valueOf(orderNo) }, null, null, null, null );
+        Log.d("DATABASE", "Cursor: " + cursor.toString());
         boolean isDeliveredBool;
-
-
-        if (cursor.moveToFirst()) {
-            cursor.moveToFirst();
-            order.setCustomerNo(Integer.parseInt(cursor.getString(1)));
-            order.setAddress(cursor.getString(2));
-            order.setOrderSum(Integer.parseInt(cursor.getString(3)));
-            order.setDeliveryDate(cursor.getString(4));
-            if (cursor.getInt(5) == 1) {
-                isDeliveredBool = true;
-            } else {
-                isDeliveredBool = false;
-            }
-            order.setIsDelivered(isDeliveredBool);
-            order.setLongitude(0.0);
-            order.setLatitude(0.0);
+        if (cursor != null) cursor.moveToFirst();
+        if (Integer.parseInt(cursor.getString(5)) == 1) {
+            isDeliveredBool = true;
         } else {
-            order = null;
+            isDeliveredBool = false;
         }
+        Order order = new Order(Integer.parseInt(cursor.getString(1)), cursor.getString(2),
+                Integer.parseInt(cursor.getString(3)), cursor.getString(4), isDeliveredBool,
+                Double.parseDouble(cursor.getString(6)), Double.parseDouble(cursor.getString(7)));
 
-        db.close();
         return order;
     }
 

@@ -32,7 +32,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
         Order order = new Order(customerId, address, orderSum, "Leeeif", false, 0.0, 0.0);
         MainActivity.db.addOrder(order);
 
-        //Log.d("DATABASE", "Order: " + MainActivity.db.getOrder(order).getDeliveryDate());
+        //Log.d("DATABASE", "Order: " + MainActivity.db.getOrder(order.getOrderNo()).getDeliveryDate());
 
         Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
     }
