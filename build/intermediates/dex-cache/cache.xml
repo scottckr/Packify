@@ -88,7 +88,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="e1dae5d5d54d39567b91f8e6319c61c1bdb00d01">
+        sha1="b1d02f19691b85f73ebda34e47add62e1c9c5cf9">
         <dex dex="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_39ad32f1654c0dfcbdb73904b9e8edee61bec2c2/classes.dex" />
     </item>
     <item
@@ -106,7 +106,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="a258346356b7299705b10b293bcf27846d2f8df8">
+        sha1="1d9c81baf623732c33f37dcc7bbe043a72519728">
         <dex dex="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_c3946b8a8ee26eb631582de9166ed656b0668199/classes.dex" />
     </item>
     <item

@@ -1,5 +1,7 @@
 package com.scottcrocker.packify;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +10,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.scottcrocker.packify.model.Order;
+
+import java.io.IOException;
+import java.util.List;
 
 public class OrderHandlerActivity extends AppCompatActivity {
 
@@ -31,7 +36,10 @@ public class OrderHandlerActivity extends AppCompatActivity {
         int orderSum = Integer.parseInt(orderSumET.getText().toString());
         EditText addressET = (EditText) findViewById(R.id.input_order_address);
         String address = addressET.getText().toString();
-        Order order = new Order(orderNo, customerId, address, orderSum, "Leeeif", false, 0.0, 0.0);
+
+        Order order = new Order(orderNo, customerId, address, orderSum, "---", false,
+                MainActivity.gps.getLongitude(address), MainActivity.gps.getLatitude(address));
+
         MainActivity.db.addOrder(order);
 
         Log.d("DATABASE", "Order: " + MainActivity.db.getOrder(order.getOrderNo()).getDeliveryDate());
