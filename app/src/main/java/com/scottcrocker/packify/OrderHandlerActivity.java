@@ -27,6 +27,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * @param view
      */
     // TO-DO: create new object containing order information, send to database
+
     public void saveOrder(View view) {
         EditText orderNoET = (EditText) findViewById(R.id.input_order_number);
         int orderNo = Integer.parseInt(orderNoET.getText().toString());
