@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActiveOrdersActivity extends AppCompatActivity {
-    private ListView listView;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,6 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-
                 Order selectedOrder = adapter.getItem(position);
                 Intent intent = new Intent(getApplicationContext(), SpecificOrderActivity.class);
                 intent.putExtra("ORDERNO", selectedOrder.getOrderNo());
