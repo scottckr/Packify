@@ -95,7 +95,7 @@ public class DBHandler extends SQLiteOpenHelper {
         cvs.put("address", order.getAddress());
         cvs.put("orderSum", order.getOrderSum());
         cvs.put("deliveryDate", order.getDeliveryDate());
-        cvs.put("delivered", order.getIsDelivered());
+        cvs.put("isDelivered", order.getIsDelivered());
         cvs.put("longitude", order.getLongitude());
         cvs.put("latitude", order.getLatitude());
 
@@ -114,62 +114,65 @@ public class DBHandler extends SQLiteOpenHelper {
         return db.update("Users", cvs, "_id" + " = ?", new String[]{String.valueOf(user.getId())});
     }
 
-    public Order getOrder(Order orderToGet) {
-        SQLiteDatabase db = getReadableDatabase();
-        String selectQuery = "SELECT * FROM Orders WHERE _orderNo=?";
+    public Order getOrder(int orderNo) {
+        String query = "SELECT * FROM " + "Orders" + " WHERE " + "_orderNo" + " = \"" + orderNo + "\"";
 
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
 
         Order order = new Order();
-
         boolean isDeliveredBool;
-
 
         if (cursor.moveToFirst()) {
             cursor.moveToFirst();
+            order.setOrderNo(Integer.parseInt(cursor.getString(0)));
             order.setCustomerNo(Integer.parseInt(cursor.getString(1)));
             order.setAddress(cursor.getString(2));
             order.setOrderSum(Integer.parseInt(cursor.getString(3)));
             order.setDeliveryDate(cursor.getString(4));
-            if (cursor.getInt(5) == 1) {
+            if (Integer.parseInt(cursor.getString(5)) == 1) {
                 isDeliveredBool = true;
             } else {
                 isDeliveredBool = false;
             }
             order.setIsDelivered(isDeliveredBool);
-            order.setLongitude(0.0);
-            order.setLatitude(0.0);
+            order.setLongitude(Double.parseDouble(cursor.getString(6)));
+            order.setLatitude(Double.parseDouble(cursor.getString(7)));
+            cursor.close();
         } else {
             order = null;
         }
-
         db.close();
         return order;
     }
 
-    public User getUser(User userToGet) {
+    public User getUser(int id) {
+        String query = "SELECT * FROM " + "Users" + " WHERE " + "_id" + " = \"" + id + "\"";
+
         SQLiteDatabase db = getReadableDatabase();
-        String selectQuery = "SELECT _id, password, name, telephone, isAdmin " +
-                "FROM Orders WHERE _id =?";
+        Cursor cursor = db.rawQuery(query, null);
 
         User user = new User();
-
-        Cursor cursor = db.rawQuery(selectQuery, new String[]{String.valueOf(userToGet.getId())});
+        boolean isAdminBool;
 
         if (cursor.moveToFirst()) {
-            do {
-                user.setPassword(cursor.getString(cursor.getColumnIndex("password")));
-                user.setName(cursor.getString(cursor.getColumnIndex("name")));
-                user.setTelephone(cursor.getInt(cursor.getColumnIndex("telephone")));
-                boolean isAdminBool;
-                if (cursor.getInt(cursor.getColumnIndex("isAdmin")) == 1) {
-                    isAdminBool = true;
-                } else {
-                    isAdminBool = false;
-                }
-                user.setIsAdmin(isAdminBool);
-            } while (cursor.moveToNext());
+            cursor.moveToFirst();
+            user.setId(Integer.parseInt(cursor.getString(0)));
+            user.setPassword(cursor.getString(1));
+            user.setName(cursor.getString(2));
+            user.setTelephone(Integer.parseInt(cursor.getString(3)));
+            if (Integer.parseInt(cursor.getString(4)) == 1) {
+                isAdminBool = true;
+            } else {
+                isAdminBool = false;
+            }
+            user.setIsAdmin(isAdminBool);
+            cursor.close();
+        } else {
+            user = null;
         }
+        db.close();
         return user;
     }
 

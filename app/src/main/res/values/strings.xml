@@ -33,7 +33,7 @@
     <string name="address">Adress</string>
     <string name="btn_deliver_order">Leverera</string>
     <string name="btn_open_map">Vägbeskrivning</string>
-    <string name="delivery_date">Levererad 000000 00:00</string>
+    <string name="delivery_date">Levererad</string>
     <string name="toolbar_settings">Inställningar</string>
     <string name="input_password">Lösenord</string>
     <string name="input_userid">Användar-ID</string>
