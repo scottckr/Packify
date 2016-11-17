@@ -21,6 +21,10 @@ public class Order {
         this.customerNo = customerNo;
     }
 
+    public String toString() {
+        return "Order number: " + getOrderNo();
+    }
+
     private String address;
     private int orderSum;
     private int orderNo;

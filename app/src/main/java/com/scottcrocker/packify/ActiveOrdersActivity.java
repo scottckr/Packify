@@ -7,7 +7,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
+
+import com.scottcrocker.packify.model.Order;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +23,17 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_active_orders);
 
-        List<String> listViewArray = new ArrayList<>();
+        List<Order> allOrders = MainActivity.db.getAllOrders();
 
-        listViewArray.add("Order 1");
-        listViewArray.add("Order 2");
+        List<Order> undeliveredOrders = new ArrayList<>();
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listViewArray);
+        for (int i = 0; i < allOrders.size(); i++) {
+            if (!allOrders.get(i).getIsDelivered()) {
+                undeliveredOrders.add(allOrders.get(i));
+            }
+        }
+
+        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, undeliveredOrders);
 
         listView = (ListView)findViewById(R.id.active_orders_listview);
         listView.setAdapter(adapter);
@@ -34,9 +42,9 @@ public class ActiveOrdersActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                String item = adapter.getItem(position);
-                Toast.makeText(getApplicationContext(),item,Toast.LENGTH_LONG).show();
+                Order selectedOrder = adapter.getItem(position);
                 Intent intent = new Intent(getApplicationContext(), SpecificOrderActivity.class);
+                intent.putExtra("ORDERNO", selectedOrder.getOrderNo());
                 startActivity(intent);
             }
         });

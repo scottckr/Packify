@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.scottcrocker.packify.MainActivity;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
 
@@ -205,6 +206,8 @@ public class DBHandler extends SQLiteOpenHelper {
         }
 
         cursor.close();
+
+        Log.d("DATABASE", "Got orders: " + allOrders);
 
         return allOrders;
     }

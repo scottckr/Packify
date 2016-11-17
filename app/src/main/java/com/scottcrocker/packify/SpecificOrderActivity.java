@@ -26,22 +26,18 @@ public class SpecificOrderActivity extends AppCompatActivity {
     String deliveryDateStr;
     Button btnDeliverOrder;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_order);
-        orderNumber = getIntent().getIntExtra("id", 0);
+        orderNumber = getIntent().getIntExtra("ORDERNO", 0);
         specificOrder = MainActivity.db.getOrder(orderNumber);
         refreshView();
-
     }
 
-    private void deliverOrder(View view) {
+    public void deliverOrder(View view) {
         //TODO Send delivery-information to database and reset view
         refreshView();
-
     }
 
     private void refreshView() {
@@ -71,17 +67,11 @@ public class SpecificOrderActivity extends AppCompatActivity {
         }
     }
 
-    private void openNavigation(View view) {
+    public void openNavigation(View view) {
         //TODO Open google maps with coordinates. Not Amphitheater Parkway!
 
-        //RIKTIG KOD - Databas
         String uri = "geo:" + specificOrder.getLatitude() + "," + specificOrder.getLongitude() +
-                "?q=" + specificOrder.getLatitude() + "," + specificOrder.getLongitude() +
-                "(" + specificOrder.getAddress() + ")";
-
-
-        //TEST KOD
-        //String uri = "geo:57.71780,11.94467?q=57.71780,11.94467(Myntgatan 28)";
+                "?q=" + specificOrder.getAddress();
 
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         intent.setPackage("com.google.android.apps.maps");
