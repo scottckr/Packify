@@ -17,6 +17,11 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
+    @Override
+    public String toString() {
+        return "User ID: " + id + ", name: " + name + ", admin: " + isAdmin;
+    }
+
     private int id;
     private String password;
     private String name;

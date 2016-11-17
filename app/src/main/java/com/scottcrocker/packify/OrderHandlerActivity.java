@@ -1,18 +1,12 @@
 package com.scottcrocker.packify;
 
-import android.location.Address;
-import android.location.Geocoder;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.scottcrocker.packify.model.Order;
-
-import java.io.IOException;
-import java.util.List;
 
 public class OrderHandlerActivity extends AppCompatActivity {
 
@@ -43,7 +37,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
         MainActivity.db.addOrder(order);
 
-        Log.d("DATABASE", "Order: " + MainActivity.db.getOrder(order.getOrderNo()).getDeliveryDate());
+        //Log.d("DATABASE", "Order: " + MainActivity.db.getOrder(order.getOrderNo()).getDeliveryDate());
 
         Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
     }
