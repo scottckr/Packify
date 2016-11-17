@@ -19,7 +19,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
      */
 
     // TO-DO: create new object containing order information, send to database
-    public void saveOrder(View view) {
+    public void createOrderFromInput(View view) {
         Toast toast = new Toast(this);
 
         Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
