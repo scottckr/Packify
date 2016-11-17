@@ -32,8 +32,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_order);
-        Bundle extras = this.getIntent().getExtras();
-        orderNumber = extras.getInt("id");
+        orderNumber = getIntent().getIntExtra("id", 0);
         specificOrder = MainActivity.db.getOrder(orderNumber);
         refreshView();
 

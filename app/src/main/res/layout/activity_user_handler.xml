@@ -70,7 +70,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/btn_submit_user"
-        android:onClick="save_user"/>
+        android:onClick="save_user"
+        android:background="@drawable/button_style"/>
 
     <Button
         android:id="@+id/btn_delete_user"
@@ -78,7 +79,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/btn_delete_user"
-        android:onClick="delete_user"/>
+        android:onClick="delete_user"
+        android:background="@drawable/button_style"/>
 </LinearLayout>
 
 
