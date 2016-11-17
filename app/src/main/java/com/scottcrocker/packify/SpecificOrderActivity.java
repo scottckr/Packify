@@ -10,6 +10,11 @@ import android.widget.TextView;
 
 import com.scottcrocker.packify.model.Order;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class SpecificOrderActivity extends AppCompatActivity {
 
     Order specificOrder;
@@ -36,7 +41,13 @@ public class SpecificOrderActivity extends AppCompatActivity {
     }
 
     public void deliverOrder(View view) {
-        //TODO Send delivery-information to database and reset view
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        String currentDate = df.format(Calendar.getInstance().getTime());
+
+        specificOrder.setIsDelivered(true);
+        specificOrder.setDeliveryDate(currentDate);
+
+        MainActivity.db.editOrder(specificOrder);
         refreshView();
     }
 
@@ -68,8 +79,6 @@ public class SpecificOrderActivity extends AppCompatActivity {
     }
 
     public void openNavigation(View view) {
-        //TODO Open google maps with coordinates. Not Amphitheater Parkway!
-
         String uri = "geo:" + specificOrder.getLatitude() + "," + specificOrder.getLongitude() +
                 "?q=" + specificOrder.getAddress();
 

@@ -44,6 +44,14 @@ public class OrderHandlerActivity extends AppCompatActivity {
     }
 
     /**
+     * Method to edit order from DB
+     * @param view
+     */
+    public void editOrder(View view) {
+
+    }
+
+    /**
      * Method to delete order from DB
      * @param view
      */

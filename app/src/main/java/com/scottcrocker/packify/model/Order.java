@@ -1,13 +1,10 @@
 package com.scottcrocker.packify.model;
 
-import java.util.Date;
-
 /**
  * Created by mavve on 2016-11-11.
  */
 
 public class Order {
-
     private String address;
     private int orderSum;
     private static int orderNo;
@@ -18,10 +15,10 @@ public class Order {
     private int customerNo;
 
     public Order() {
-
     }
 
-    public Order(int orderNo, int customerNo, String address, int orderSum, String deliveryDate, boolean isDelivered, double longitude, double latitude) {
+    public Order(int orderNo, int customerNo, String address, int orderSum,
+                 String deliveryDate, boolean isDelivered, double longitude, double latitude) {
         this.orderNo = orderNo;
         this.address = address;
         this.orderSum = orderSum;
