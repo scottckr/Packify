@@ -1,7 +1,5 @@
 package com.scottcrocker.packify.model;
 
-import java.util.Date;
-
 /**
  * Created by mavve on 2016-11-11.
  */
