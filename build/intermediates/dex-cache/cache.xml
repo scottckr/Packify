@@ -142,7 +142,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="cb3d41303d17d11d58309022bf2dc20f00a67516">
+        sha1="3c60ce1ba7d3256ef57fb905fecb0f5fd87b2dd2">
         <dex dex="/Users/samanthamorrison/AndroidStudioProjects/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9b7a253f77e11723afddb755791b77729c01b65f/classes.dex" />
     </item>
     <item
