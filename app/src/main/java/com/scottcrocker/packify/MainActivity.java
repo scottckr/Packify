@@ -9,10 +9,14 @@ import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
 
 import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
 
+import com.scottcrocker.packify.controller.DBHandler;
+import com.scottcrocker.packify.helper.GPSHelper;
+
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
     public static DBHandler db;
+    public static GPSHelper gps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
