@@ -1,7 +1,5 @@
 package com.scottcrocker.packify;
 
-import android.location.Address;
-import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,9 +8,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.scottcrocker.packify.model.Order;
-
-import java.io.IOException;
-import java.util.List;
 
 public class OrderHandlerActivity extends AppCompatActivity {
 
@@ -26,8 +21,9 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * Method to create a new order object, or handle an existing order object which will be sent to DB
      * @param view
      */
+
     // TO-DO: create new object containing order information, send to database
-    public void saveOrder(View view) {
+    public void addOrder(View view) {
         EditText orderNoET = (EditText) findViewById(R.id.input_order_number);
         int orderNo = Integer.parseInt(orderNoET.getText().toString());
         EditText customerIdET = (EditText) findViewById(R.id.input_customer_id);

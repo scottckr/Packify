@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/btn_submit_order"
-        android:onClick="saveOrder"
+        android:onClick="addOrder"
         android:background="@drawable/button_style"/>
 
     <Button

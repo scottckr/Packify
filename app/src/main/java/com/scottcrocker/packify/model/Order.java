@@ -1,10 +1,22 @@
 package com.scottcrocker.packify.model;
 
+import java.util.Date;
+
 /**
  * Created by mavve on 2016-11-11.
  */
 
 public class Order {
+
+    private String address;
+    private int orderSum;
+    private static int orderNo;
+    private boolean isDelivered;
+    private String deliveryDate;
+    private double latitude;
+    private double longitude;
+    private int customerNo;
+
     public Order() {
 
     }
@@ -23,15 +35,6 @@ public class Order {
     public String toString() {
         return "Order number: " + getOrderNo();
     }
-
-    private String address;
-    private int orderSum;
-    private int orderNo;
-    private boolean isDelivered;
-    private String deliveryDate;
-    private double latitude;
-    private double longitude;
-    private int customerNo;
 
     public int getCustomerNo() {
         return customerNo;
