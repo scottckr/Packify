@@ -11,7 +11,8 @@ public class Order {
 
     }
 
-    public Order(int customerNo, String address, int orderSum, String deliveryDate, boolean isDelivered, double longitude, double latitude) {
+    public Order(int orderNo, int customerNo, String address, int orderSum, String deliveryDate, boolean isDelivered, double longitude, double latitude) {
+        this.orderNo = orderNo;
         this.address = address;
         this.orderSum = orderSum;
         this.isDelivered = isDelivered;
@@ -23,7 +24,7 @@ public class Order {
 
     private String address;
     private int orderSum;
-    private static int orderNo;
+    private int orderNo;
     private boolean isDelivered;
     private String deliveryDate;
     private double latitude;
@@ -55,7 +56,7 @@ public class Order {
     }
 
     public void setOrderNo(int orderNo) {
-        Order.orderNo = orderNo;
+        this.orderNo = orderNo;
     }
 
     public boolean getIsDelivered() {
