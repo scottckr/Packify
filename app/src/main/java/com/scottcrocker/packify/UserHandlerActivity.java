@@ -3,14 +3,19 @@ package com.scottcrocker.packify;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class UserHandlerActivity extends AppCompatActivity {
+
+    Spinner mSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_handler);
+
+        mSpinner = (Spinner) findViewById(R.id.spinner_user_id);
     }
 
     /**
