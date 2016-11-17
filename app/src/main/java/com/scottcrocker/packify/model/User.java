@@ -17,6 +17,10 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
+    public String toString() {
+        return "User ID: " + getId() + ", Name: " + getName();
+    }
+
     private int id;
     private String password;
     private String name;

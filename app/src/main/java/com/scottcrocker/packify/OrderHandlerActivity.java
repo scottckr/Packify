@@ -22,7 +22,8 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * @param view
      */
     // TO-DO: create new object containing order information, send to database
-    public void saveOrder(View view) {
+
+    public void addOrder(View view) {
         EditText orderNoET = (EditText) findViewById(R.id.input_order_number);
         int orderNo = Integer.parseInt(orderNoET.getText().toString());
         EditText customerIdET = (EditText) findViewById(R.id.input_customer_id);
@@ -31,12 +32,23 @@ public class OrderHandlerActivity extends AppCompatActivity {
         int orderSum = Integer.parseInt(orderSumET.getText().toString());
         EditText addressET = (EditText) findViewById(R.id.input_order_address);
         String address = addressET.getText().toString();
-        Order order = new Order(orderNo, customerId, address, orderSum, "Leeeif", false, 0.0, 0.0);
+
+        Order order = new Order(orderNo, customerId, address, orderSum, "---", false,
+                MainActivity.gps.getLongitude(address), MainActivity.gps.getLatitude(address));
+
         MainActivity.db.addOrder(order);
 
-        Log.d("DATABASE", "Order: " + MainActivity.db.getOrder(order.getOrderNo()).getDeliveryDate());
+        //Log.d("DATABASE", "Order: " + MainActivity.db.getOrder(order.getOrderNo()).getDeliveryDate());
 
         Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Method to edit order from DB
+     * @param view
+     */
+    public void editOrder(View view) {
+
     }
 
     /**

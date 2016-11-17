@@ -1,17 +1,24 @@
 package com.scottcrocker.packify.model;
 
-import java.util.Date;
-
 /**
  * Created by mavve on 2016-11-11.
  */
 
 public class Order {
-    public Order() {
+    private String address;
+    private int orderSum;
+    private static int orderNo;
+    private boolean isDelivered;
+    private String deliveryDate;
+    private double latitude;
+    private double longitude;
+    private int customerNo;
 
+    public Order() {
     }
 
-    public Order(int orderNo, int customerNo, String address, int orderSum, String deliveryDate, boolean isDelivered, double longitude, double latitude) {
+    public Order(int orderNo, int customerNo, String address, int orderSum,
+                 String deliveryDate, boolean isDelivered, double longitude, double latitude) {
         this.orderNo = orderNo;
         this.address = address;
         this.orderSum = orderSum;
@@ -22,14 +29,9 @@ public class Order {
         this.customerNo = customerNo;
     }
 
-    private String address;
-    private int orderSum;
-    private int orderNo;
-    private boolean isDelivered;
-    private String deliveryDate;
-    private double latitude;
-    private double longitude;
-    private int customerNo;
+    public String toString() {
+        return "Order number: " + getOrderNo();
+    }
 
     public int getCustomerNo() {
         return customerNo;

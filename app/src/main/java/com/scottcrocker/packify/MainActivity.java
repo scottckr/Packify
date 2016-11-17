@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import com.scottcrocker.packify.controller.DBHandler;
-import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
 import com.scottcrocker.packify.helper.GPSHelper;
+import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         db = new DBHandler(this);
+        gps = new GPSHelper(this);
 
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
 
