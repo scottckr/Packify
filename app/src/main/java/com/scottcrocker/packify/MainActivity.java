@@ -6,10 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import com.scottcrocker.packify.controller.DBHandler;
 import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
-
-import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
-
-import com.scottcrocker.packify.controller.DBHandler;
 import com.scottcrocker.packify.helper.GPSHelper;
 
 public class MainActivity extends AppCompatActivity {
