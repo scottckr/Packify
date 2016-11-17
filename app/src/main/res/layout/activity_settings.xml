@@ -47,6 +47,7 @@
             android:id="@+id/sms_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:text="0700123456"
             android:inputType="phone"
             />
@@ -55,9 +56,11 @@
             android:id="@+id/btn_save_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="onSubmitChanges"
+            android:onClick="onSaveSettings"
             android:text="@string/btn_save_settings"
+            android:background="@drawable/button_style"
              />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -74,6 +77,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:onClick="logout"
+        android:background="@drawable/button_style"
         />
 
 

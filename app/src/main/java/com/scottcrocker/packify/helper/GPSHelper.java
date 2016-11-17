@@ -1,5 +1,6 @@
 package com.scottcrocker.packify.helper;
 
+import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,11 @@ import java.util.List;
  */
 
 public class GPSHelper extends AppCompatActivity{
+    Context context;
+
+    public GPSHelper(Context context) {
+        this.context = context;
+    }
 
     private static final String TAG = "GPSHelper";
 
@@ -22,7 +28,7 @@ public class GPSHelper extends AppCompatActivity{
      * @return longitude
      */
     public double getLongitude(String address){
-        Geocoder gc = new Geocoder(this);
+        Geocoder gc = new Geocoder(context);
         List<Address> addressList;
         double longitude = 0;
         try {
@@ -35,7 +41,7 @@ public class GPSHelper extends AppCompatActivity{
         if(addressList.size() > 0) {
             longitude = addressList.get(0).getLongitude();
         }
-
+        Log.d(TAG, "Longitude: " + longitude);
         return longitude;
     }
 
@@ -45,7 +51,7 @@ public class GPSHelper extends AppCompatActivity{
      * @return latitude
      */
     public double getLatitude(String address){
-        Geocoder gc = new Geocoder(this);
+        Geocoder gc = new Geocoder(context);
         List<Address> addressList;
         double latitude = 0;
         try {
@@ -58,7 +64,7 @@ public class GPSHelper extends AppCompatActivity{
         if(addressList.size() > 0) {
             latitude = addressList.get(0).getLatitude();
         }
-
+            Log.d(TAG, "Latitude: " + latitude);
         return latitude;
     }
 
