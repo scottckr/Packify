@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
 
         if (sharedPreferences.getBoolean("isLoggedIn", false)) {
-            Intent intent = new Intent(this, OrderHandlerActivity.class);
+            Intent intent = new Intent(this, ActiveOrdersActivity.class);
             startActivity(intent);
         } else {
             Intent intent = new Intent(this, LoginActivity.class);

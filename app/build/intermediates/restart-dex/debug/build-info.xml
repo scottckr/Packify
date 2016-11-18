@@ -5,26 +5,29 @@
     density="hdpi"
     format="8"
     plugin-version="2.2.2"
-    timestamp="30820028895733"
+    timestamp="31167916640230"
     token="7974158867035162758"
-    verifier="CLASS_ADDED" >
+    verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="541" />
+        duration="546" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="132" />
+        duration="67" />
     <task
         name="verifier"
-        duration="4" />
+        duration="2" />
 
     <artifact
-        location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/instant-run-resources/resources-debug.ir.ap_"
-        type="RESOURCES" />
+        location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex"
+        type="DEX" />
+    <artifact
+        location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_0/classes.dex"
+        type="DEX" />
     <artifact
         location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_1/classes.dex"
         type="DEX" />
@@ -42,6 +45,16 @@
         <artifact
             location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/instant-run-resources/resources-debug.ir.ap_"
             type="RESOURCES" />
+    </build>
+    <build
+        timestamp="31167916640230"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex"
+            type="DEX" />
+        <artifact
+            location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_0/classes.dex"
+            type="DEX" />
         <artifact
             location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_1/classes.dex"
             type="DEX" />
