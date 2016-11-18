@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri Nov 18 15:41:50 CET 2016
+#Fri Nov 18 15:46:27 CET 2016
 210.set=ANDROID_RESOURCE
 14.set=ANDROID_RESOURCE
 180.file=/Users/Scott/Documents/Git/Packify/app/build/intermediates/res/resources-debug.ap_/res/drawable/abc_ic_search_api_material.xml

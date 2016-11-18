@@ -72,12 +72,12 @@
         "source": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/layout/notification_action.xml"
     },
     {
-        "merged": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/res/merged/debug/layout/abc_popup_menu_item_layout.xml",
-        "source": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/layout/abc_popup_menu_item_layout.xml"
-    },
-    {
         "merged": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/res/merged/debug/layout/notification_template_media_custom.xml",
         "source": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/layout/notification_template_media_custom.xml"
+    },
+    {
+        "merged": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/res/merged/debug/layout/abc_popup_menu_item_layout.xml",
+        "source": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/layout/abc_popup_menu_item_layout.xml"
     },
     {
         "merged": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/res/merged/debug/layout/activity_active_orders.xml",

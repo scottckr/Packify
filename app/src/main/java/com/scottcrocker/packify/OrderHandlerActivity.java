@@ -32,46 +32,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_handler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final List<Order> orders = MainActivity.db.getAllOrders();
-        orderNoET = (EditText) findViewById(R.id.input_order_number);
-        orderNoET.setKeyListener(new KeyListener() {
-            @Override
-            public int getInputType() {
-                return 0;
-            }
-
-            @Override
-            public boolean onKeyDown(View view, Editable editable, int i, KeyEvent keyEvent) {
-                return false;
-            }
-
-            @Override
-            public boolean onKeyUp(View view, Editable editable, int i, KeyEvent keyEvent) {
-                orderNoET = (EditText) findViewById(R.id.input_order_number);
-                int orderNo = Integer.parseInt(orderNoET.getText().toString());
-                customerIdET = (EditText) findViewById(R.id.input_customer_id);
-                orderSumET = (EditText) findViewById(R.id.input_order_sum);
-                addressET = (EditText) findViewById(R.id.input_order_address);
-                for (int j = 0; j < orders.size(); j++) {
-                    if (orderNo == orders.get(j).getOrderNo()) {
-                        customerIdET.setText(orders.get(j).getCustomerNo());
-                        orderSumET.setText(orders.get(j).getOrderSum());
-                        addressET.setText(orders.get(j).getAddress());
-                    }
-                }
-                return false;
-            }
-
-            @Override
-            public boolean onKeyOther(View view, Editable editable, KeyEvent keyEvent) {
-                return false;
-            }
-
-            @Override
-            public void clearMetaKeyState(View view, Editable editable, int i) {
-
-            }
-        });
     }
 
     @Override
