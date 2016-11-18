@@ -21,18 +21,18 @@ import java.util.List;
 public class DBHandler extends SQLiteOpenHelper {
 
     public DBHandler(Context context) {
-        super(context, "PackifyDB", null, 1);
+        super(context, "PackifyDB", null, 3);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String orderSql = "CREATE TABLE Orders (_orderNo INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "customerNo INTEGER NOT NULL, address TEXT NOT NULL, " +
+        String orderSql = "CREATE TABLE Orders (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "orderNo INTEGER NOT NULL, customerNo INTEGER NOT NULL, address TEXT NOT NULL, " +
                 "orderSum INTEGER NOT NULL, deliveryDate TEXT NOT NULL, " +
                 "isDelivered INTEGER NOT NULL, longitude REAL NOT NULL, latitude REAL NOT NULL);";
-        String userSql = "CREATE TABLE Users (_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "password TEXT NOT NULL, name TEXT NOT NULL, telephone INTEGER NOT NULL, " +
-                "isAdmin INTEGER NOT NULL);";
+        String userSql = "CREATE TABLE Users (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "userId INTEGER NOT NULL, password TEXT NOT NULL, name TEXT NOT NULL, " +
+                "telephone INTEGER NOT NULL, isAdmin INTEGER NOT NULL);";
         db.execSQL(orderSql);
         db.execSQL(userSql);
     }
@@ -40,15 +40,18 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         String orderSql = "DROP TABLE IF EXISTS Orders;";
-        String userSql = "DROP TABLE IF EXISTS Users";
+        String userSql = "DROP TABLE IF EXISTS Users;";
         db.execSQL(orderSql);
         db.execSQL(userSql);
+        onCreate(db);
+        Log.d("DATABASE", "Database updated!");
     }
 
     public void addOrder(Order order) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues cvs = new ContentValues();
+        cvs.put("orderNo", order.getOrderNo());
         cvs.put("customerNo", order.getCustomerNo());
         cvs.put("address", order.getAddress());
         cvs.put("orderSum", order.getOrderSum());
@@ -72,6 +75,7 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues cvs = new ContentValues();
+        cvs.put("userId", user.getId());
         cvs.put("password", user.getPassword());
         cvs.put("name", user.getName());
         cvs.put("telephone", user.getTelephone());
@@ -92,6 +96,7 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues cvs = new ContentValues();
+        cvs.put("orderNo", order.getOrderNo());
         cvs.put("customerNo", order.getCustomerNo());
         cvs.put("address", order.getAddress());
         cvs.put("orderSum", order.getOrderSum());
@@ -100,23 +105,24 @@ public class DBHandler extends SQLiteOpenHelper {
         cvs.put("longitude", order.getLongitude());
         cvs.put("latitude", order.getLatitude());
 
-        return db.update("Orders", cvs, "_orderNo" + " = ?", new String[]{String.valueOf(order.getOrderNo())});
+        return db.update("Orders", cvs, "id" + " = ?", new String[]{String.valueOf(order.getOrderNo())});
     }
 
     public int editUser(User user) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues cvs = new ContentValues();
+        cvs.put("userId", user.getId());
         cvs.put("password", user.getPassword());
         cvs.put("name", user.getName());
         cvs.put("telephone", user.getTelephone());
         cvs.put("isAdmin", user.getIsAdmin());
 
-        return db.update("Users", cvs, "_id" + " = ?", new String[]{String.valueOf(user.getId())});
+        return db.update("Users", cvs, "id" + " = ?", new String[]{String.valueOf(user.getId())});
     }
 
     public Order getOrder(int orderNo) {
-        String query = "SELECT * FROM " + "Orders" + " WHERE " + "_orderNo" + " = \"" + orderNo + "\"";
+        String query = "SELECT * FROM " + "Orders" + " WHERE " + "orderNo" + " = \"" + orderNo + "\"";
 
         SQLiteDatabase db = getReadableDatabase();
 
@@ -127,19 +133,19 @@ public class DBHandler extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             cursor.moveToFirst();
-            order.setOrderNo(Integer.parseInt(cursor.getString(0)));
-            order.setCustomerNo(Integer.parseInt(cursor.getString(1)));
-            order.setAddress(cursor.getString(2));
-            order.setOrderSum(Integer.parseInt(cursor.getString(3)));
-            order.setDeliveryDate(cursor.getString(4));
-            if (Integer.parseInt(cursor.getString(5)) == 1) {
+            order.setOrderNo(cursor.getInt(1));
+            order.setCustomerNo(cursor.getInt(2));
+            order.setAddress(cursor.getString(3));
+            order.setOrderSum(cursor.getInt(4));
+            order.setDeliveryDate(cursor.getString(5));
+            if (cursor.getInt(6) == 1) {
                 isDeliveredBool = true;
             } else {
                 isDeliveredBool = false;
             }
             order.setIsDelivered(isDeliveredBool);
-            order.setLongitude(Double.parseDouble(cursor.getString(6)));
-            order.setLatitude(Double.parseDouble(cursor.getString(7)));
+            order.setLongitude(cursor.getDouble(7));
+            order.setLatitude(cursor.getDouble(8));
             cursor.close();
         } else {
             order = null;
@@ -149,7 +155,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public User getUser(int id) {
-        String query = "SELECT * FROM " + "Users" + " WHERE " + "_id" + " = \"" + id + "\"";
+        String query = "SELECT * FROM " + "Users" + " WHERE " + "userId" + " = \"" + id + "\"";
 
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -159,11 +165,11 @@ public class DBHandler extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             cursor.moveToFirst();
-            user.setId(Integer.parseInt(cursor.getString(0)));
-            user.setPassword(cursor.getString(1));
-            user.setName(cursor.getString(2));
-            user.setTelephone(Integer.parseInt(cursor.getString(3)));
-            if (Integer.parseInt(cursor.getString(4)) == 1) {
+            user.setId(cursor.getInt(1));
+            user.setPassword(cursor.getString(2));
+            user.setName(cursor.getString(3));
+            user.setTelephone(cursor.getInt(4));
+            if (cursor.getInt(5) == 1) {
                 isAdminBool = true;
             } else {
                 isAdminBool = false;
@@ -188,18 +194,18 @@ public class DBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Order order = new Order();
-                order.setOrderNo(Integer.parseInt(cursor.getString(0)));
-                order.setCustomerNo(Integer.parseInt(cursor.getString(1)));
-                order.setAddress(cursor.getString(2));
-                order.setOrderSum(Integer.parseInt(cursor.getString(3)));
-                order.setDeliveryDate(cursor.getString(4));
-                if (Integer.parseInt(cursor.getString(5)) == 1) {
+                order.setOrderNo(cursor.getInt(1));
+                order.setCustomerNo(cursor.getInt(2));
+                order.setAddress(cursor.getString(3));
+                order.setOrderSum(cursor.getInt(4));
+                order.setDeliveryDate(cursor.getString(5));
+                if (Integer.parseInt(cursor.getString(6)) == 1) {
                     order.setIsDelivered(true);
                 } else {
                     order.setIsDelivered(false);
                 }
-                order.setLongitude(cursor.getDouble(6));
-                order.setLatitude(cursor.getDouble(7));
+                order.setLongitude(cursor.getDouble(7));
+                order.setLatitude(cursor.getDouble(8));
 
                 allOrders.add(order);
             } while (cursor.moveToNext());
@@ -223,11 +229,11 @@ public class DBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 User user = new User();
-                user.setId(Integer.parseInt(cursor.getString(0)));
-                user.setPassword(cursor.getString(1));
-                user.setName(cursor.getString(2));
-                user.setTelephone(Integer.parseInt(cursor.getString(3)));
-                if (Integer.parseInt(cursor.getString(4)) == 1) {
+                user.setId(cursor.getInt(1));
+                user.setPassword(cursor.getString(2));
+                user.setName(cursor.getString(3));
+                user.setTelephone(cursor.getInt(4));
+                if (cursor.getInt(5) == 1) {
                     user.setIsAdmin(true);
                 } else {
                     user.setIsAdmin(false);
@@ -244,13 +250,13 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public void deleteOrder(Order order) {
         SQLiteDatabase db = getWritableDatabase();
-        db.delete("Orders", "_orderNo = ?", new String[]{String.valueOf(order.getOrderNo())});
+        db.delete("Orders", "orderNo = ?", new String[]{String.valueOf(order.getOrderNo())});
         db.close();
     }
 
     public void deleteUser(User user) {
         SQLiteDatabase db = getWritableDatabase();
-        db.delete("Users", "_id = ?", new String[]{String.valueOf(user.getId())});
+        db.delete("Users", "userId = ?", new String[]{String.valueOf(user.getId())});
         db.close();
     }
 }

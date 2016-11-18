@@ -18,7 +18,11 @@ public class User {
     }
 
     public String toString() {
-        return "User ID: " + getId() + ", Name: " + getName();
+        String admin = "";
+        if (isAdmin) {
+            admin = ", ADMIN";
+        }
+        return "ID: " + getId() + ", namn: " + getName() + admin;
     }
 
     private int id;
