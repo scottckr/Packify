@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
+        "outputFile": "/Users/tobiashillen/AndroidStudioProjects/Packify/app/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 96
                 },
                 "from": {
-                    "file": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/exploded-aar/com.android.support.test/rules/0.5/res/values/values.xml",
+                    "file": "/Users/tobiashillen/AndroidStudioProjects/Packify/app/build/intermediates/exploded-aar/com.android.support.test/rules/0.5/res/values/values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
