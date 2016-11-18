@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instant-run
+    abi="x86_64,x86"
+    api-level="24"
+    density="hdpi"
+    format="8"
+    plugin-version="2.2.2"
+    timestamp="30542685353097"
+    token="7974158867035162758"
+    verifier="BINARY_MANIFEST_FILE_CHANGE" >
+
+    <task
+        name="javac"
+        duration="906" />
+    <task
+        name="instant-run-dex"
+        duration="0" />
+    <task
+        name="instant-run-transform"
+        duration="362" />
+    <task
+        name="verifier"
+        duration="17" />
+
+    <artifact
+        location="/Users/Scott/Documents/Git/Packify/app/build/outputs/apk/app-debug.apk"
+        type="MAIN" />
+
+    <build
+        timestamp="30542685353097"
+        verifier="BINARY_MANIFEST_FILE_CHANGE" >
+        <artifact
+            location="/Users/Scott/Documents/Git/Packify/app/build/outputs/apk/app-debug.apk"
+            type="MAIN" />
+    </build>
+
+</instant-run>

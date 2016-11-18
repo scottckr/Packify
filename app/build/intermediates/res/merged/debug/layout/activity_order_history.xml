@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_order_history"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="0dp"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:paddingTop="0dp"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_outer_margin"
+    android:paddingLeft="@dimen/activity_horizontal_outer_margin"
+    android:paddingRight="@dimen/activity_horizontal_outer_margin"
+    android:paddingTop="@dimen/activity_vertical_outer_margin"
     tools:context="com.scottcrocker.packify.OrderHistoryActivity">
 
     <include
@@ -21,4 +22,4 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/order_history_listview"/>
-</RelativeLayout>
+</LinearLayout>
