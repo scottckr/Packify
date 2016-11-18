@@ -143,6 +143,10 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         User user = new User(newUserId, newUserPass, newUsername, newUserPhoneNr, toggle.isChecked());
 
         MainActivity.db.addUser(user);
+
+        Toast.makeText(getApplicationContext(), "Användare sparad", Toast.LENGTH_SHORT).show();
+        finish();
+        startActivity(getIntent());
     }
 
     /**
