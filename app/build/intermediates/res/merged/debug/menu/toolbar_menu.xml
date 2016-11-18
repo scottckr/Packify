@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/toolbar_update_order"
+        android:orderInCategory="100"
+        android:title="@string/toolbar_update_order"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/toolbar_settings"
+        android:orderInCategory="100"
+        android:title="@string/toolbar_settings"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/toolbar_admin_settings"
+        android:orderInCategory="100"
+        android:title="@string/toolbar_admin_settings"
+        app:showAsAction="never"/>
+
+
+</menu>
