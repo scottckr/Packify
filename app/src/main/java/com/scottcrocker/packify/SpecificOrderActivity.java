@@ -65,8 +65,23 @@ public class SpecificOrderActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
 
-            case R.id.toolbar_admin_settings:
+            case R.id.toolbar_admin_userhandler:
                 intent = new Intent(this, UserHandlerActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.toolbar_admin_orderhandler:
+                intent = new Intent(this, OrderHandlerActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.toolbar_activeorders:
+                intent = new Intent(this, ActiveOrdersActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.toolbar_orderhistory:
+                intent = new Intent(this, OrderHistoryActivity.class);
                 startActivity(intent);
                 return true;
 
