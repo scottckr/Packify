@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        menu.getItem(0).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -46,17 +47,28 @@ public class LoginActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         switch (item.getItemId()) {
-            case R.id.toolbar_update_order:
-                //TODO Update view.
-                return true;
-
             case R.id.toolbar_settings:
                 intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
 
-            case R.id.toolbar_admin_settings:
+            case R.id.toolbar_admin_userhandler:
                 intent = new Intent(this, UserHandlerActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.toolbar_admin_orderhandler:
+                intent = new Intent(this, OrderHandlerActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.toolbar_activeorders:
+                intent = new Intent(this, ActiveOrdersActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.toolbar_orderhistory:
+                intent = new Intent(this, OrderHistoryActivity.class);
                 startActivity(intent);
                 return true;
 

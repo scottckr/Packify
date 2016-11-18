@@ -42,6 +42,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        menu.getItem(3).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -59,8 +60,18 @@ public class OrderHistoryActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
 
-            case R.id.toolbar_admin_settings:
+            case R.id.toolbar_admin_userhandler:
                 intent = new Intent(this, UserHandlerActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.toolbar_admin_orderhandler:
+                intent = new Intent(this, OrderHandlerActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.toolbar_activeorders:
+                intent = new Intent(this, ActiveOrdersActivity.class);
                 startActivity(intent);
                 return true;
 
