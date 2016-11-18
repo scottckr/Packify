@@ -38,8 +38,11 @@
     <string name="input_password">Lösenord</string>
     <string name="input_userid">Användar-ID</string>
     <string name="toolbar_update_order">Uppdatera</string>
-    <string name="toolbar_admin_settings">Admin</string>
+    <string name="toolbar_admin_userhandler">Användarhantering</string>
+    <string name="toolbar_admin_orderhandler">Orderhantering</string>
     <string name="new_user_id">ID</string>
     <string name="is_admin">Admin</string>
     <string name="input_user_id">Användar-ID</string>
+    <string name="toolbar_orderhistory">Orderhistorik</string>
+    <string name="toolbar_activeorders">Aktiva ordrar</string>
 </resources>
