@@ -36,7 +36,7 @@
     <string name="delivery_date">Levererad</string>
     <string name="toolbar_settings">Inställningar</string>
     <string name="input_password">Lösenord</string>
-    <string name="input_userid">Användar-ID</string>
+    <string name="input_userid">Användar-ID:</string>
     <string name="toolbar_update_order">Uppdatera</string>
     <string name="toolbar_admin_settings">Admin</string>
     <string name="new_user_id">ID</string>
