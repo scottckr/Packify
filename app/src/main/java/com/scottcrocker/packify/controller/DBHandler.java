@@ -21,24 +21,17 @@ import java.util.List;
 public class DBHandler extends SQLiteOpenHelper {
 
     public DBHandler(Context context) {
-        super(context, "PackifyDB", null, 1);
+        super(context, "PackifyDB", null, 3);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        /*String orderSql = "CREATE TABLE Orders (_orderNo INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "customerNo INTEGER NOT NULL, address TEXT NOT NULL, " +
-                "orderSum INTEGER NOT NULL, deliveryDate TEXT NOT NULL, " +
-                "isDelivered INTEGER NOT NULL, longitude REAL NOT NULL, latitude REAL NOT NULL);";
-        String userSql = "CREATE TABLE Users (_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "name TEXT NOT NULL, password TEXT NOT NULL, telephone INTEGER NOT NULL, " +
-                "isAdmin INTEGER NOT NULL);";*/
         String orderSql = "CREATE TABLE Orders (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "orderNo INTEGER NOT NULL, customerNo INTEGER NOT NULL, address TEXT NOT NULL, " +
                 "orderSum INTEGER NOT NULL, deliveryDate TEXT NOT NULL, " +
                 "isDelivered INTEGER NOT NULL, longitude REAL NOT NULL, latitude REAL NOT NULL);";
         String userSql = "CREATE TABLE Users (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "userId INTEGER NOT NULL, name TEXT NOT NULL, password TEXT NOT NULL, " +
+                "userId INTEGER NOT NULL, password TEXT NOT NULL, name TEXT NOT NULL, " +
                 "telephone INTEGER NOT NULL, isAdmin INTEGER NOT NULL);";
         db.execSQL(orderSql);
         db.execSQL(userSql);
@@ -47,9 +40,11 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         String orderSql = "DROP TABLE IF EXISTS Orders;";
-        String userSql = "DROP TABLE IF EXISTS Users";
+        String userSql = "DROP TABLE IF EXISTS Users;";
         db.execSQL(orderSql);
         db.execSQL(userSql);
+        onCreate(db);
+        Log.d("DATABASE", "Database updated!");
     }
 
     public void addOrder(Order order) {
@@ -81,8 +76,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
         ContentValues cvs = new ContentValues();
         cvs.put("userId", user.getId());
-        cvs.put("name", user.getName());
         cvs.put("password", user.getPassword());
+        cvs.put("name", user.getName());
         cvs.put("telephone", user.getTelephone());
         int isAdminInt;
         if (user.getIsAdmin()) {

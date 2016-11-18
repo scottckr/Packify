@@ -101,7 +101,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
             }
         });
 
-        User user = new User(newUserId, newUserPass, newUsername, newUserPhoneNr,toggle.isChecked());
+        User user = new User(newUserId, newUserPass, newUsername, newUserPhoneNr, toggle.isChecked());
 
         MainActivity.db.addUser(user);
 
