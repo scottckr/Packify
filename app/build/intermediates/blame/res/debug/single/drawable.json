@@ -72,12 +72,12 @@
         "source": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/drawable/abc_edit_text_material.xml"
     },
     {
-        "merged": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/res/merged/debug/drawable/abc_ic_menu_overflow_material.xml",
-        "source": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/drawable/abc_ic_menu_overflow_material.xml"
-    },
-    {
         "merged": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/res/merged/debug/drawable/abc_btn_check_material.xml",
         "source": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/drawable/abc_btn_check_material.xml"
+    },
+    {
+        "merged": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/res/merged/debug/drawable/abc_ic_menu_overflow_material.xml",
+        "source": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/drawable/abc_ic_menu_overflow_material.xml"
     },
     {
         "merged": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/res/merged/debug/drawable/abc_ratingbar_material.xml",
@@ -100,12 +100,12 @@
         "source": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/drawable/abc_ic_voice_search_api_material.xml"
     },
     {
-        "merged": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/res/merged/debug/drawable/abc_ic_clear_material.xml",
-        "source": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/drawable/abc_ic_clear_material.xml"
-    },
-    {
         "merged": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/res/merged/debug/drawable/abc_tab_indicator_material.xml",
         "source": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/drawable/abc_tab_indicator_material.xml"
+    },
+    {
+        "merged": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/res/merged/debug/drawable/abc_ic_clear_material.xml",
+        "source": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/drawable/abc_ic_clear_material.xml"
     },
     {
         "merged": "/Users/Scott/Documents/Git/Packify/app/build/intermediates/res/merged/debug/drawable/abc_vector_test.xml",

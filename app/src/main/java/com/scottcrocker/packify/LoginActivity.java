@@ -13,13 +13,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.model.User;
+
+import java.util.List;
+
 import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText inputPasswordEt;
     private EditText inputIdEt;
-    public static boolean isLoggedIn = false;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
@@ -68,18 +71,26 @@ public class LoginActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
+        List<User> users = MainActivity.db.getAllUsers();
+
         inputIdEt = (EditText) findViewById(R.id.input_login_id);
         int inputId = Integer.parseInt(inputIdEt.getText().toString());
         inputPasswordEt = (EditText) findViewById(R.id.input_login_password);
         String inputPassword = inputPasswordEt.getText().toString();
-        if (inputId == 1 && inputPassword.equals("admin")) {
-            editor.putBoolean("isLoggedIn", true);
-            editor.apply();
-        } else {
-            editor.putBoolean("isLoggedIn", false);
-            editor.apply();
-            Toast.makeText(getApplicationContext(), "Fel input!", Toast.LENGTH_SHORT).show();
+
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getId() == inputId) {
+                if (users.get(i).getPassword().equals(inputPassword)) {
+                    editor.putBoolean("isLoggedIn", true);
+                    editor.apply();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Lösenordet är felaktigt!", Toast.LENGTH_SHORT).show();
+                    editor.putBoolean("isLoggedIn", false);
+                    editor.apply();
+                }
+            }
         }
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

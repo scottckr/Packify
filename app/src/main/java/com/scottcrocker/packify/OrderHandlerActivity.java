@@ -4,7 +4,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.KeyListener;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +17,14 @@ import android.widget.Toast;
 
 import com.scottcrocker.packify.model.Order;
 
+import java.util.List;
+
 public class OrderHandlerActivity extends AppCompatActivity {
+
+    EditText orderNoET;
+    EditText customerIdET;
+    EditText orderSumET;
+    EditText addressET;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +32,46 @@ public class OrderHandlerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_handler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        final List<Order> orders = MainActivity.db.getAllOrders();
+        orderNoET = (EditText) findViewById(R.id.input_order_number);
+        orderNoET.setKeyListener(new KeyListener() {
+            @Override
+            public int getInputType() {
+                return 0;
+            }
+
+            @Override
+            public boolean onKeyDown(View view, Editable editable, int i, KeyEvent keyEvent) {
+                return false;
+            }
+
+            @Override
+            public boolean onKeyUp(View view, Editable editable, int i, KeyEvent keyEvent) {
+                orderNoET = (EditText) findViewById(R.id.input_order_number);
+                int orderNo = Integer.parseInt(orderNoET.getText().toString());
+                customerIdET = (EditText) findViewById(R.id.input_customer_id);
+                orderSumET = (EditText) findViewById(R.id.input_order_sum);
+                addressET = (EditText) findViewById(R.id.input_order_address);
+                for (int j = 0; j < orders.size(); j++) {
+                    if (orderNo == orders.get(j).getOrderNo()) {
+                        customerIdET.setText(orders.get(j).getCustomerNo());
+                        orderSumET.setText(orders.get(j).getOrderSum());
+                        addressET.setText(orders.get(j).getAddress());
+                    }
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onKeyOther(View view, Editable editable, KeyEvent keyEvent) {
+                return false;
+            }
+
+            @Override
+            public void clearMetaKeyState(View view, Editable editable, int i) {
+
+            }
+        });
     }
 
     @Override
@@ -61,13 +112,13 @@ public class OrderHandlerActivity extends AppCompatActivity {
     // TO-DO: create new object containing order information, send to database
 
     public void addOrder(View view) {
-        EditText orderNoET = (EditText) findViewById(R.id.input_order_number);
+        orderNoET = (EditText) findViewById(R.id.input_order_number);
         int orderNo = Integer.parseInt(orderNoET.getText().toString());
-        EditText customerIdET = (EditText) findViewById(R.id.input_customer_id);
+        customerIdET = (EditText) findViewById(R.id.input_customer_id);
         int customerId = Integer.parseInt(customerIdET.getText().toString());
-        EditText orderSumET = (EditText) findViewById(R.id.input_order_sum);
+        orderSumET = (EditText) findViewById(R.id.input_order_sum);
         int orderSum = Integer.parseInt(orderSumET.getText().toString());
-        EditText addressET = (EditText) findViewById(R.id.input_order_address);
+        addressET = (EditText) findViewById(R.id.input_order_address);
         String address = addressET.getText().toString();
 
         Order order = new Order(orderNo, customerId, address, orderSum, "---", false,
