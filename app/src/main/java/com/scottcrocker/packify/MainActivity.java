@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static DBHandler db;
     public static GPSHelper gps;
-    public static int userId;
+    public static int currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         db = new DBHandler(this);
         gps = new GPSHelper(this);
-        userId = getIntent().getIntExtra("USERID", 0);
+        currentUserId = getIntent().getIntExtra("USERID", 0);
 
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
 
