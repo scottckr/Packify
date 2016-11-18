@@ -10,53 +10,58 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.scottcrocker.packify.OrderHandlerActivity">
 
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-<LinearLayout
-    android:id="@+id/layout_register_order"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/register_order"
+    <LinearLayout
+        android:id="@+id/layout_register_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:paddingBottom="5dp"
-        android:text="@string/register_order" />
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/input_order_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingBottom="5dp"
-        android:hint="@string/input_order_number"/>
+        <TextView
+            android:id="@+id/register_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:paddingBottom="5dp"
+            android:text="@string/register_order" />
 
-    <EditText
-        android:id="@+id/input_customer_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingBottom="5dp"
-        android:hint="@string/input_customer_id"/>
+        <EditText
+            android:id="@+id/input_order_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="5dp"
+            android:hint="@string/input_order_number"/>
 
-    <EditText
-        android:id="@+id/input_order_sum"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingBottom="5dp"
-        android:hint="@string/input_order_sum"/>
+        <EditText
+            android:id="@+id/input_customer_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="5dp"
+            android:hint="@string/input_customer_id"/>
 
-    <EditText
-        android:id="@+id/input_order_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingBottom="5dp"
-        android:hint="@string/input_order_address"/>
+        <EditText
+            android:id="@+id/input_order_sum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="5dp"
+            android:hint="@string/input_order_sum"/>
+
+        <EditText
+            android:id="@+id/input_order_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="5dp"
+            android:hint="@string/input_order_address"/>
 
 </LinearLayout>
 
