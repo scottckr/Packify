@@ -80,7 +80,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
      * Method to create a new user object, or handle an existing user object which will be sent to DB
      * @param view
      */
-    // TO-DO: create new object containing user information, send to database
+    // TODO: create new object containing user information, send to database
     public void addUser(View view) {
 
         String newUsername = String.valueOf(inputName.getText());
@@ -114,7 +114,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
      * Method to delete user from DB
      * @param view
      */
-    // TO-DO: method shall delete user information in database
+    // TODO: method shall delete user information in database
     public void deleteUser(View view) {
         Toast toast = new Toast(this);
 
