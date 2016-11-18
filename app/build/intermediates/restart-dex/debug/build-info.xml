@@ -5,29 +5,23 @@
     density="hdpi"
     format="8"
     plugin-version="2.2.2"
-    timestamp="31167916640230"
+    timestamp="32203836899852"
     token="7974158867035162758"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="546" />
+        duration="355" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="67" />
+        duration="327" />
     <task
         name="verifier"
-        duration="2" />
+        duration="1" />
 
-    <artifact
-        location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex"
-        type="DEX" />
-    <artifact
-        location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_0/classes.dex"
-        type="DEX" />
     <artifact
         location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_1/classes.dex"
         type="DEX" />
@@ -55,6 +49,10 @@
         <artifact
             location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_0/classes.dex"
             type="DEX" />
+    </build>
+    <build
+        timestamp="32203836899852"
+        verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_1/classes.dex"
             type="DEX" />
