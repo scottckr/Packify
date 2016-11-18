@@ -90,9 +90,15 @@ public class LoginActivity extends AppCompatActivity {
         inputPasswordEt = (EditText) findViewById(R.id.input_login_password);
         String inputPassword = inputPasswordEt.getText().toString();
 
+        Intent intent = new Intent(this, MainActivity.class);
+
+        int userId;
+
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getId() == inputId) {
                 if (users.get(i).getPassword().equals(inputPassword)) {
+                    userId = users.get(i).getId();
+                    intent.putExtra("USERID", userId);
                     editor.putBoolean("isLoggedIn", true);
                     editor.apply();
                 } else {
@@ -103,7 +109,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
-        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 }
