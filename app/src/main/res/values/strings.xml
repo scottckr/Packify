@@ -41,4 +41,5 @@
     <string name="toolbar_admin_settings">Admin</string>
     <string name="new_user_id">ID</string>
     <string name="is_admin">Admin</string>
+    <string name="input_user_id">Användar-ID</string>
 </resources>

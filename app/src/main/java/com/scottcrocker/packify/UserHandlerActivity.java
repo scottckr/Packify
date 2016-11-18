@@ -2,6 +2,12 @@ package com.scottcrocker.packify;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,6 +37,8 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_handler);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         inputName = (EditText) findViewById(R.id.input_user_name);
         inputPassword = (EditText) findViewById(R.id.input_user_password);
@@ -76,6 +84,37 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.toolbar_update_order:
+                //TODO Update view.
+                return true;
+
+            case R.id.toolbar_settings:
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.toolbar_admin_settings:
+                intent = new Intent(this, UserHandlerActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
     /**
      * Method to create a new user object, or handle an existing user object which will be sent to DB
      * @param view
@@ -104,10 +143,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         User user = new User(newUserId, newUserPass, newUsername, newUserPhoneNr, toggle.isChecked());
 
         MainActivity.db.addUser(user);
-
-        Toast.makeText(getApplicationContext(), "Användare sparad", Toast.LENGTH_SHORT).show();
-        finish();
-        startActivity(getIntent());
     }
 
     /**
@@ -116,8 +151,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
      */
     // TODO: method shall delete user information in database
     public void deleteUser(View view) {
-        Toast toast = new Toast(this);
 
-        Toast.makeText(getApplicationContext(), "Användare raderad", Toast.LENGTH_SHORT).show();
     }
 }

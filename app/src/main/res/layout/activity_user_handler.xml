@@ -10,11 +10,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.scottcrocker.packify.UserHandlerActivity">
 
-<LinearLayout
-    android:id="@+id/layout_register_order"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/layout_register_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <TextView
         android:id="@+id/register_user"
@@ -30,6 +35,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <EditText
+        android:id="@+id/input_user_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingBottom="5dp"
+        android:hint="@string/input_user_id"/>
 
     <EditText
         android:id="@+id/input_user_name"
@@ -54,22 +66,7 @@
         android:layout_weight="1"
         android:paddingBottom="5dp"
         android:hint="@string/input_user_phone"/>
-    <EditText
-        android:id="@+id/input_user_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingBottom="5dp"
-        android:hint="@string/new_user_id"/>
 
-    <Switch
-        android:text="@string/is_admin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/admin_switch"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_weight="1"/>
 
 
 </LinearLayout>
@@ -96,9 +93,7 @@
         android:text="@string/btn_delete_user"
         android:onClick="deleteUser"
         android:background="@drawable/button_style"/>
-
 </LinearLayout>
-
 
 
 </RelativeLayout>
