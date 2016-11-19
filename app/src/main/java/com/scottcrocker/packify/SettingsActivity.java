@@ -55,7 +55,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     /**
-     * OnSubmitChanges saves the settings made by the user in shared preferences called PackifySharedPreferences.
+     * onSaveSettings saves the settings made by the user in shared preferences called PackifySharedPreferences.
      * If the user input is valid it shows a confirm message. Else it shows or a warning message.
      * @param view
      */
