@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,13 +14,17 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.controller.DBHandler;
 import com.scottcrocker.packify.model.Order;
+import com.scottcrocker.packify.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActiveOrdersActivity extends AppCompatActivity {
+    private static final String TAG = "ActiveOrdersActivity";
     ListView listView;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_active_orders);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        user = MainActivity.db.getUser(MainActivity.currentUserId);
 
         List<Order> allOrders = MainActivity.db.getAllOrders();
 
@@ -58,6 +64,15 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         menu.getItem(2).setVisible(false);
+
+        Log.d(TAG, "Current user id: " + MainActivity.currentUserId + " // User is admin: " + user.getIsAdmin());
+        if (user.getIsAdmin()) {
+            Log.d(TAG, "Showing admin choices in toolbar menu");
+        } else {
+            Log.d(TAG, "Disabling admin choices in toolbar menu");
+            menu.getItem(4).setVisible(false);
+            menu.getItem(5).setVisible(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

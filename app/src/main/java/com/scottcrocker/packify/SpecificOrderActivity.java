@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.scottcrocker.packify.model.Order;
+import com.scottcrocker.packify.model.User;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -20,6 +22,7 @@ import java.util.Date;
 
 public class SpecificOrderActivity extends AppCompatActivity {
 
+    private static final String TAG = "SpecificOrderActivity";
     Order specificOrder;
     int orderNumber;
     TextView orderNumTv;
@@ -33,6 +36,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
     TextView deliveryDateTv;
     String deliveryDateStr;
     Button btnDeliverOrder;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_specific_order);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        user = MainActivity.db.getUser(MainActivity.currentUserId);
         orderNumber = getIntent().getIntExtra("ORDERNO", 0);
         specificOrder = MainActivity.db.getOrder(orderNumber);
         refreshView();
@@ -48,6 +53,14 @@ public class SpecificOrderActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        Log.d(TAG, "Current user id: " + MainActivity.currentUserId + " // User is admin: " + user.getIsAdmin());
+        if (user.getIsAdmin()) {
+            Log.d(TAG, "Showing admin choices in toolbar menu");
+        } else {
+            Log.d(TAG, "Disabling admin choices in toolbar menu");
+            menu.getItem(4).setVisible(false);
+            menu.getItem(5).setVisible(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

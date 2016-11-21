@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,14 +14,18 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.model.User;
+
 public class SettingsActivity extends AppCompatActivity {
 
+    private static final String TAG = "SettingsActivity";
     private SeekBar seekBar;
     private TextView valueOfSeekBar;
     private EditText phoneNumber;
     public static final String SHARED_PREFERENCES = "PackifySharedPreferences";
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    User user;
 
 
     @Override
@@ -29,6 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        user = MainActivity.db.getUser(MainActivity.currentUserId);
 
         seekBar = (SeekBar)findViewById(R.id.seekBar);
         valueOfSeekBar = (TextView)findViewById(R.id.number_of_orders);
@@ -43,6 +49,15 @@ public class SettingsActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         menu.getItem(0).setVisible(false);
         menu.getItem(1).setVisible(false);
+
+        Log.d(TAG, "Current user id: " + MainActivity.currentUserId + " // User is admin: " + user.getIsAdmin());
+        if (user.getIsAdmin()) {
+            Log.d(TAG, "Showing admin choices in toolbar menu");
+        } else {
+            Log.d(TAG, "Disabling admin choices in toolbar menu");
+            menu.getItem(4).setVisible(false);
+            menu.getItem(5).setVisible(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
