@@ -1,6 +1,7 @@
 package com.scottcrocker.packify;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,8 +21,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
+
 public class SpecificOrderActivity extends AppCompatActivity {
 
+    SharedPreferences sharedPreferences;
     private static final String TAG = "SpecificOrderActivity";
     Order specificOrder;
     int orderNumber;
@@ -38,14 +42,16 @@ public class SpecificOrderActivity extends AppCompatActivity {
     Button btnDeliverOrder;
     TextView deliveredByTv;
     User user;
+    int currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_order);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        user = MainActivity.db.getUser(MainActivity.currentUserId);
+        setSupportActionBar(toolbar);sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        currentUserId = sharedPreferences.getInt("USERID", -1);
+        user = MainActivity.db.getUser(currentUserId);
         orderNumber = getIntent().getIntExtra("ORDERNO", 0);
         specificOrder = MainActivity.db.getOrder(orderNumber);
         refreshView();
@@ -54,7 +60,8 @@ public class SpecificOrderActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        Log.d(TAG, "Current user id: " + MainActivity.currentUserId + " // User is admin: " + user.getIsAdmin());
+
+        Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " + user.getIsAdmin());
         if (user.getIsAdmin()) {
             Log.d(TAG, "Showing admin choices in toolbar menu");
         } else {
