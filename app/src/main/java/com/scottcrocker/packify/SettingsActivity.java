@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -24,6 +27,8 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         seekBar = (SeekBar)findViewById(R.id.seekBar);
         valueOfSeekBar = (TextView)findViewById(R.id.number_of_orders);
@@ -31,6 +36,45 @@ public class SettingsActivity extends AppCompatActivity {
 
         loadSavedSettings();
         onSeekBarChanges();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        menu.getItem(0).setVisible(false);
+        menu.getItem(1).setVisible(false);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.toolbar_admin_userhandler:
+                intent = new Intent(this, UserHandlerActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.toolbar_admin_orderhandler:
+                intent = new Intent(this, OrderHandlerActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.toolbar_activeorders:
+                intent = new Intent(this, ActiveOrdersActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.toolbar_orderhistory:
+                intent = new Intent(this, OrderHistoryActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     /**
