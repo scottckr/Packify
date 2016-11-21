@@ -5,59 +5,33 @@
     density="hdpi"
     format="8"
     plugin-version="2.2.2"
-    timestamp="31167916640230"
+    timestamp="32827826828780"
     token="7974158867035162758"
-    verifier="COLD_SWAP_REQUESTED" >
+    verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="546" />
+        duration="1202" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="67" />
+        duration="455" />
     <task
         name="verifier"
-        duration="2" />
+        duration="32" />
 
     <artifact
-        location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex"
-        type="DEX" />
-    <artifact
-        location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_0/classes.dex"
-        type="DEX" />
-    <artifact
-        location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_1/classes.dex"
-        type="DEX" />
+        location="/Users/Scott/Documents/Git/Packify/app/build/outputs/apk/app-debug.apk"
+        type="MAIN" />
 
     <build
-        timestamp="30542685353097"
-        verifier="BINARY_MANIFEST_FILE_CHANGE" >
+        timestamp="32827826828780"
+        verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="/Users/Scott/Documents/Git/Packify/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
-    </build>
-    <build
-        timestamp="30820028895733"
-        verifier="CLASS_ADDED" >
-        <artifact
-            location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/instant-run-resources/resources-debug.ir.ap_"
-            type="RESOURCES" />
-    </build>
-    <build
-        timestamp="31167916640230"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex"
-            type="DEX" />
-        <artifact
-            location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_0/classes.dex"
-            type="DEX" />
-        <artifact
-            location="/Users/Scott/Documents/Git/Packify/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_1/classes.dex"
-            type="DEX" />
     </build>
 
 </instant-run>
