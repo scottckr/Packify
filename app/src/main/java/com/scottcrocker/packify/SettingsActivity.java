@@ -26,6 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     User user;
+    int currentUserId;
 
 
     @Override
@@ -34,7 +35,9 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        user = MainActivity.db.getUser(MainActivity.currentUserId);
+        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        currentUserId = sharedPreferences.getInt("USERID", -1);
+        user = MainActivity.db.getUser(currentUserId);
 
         seekBar = (SeekBar)findViewById(R.id.seekBar);
         valueOfSeekBar = (TextView)findViewById(R.id.number_of_orders);
@@ -50,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
         menu.getItem(0).setVisible(false);
         menu.getItem(1).setVisible(false);
 
-        Log.d(TAG, "Current user id: " + MainActivity.currentUserId + " // User is admin: " + user.getIsAdmin());
+        Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " + user.getIsAdmin());
         if (user.getIsAdmin()) {
             Log.d(TAG, "Showing admin choices in toolbar menu");
         } else {
