@@ -36,6 +36,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
     TextView deliveryDateTv;
     String deliveryDateStr;
     Button btnDeliverOrder;
+    TextView deliveredByTv;
     User user;
 
     @Override
@@ -139,6 +140,9 @@ public class SpecificOrderActivity extends AppCompatActivity {
 
             btnDeliverOrder = (Button) findViewById(R.id.btn_deliver_order);
             btnDeliverOrder.setEnabled(false);
+        } else {
+            deliveryDateTv = (TextView) findViewById(R.id.delivery_date);
+            deliveryDateTv.setVisibility(View.INVISIBLE);
         }
     }
 

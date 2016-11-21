@@ -64,6 +64,13 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
                 android:text="@string/delivery_date"/>
+
+            <TextView
+                android:id="@+id/delivered_by"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:text="@string/delivered_by"/>
         </LinearLayout>
 
 
