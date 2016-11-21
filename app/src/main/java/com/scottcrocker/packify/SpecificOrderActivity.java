@@ -41,6 +41,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
     String deliveryDateStr;
     Button btnDeliverOrder;
     TextView deliveredByTv;
+    String deliveredByStr;
     User user;
     int currentUserId;
 
@@ -78,7 +79,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.toolbar_update_order:
-                //TODO Update view.
+                refreshView();
                 return true;
 
             case R.id.toolbar_settings:
@@ -123,7 +124,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
         refreshView();
     }
 
-    private void refreshView() {
+    public void refreshView() {
         orderNumTv = (TextView) findViewById(R.id.order_number);
         orderNumStr = getString(R.string.order_number) + " " + specificOrder.getOrderNo();
         orderNumTv.setText(orderNumStr);
@@ -148,9 +149,14 @@ public class SpecificOrderActivity extends AppCompatActivity {
             btnDeliverOrder = (Button) findViewById(R.id.btn_deliver_order);
             btnDeliverOrder.setEnabled(false);
         } else {
+            deliveredByTv = (TextView) findViewById(R.id.delivered_by);
+            //Waiting for method to be done at dbhandler....
+            //deliveredByStr = getString(R.string.delivered_by) + " " + specificOrder.getDeliveredBy();
+
             deliveryDateTv = (TextView) findViewById(R.id.delivery_date);
             deliveryDateTv.setVisibility(View.INVISIBLE);
         }
+        Log.d(TAG, "View refreshed");
     }
 
     public void openNavigation(View view) {

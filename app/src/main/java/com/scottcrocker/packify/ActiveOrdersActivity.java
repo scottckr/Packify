@@ -89,7 +89,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.toolbar_update_order:
-                //TODO Update view.
+                refreshView();
                 return true;
 
             case R.id.toolbar_settings:
@@ -117,5 +117,23 @@ public class ActiveOrdersActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    //TODO Check if method works
+    public void refreshView() {
+        List<Order> allOrders = MainActivity.db.getAllOrders();
+        List<Order> undeliveredOrders = new ArrayList<>();
+
+        for (int i = 0; i < allOrders.size(); i++) {
+            if (!allOrders.get(i).getIsDelivered()) {
+                undeliveredOrders.add(allOrders.get(i));
+            }
+        }
+
+        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, undeliveredOrders);
+
+        listView = (ListView)findViewById(R.id.active_orders_listview);
+        listView.setAdapter(adapter);
+        Log.d(TAG, "ListView refreshed");
     }
 }
