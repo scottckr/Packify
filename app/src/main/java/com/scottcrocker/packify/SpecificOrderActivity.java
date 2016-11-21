@@ -50,7 +50,8 @@ public class SpecificOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_order);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        setSupportActionBar(toolbar);
+        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
         user = MainActivity.db.getUser(currentUserId);
         orderNumber = getIntent().getIntExtra("ORDERNO", 0);
@@ -146,6 +147,8 @@ public class SpecificOrderActivity extends AppCompatActivity {
             deliveryDateStr = getString(R.string.delivery_date) + " " + specificOrder.getDeliveryDate();
             deliveryDateTv.setText(deliveryDateStr);
 
+            deliveredByTv = (TextView) findViewById(R.id.delivered_by);
+
             btnDeliverOrder = (Button) findViewById(R.id.btn_deliver_order);
             btnDeliverOrder.setEnabled(false);
         } else {
@@ -155,6 +158,9 @@ public class SpecificOrderActivity extends AppCompatActivity {
 
             deliveryDateTv = (TextView) findViewById(R.id.delivery_date);
             deliveryDateTv.setVisibility(View.INVISIBLE);
+
+            deliveredByTv = (TextView) findViewById(R.id.delivered_by);
+            deliveredByTv.setVisibility(View.INVISIBLE);
         }
         Log.d(TAG, "View refreshed");
     }
