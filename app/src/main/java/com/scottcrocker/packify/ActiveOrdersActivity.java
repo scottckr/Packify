@@ -11,10 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
-import com.scottcrocker.packify.controller.DBHandler;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
 
@@ -68,6 +65,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         Log.d(TAG, "Current user id: " + MainActivity.currentUserId + " // User is admin: " + user.getIsAdmin());
         if (user.getIsAdmin()) {
             Log.d(TAG, "Showing admin choices in toolbar menu");
+
         } else {
             Log.d(TAG, "Disabling admin choices in toolbar menu");
             menu.getItem(4).setVisible(false);
