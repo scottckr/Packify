@@ -53,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
         menu.getItem(0).setVisible(false);
         menu.getItem(1).setVisible(false);
 
-        Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " + user.getIsAdmin());
+        /*Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " + user.getIsAdmin());
         if (user.getIsAdmin()) {
             Log.d(TAG, "Showing admin choices in toolbar menu");
         } else {
@@ -61,6 +61,7 @@ public class SettingsActivity extends AppCompatActivity {
             menu.getItem(4).setVisible(false);
             menu.getItem(5).setVisible(false);
         }
+        */
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -121,7 +122,7 @@ public class SettingsActivity extends AppCompatActivity {
      * If the user input is valid it shows a confirm message. Else it shows or a warning message.
      * @param view
      */
-    private void onSaveSettings(View view){
+    public void onSaveSettings(View view){
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
@@ -141,7 +142,7 @@ public class SettingsActivity extends AppCompatActivity {
     /**
      * loadSavedSettings gather the users most recent settings and updates the fields.
      */
-    private void loadSavedSettings(){
+    public void loadSavedSettings(){
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
         String sharedSeekBarValue = sharedPreferences.getString("seekBarValue", "0");
         String sharedPhoneNumber = sharedPreferences.getString("number", "");
