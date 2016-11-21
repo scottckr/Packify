@@ -21,7 +21,7 @@ import java.util.List;
 public class DBHandler extends SQLiteOpenHelper {
 
     public DBHandler(Context context) {
-        super(context, "PackifyDB", null, 3);
+        super(context, "PackifyDB", null, 4);
     }
 
     @Override
@@ -29,7 +29,8 @@ public class DBHandler extends SQLiteOpenHelper {
         String orderSql = "CREATE TABLE Orders (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "orderNo INTEGER NOT NULL, customerNo INTEGER NOT NULL, address TEXT NOT NULL, " +
                 "orderSum INTEGER NOT NULL, deliveryDate TEXT NOT NULL, " +
-                "isDelivered INTEGER NOT NULL, longitude REAL NOT NULL, latitude REAL NOT NULL);";
+                "isDelivered INTEGER NOT NULL, deliveredBy INTEGER NOT NULL, " +
+                "longitude REAL NOT NULL, latitude REAL NOT NULL);";
         String userSql = "CREATE TABLE Users (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "userId INTEGER NOT NULL, password TEXT NOT NULL, name TEXT NOT NULL, " +
                 "telephone INTEGER NOT NULL, isAdmin INTEGER NOT NULL);";
@@ -63,6 +64,7 @@ public class DBHandler extends SQLiteOpenHelper {
             isDeliveredInt = 0;
         }
         cvs.put("isDelivered", isDeliveredInt);
+        cvs.put("deliveredBy", order.getDeliveredBy());
         cvs.put("longitude", order.getLongitude());
         cvs.put("latitude", order.getLatitude());
 
@@ -102,6 +104,7 @@ public class DBHandler extends SQLiteOpenHelper {
         cvs.put("orderSum", order.getOrderSum());
         cvs.put("deliveryDate", order.getDeliveryDate());
         cvs.put("isDelivered", order.getIsDelivered());
+        cvs.put("deliveredBy", order.getDeliveredBy());
         cvs.put("longitude", order.getLongitude());
         cvs.put("latitude", order.getLatitude());
 
@@ -132,7 +135,6 @@ public class DBHandler extends SQLiteOpenHelper {
         boolean isDeliveredBool;
 
         if (cursor.moveToFirst()) {
-            cursor.moveToFirst();
             order.setOrderNo(cursor.getInt(1));
             order.setCustomerNo(cursor.getInt(2));
             order.setAddress(cursor.getString(3));
@@ -144,8 +146,9 @@ public class DBHandler extends SQLiteOpenHelper {
                 isDeliveredBool = false;
             }
             order.setIsDelivered(isDeliveredBool);
-            order.setLongitude(cursor.getDouble(7));
-            order.setLatitude(cursor.getDouble(8));
+            order.setDeliveredBy(cursor.getInt(7));
+            order.setLongitude(cursor.getDouble(8));
+            order.setLatitude(cursor.getDouble(9));
             cursor.close();
         } else {
             order = null;
@@ -184,9 +187,8 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public List<Order> getAllOrders() {
-        List<Order> allOrders = new ArrayList<>();
-
         SQLiteDatabase db = getReadableDatabase();
+        List<Order> allOrders = new ArrayList<>();
 
         String selectQuery = "SELECT * FROM Orders";
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -199,13 +201,14 @@ public class DBHandler extends SQLiteOpenHelper {
                 order.setAddress(cursor.getString(3));
                 order.setOrderSum(cursor.getInt(4));
                 order.setDeliveryDate(cursor.getString(5));
-                if (Integer.parseInt(cursor.getString(6)) == 1) {
+                if (cursor.getInt(6) == 1) {
                     order.setIsDelivered(true);
                 } else {
                     order.setIsDelivered(false);
                 }
-                order.setLongitude(cursor.getDouble(7));
-                order.setLatitude(cursor.getDouble(8));
+                order.setDeliveredBy(cursor.getInt(7));
+                order.setLongitude(cursor.getDouble(8));
+                order.setLatitude(cursor.getDouble(9));
 
                 allOrders.add(order);
             } while (cursor.moveToNext());
