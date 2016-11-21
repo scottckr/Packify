@@ -1,8 +1,8 @@
 package com.scottcrocker.packify;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.content.Intent;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +20,8 @@ import com.scottcrocker.packify.model.User;
 
 import java.util.List;
 
+import static com.scottcrocker.packify.MainActivity.db;
+
 public class UserHandlerActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Spinner mSpinner;
@@ -27,9 +29,12 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     EditText inputPassword;
     EditText inputPhoneNr;
     EditText inputUserId;
+    Switch toggle;
 
     Button addUserBtn;
     Button deleteUserBtn;
+    List<User> users;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         inputPassword = (EditText) findViewById(R.id.input_user_password);
         inputPhoneNr = (EditText) findViewById(R.id.input_user_phone);
         inputUserId = (EditText) findViewById(R.id.input_user_id);
+        toggle = (Switch) findViewById(R.id.admin_switch);
 
         addUserBtn = (Button) findViewById(R.id.btn_submit_user);
         deleteUserBtn = (Button) findViewById(R.id.btn_delete_user);
@@ -53,7 +59,8 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
     private void loadSpinnerData() {
 
-        List<User> users = MainActivity.db.getAllUsers();
+
+        users = db.getAllUsers();
 
         ArrayAdapter<User> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, users);
@@ -68,11 +75,24 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     public void onItemSelected(AdapterView<?> parent, View view, int position,
                                long id) {
         // On selecting a spinner item
-        String item = parent.getItemAtPosition(position).toString();
 
+        user = (User) parent.getItemAtPosition(position);
         // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "You selected: " + item,
+        Toast.makeText(parent.getContext(), "You selected: " + user.toString(),
                 Toast.LENGTH_LONG).show();
+
+        populateInputFields();
+
+    }
+
+    private void populateInputFields() {
+
+        inputName.setText(user.getName());
+        inputUserId.setText(String.valueOf(user.getId()));
+        inputPassword.setText(user.getPassword());
+        inputPhoneNr.setText(String.valueOf(user.getTelephone()));
+
+        toggle.setChecked(user.getIsAdmin());
 
     }
 
@@ -124,6 +144,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
     /**
      * Method to create a new user object, or handle an existing user object which will be sent to DB
+     *
      * @param view
      */
     // TODO: create new object containing user information, send to database
@@ -133,8 +154,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         String newUserPass = String.valueOf(inputPassword.getText());
         int newUserPhoneNr = Integer.parseInt(inputPhoneNr.getText().toString());
         int newUserId = Integer.parseInt(inputUserId.getText().toString());
-
-        Switch toggle = (Switch) findViewById(R.id.admin_switch);
 
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -149,7 +168,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         User user = new User(newUserId, newUserPass, newUsername, newUserPhoneNr, toggle.isChecked());
 
-        MainActivity.db.addUser(user);
+        db.addUser(user);
 
         Toast.makeText(getApplicationContext(), "Användare sparad", Toast.LENGTH_SHORT).show();
         finish();
@@ -158,10 +177,15 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
     /**
      * Method to delete user from DB
+     *
      * @param view
      */
     // TODO: method shall delete user information in database
     public void deleteUser(View view) {
 
+        db.deleteUser(user);
+        Toast.makeText(this, user.getName().toString() + " deleted.", Toast.LENGTH_SHORT).show();
+
     }
+
 }

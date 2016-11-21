@@ -38,7 +38,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
         historyListView = (ListView) findViewById(R.id.order_history_listview);
 
-        // test to populate the ListView
+        // test to populate the ListView delete!
         List<String> your_array_list = new ArrayList<String>();
         your_array_list.add("foo");
         your_array_list.add("bar");
