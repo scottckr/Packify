@@ -4,17 +4,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.scottcrocker.packify.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderHistoryActivity extends AppCompatActivity {
 
+    private static final String TAG = "OrderHistoryActivity";
     private ListView historyListView;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +27,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_history);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        user = MainActivity.db.getUser(MainActivity.currentUserId);
 
         historyListView = (ListView) findViewById(R.id.order_history_listview);
 
@@ -43,6 +49,15 @@ public class OrderHistoryActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         menu.getItem(3).setVisible(false);
+
+        Log.d(TAG, "Current user id: " + MainActivity.currentUserId + " // User is admin: " + user.getIsAdmin());
+        if (user.getIsAdmin()) {
+            Log.d(TAG, "Showing admin choices in toolbar menu");
+        } else {
+            Log.d(TAG, "Disabling admin choices in toolbar menu");
+            menu.getItem(4).setVisible(false);
+            menu.getItem(5).setVisible(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
