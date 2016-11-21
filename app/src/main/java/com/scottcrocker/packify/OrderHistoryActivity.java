@@ -8,9 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
 
 import java.util.ArrayList;
@@ -36,20 +39,30 @@ public class OrderHistoryActivity extends AppCompatActivity {
         currentUserId = sharedPreferences.getInt("USERID", -1);
         user = MainActivity.db.getUser(currentUserId);
 
+
+        List<Order> allOrders = MainActivity.db.getAllOrders();
+        List<Order> deliveredOrders = new ArrayList<>();
+
+        for (int i = 0; i < allOrders.size(); i++) {
+            if (allOrders.get(i).getIsDelivered()) {
+                deliveredOrders.add(allOrders.get(i));
+            }
+        }
+
+        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, deliveredOrders);
+
         historyListView = (ListView) findViewById(R.id.order_history_listview);
+        historyListView.setAdapter(adapter);
 
-        // test to populate the ListView
-        List<String> your_array_list = new ArrayList<String>();
-        your_array_list.add("foo");
-        your_array_list.add("bar");
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                your_array_list );
-
-        historyListView.setAdapter(arrayAdapter);
-
+        historyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Order selectedOrder = adapter.getItem(position);
+                Intent intent = new Intent(getApplicationContext(), SpecificOrderActivity.class);
+                intent.putExtra("ORDERNO", selectedOrder.getOrderNo());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
