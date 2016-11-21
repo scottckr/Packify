@@ -1,6 +1,7 @@
 package com.scottcrocker.packify;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,11 +16,15 @@ import com.scottcrocker.packify.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
+
 public class OrderHistoryActivity extends AppCompatActivity {
 
+    SharedPreferences sharedPreferences;
     private static final String TAG = "OrderHistoryActivity";
     private ListView historyListView;
     User user;
+    int currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +32,9 @@ public class OrderHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_history);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        user = MainActivity.db.getUser(MainActivity.currentUserId);
+        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        currentUserId = sharedPreferences.getInt("USERID", -1);
+        user = MainActivity.db.getUser(currentUserId);
 
         historyListView = (ListView) findViewById(R.id.order_history_listview);
 
@@ -50,7 +57,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         menu.getItem(3).setVisible(false);
 
-        Log.d(TAG, "Current user id: " + MainActivity.currentUserId + " // User is admin: " + user.getIsAdmin());
+        Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " + user.getIsAdmin());
         if (user.getIsAdmin()) {
             Log.d(TAG, "Showing admin choices in toolbar menu");
         } else {
