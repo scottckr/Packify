@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
             if (users.get(i).getId() == inputId) {
                 if (users.get(i).getPassword().equals(inputPassword)) {
                     currentUserId = users.get(i).getId();
-                    intent.putExtra("USERID", currentUserId);
+                    editor.putInt("USERID", currentUserId);
                     editor.putBoolean("isLoggedIn", true);
                     editor.apply();
                 } else {

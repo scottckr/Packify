@@ -21,8 +21,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         db = new DBHandler(this);
         gps = new GPSHelper(this);
-        currentUserId = getIntent().getIntExtra("USERID", 0);
-
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
 
         if (sharedPreferences.getBoolean("isLoggedIn", false)) {
