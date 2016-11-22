@@ -21,7 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
+import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
+
 
 public class SpecificOrderActivity extends AppCompatActivity {
 
@@ -41,6 +42,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
     String deliveryDateStr;
     Button btnDeliverOrder;
     TextView deliveredByTv;
+    String deliveredByStr;
     User user;
     int currentUserId;
 
@@ -49,7 +51,8 @@ public class SpecificOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_order);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        setSupportActionBar(toolbar);
+        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
         user = MainActivity.db.getUser(currentUserId);
         orderNumber = getIntent().getIntExtra("ORDERNO", 0);
@@ -78,7 +81,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.toolbar_update_order:
-                //TODO Update view.
+                refreshView();
                 return true;
 
             case R.id.toolbar_settings:
@@ -123,7 +126,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
         refreshView();
     }
 
-    private void refreshView() {
+    public void refreshView() {
         orderNumTv = (TextView) findViewById(R.id.order_number);
         orderNumStr = getString(R.string.order_number) + " " + specificOrder.getOrderNo();
         orderNumTv.setText(orderNumStr);
@@ -145,12 +148,22 @@ public class SpecificOrderActivity extends AppCompatActivity {
             deliveryDateStr = getString(R.string.delivery_date) + " " + specificOrder.getDeliveryDate();
             deliveryDateTv.setText(deliveryDateStr);
 
+            deliveredByTv = (TextView) findViewById(R.id.delivered_by);
+
             btnDeliverOrder = (Button) findViewById(R.id.btn_deliver_order);
             btnDeliverOrder.setEnabled(false);
         } else {
+            deliveredByTv = (TextView) findViewById(R.id.delivered_by);
+            //Waiting for method to be done at dbhandler....
+            //deliveredByStr = getString(R.string.delivered_by) + " " + specificOrder.getDeliveredBy();
+
             deliveryDateTv = (TextView) findViewById(R.id.delivery_date);
             deliveryDateTv.setVisibility(View.INVISIBLE);
+
+            deliveredByTv = (TextView) findViewById(R.id.delivered_by);
+            deliveredByTv.setVisibility(View.INVISIBLE);
         }
+        Log.d(TAG, "View refreshed");
     }
 
     public void openNavigation(View view) {

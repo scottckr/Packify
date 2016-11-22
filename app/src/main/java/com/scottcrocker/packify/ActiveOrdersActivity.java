@@ -12,17 +12,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
-import com.scottcrocker.packify.controller.DBHandler;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
+import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
+
 
 public class ActiveOrdersActivity extends AppCompatActivity {
 
@@ -40,6 +38,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
+
         user = MainActivity.db.getUser(currentUserId);
 
 
@@ -74,14 +73,16 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         menu.getItem(2).setVisible(false);
 
-        Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " + user.getIsAdmin());
+        Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " );
         if (user.getIsAdmin()) {
             Log.d(TAG, "Showing admin choices in toolbar menu");
+
         } else {
             Log.d(TAG, "Disabling admin choices in toolbar menu");
             menu.getItem(4).setVisible(false);
             menu.getItem(5).setVisible(false);
         }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -91,7 +92,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.toolbar_update_order:
-                //TODO Update view.
+                refreshView();
                 return true;
 
             case R.id.toolbar_settings:
@@ -119,5 +120,23 @@ public class ActiveOrdersActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    //TODO Check if method works
+    public void refreshView() {
+        List<Order> allOrders = MainActivity.db.getAllOrders();
+        List<Order> undeliveredOrders = new ArrayList<>();
+
+        for (int i = 0; i < allOrders.size(); i++) {
+            if (!allOrders.get(i).getIsDelivered()) {
+                undeliveredOrders.add(allOrders.get(i));
+            }
+        }
+
+        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, undeliveredOrders);
+
+        listView = (ListView)findViewById(R.id.active_orders_listview);
+        listView.setAdapter(adapter);
+        Log.d(TAG, "ListView refreshed");
     }
 }

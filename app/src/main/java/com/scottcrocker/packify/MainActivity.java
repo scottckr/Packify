@@ -6,13 +6,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import com.scottcrocker.packify.controller.DBHandler;
 import com.scottcrocker.packify.helper.GPSHelper;
-import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
+import com.scottcrocker.packify.model.User;
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
     public static DBHandler db;
     public static GPSHelper gps;
+    public static final String SHARED_PREFERENCES = "PackifySharedPreferences";
     public static int currentUserId;
 
     @Override

@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.scottcrocker.packify.model.Order;
+import com.scottcrocker.packify.model.User;
+
 
 import java.util.List;
 
@@ -28,6 +30,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
     EditText addressET;
     EditText postAddressET;
     boolean isValidInput;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +96,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
         String customerId = customerIdET.getText().toString();
         validateInput(customerId, "Kundnummer");
 
+
         orderSumET = (EditText) findViewById(R.id.input_order_sum);
         String orderSum = orderSumET.getText().toString();
         validateInput(orderSum, "Ordersumma");
@@ -102,8 +106,8 @@ public class OrderHandlerActivity extends AppCompatActivity {
         String address = addressET.getText().toString()+", "+postAddressET.getText().toString();
 
         if(isValidInput) {
-            Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId), address, Integer.parseInt(orderSum), "---", false,
-                    MainActivity.gps.getLongitude(address), MainActivity.gps.getLatitude(address));
+            Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId), address, Integer.parseInt(orderSum), "---", false, user.getId(),MainActivity.gps.getLongitude(address), MainActivity.gps.getLatitude(address));
+
             MainActivity.db.addOrder(order);
             Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
         }

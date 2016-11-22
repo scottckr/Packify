@@ -19,7 +19,7 @@ import com.scottcrocker.packify.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
+import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 
 public class OrderHistoryActivity extends AppCompatActivity {
 
@@ -38,7 +38,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
         user = MainActivity.db.getUser(currentUserId);
-
 
         List<Order> allOrders = MainActivity.db.getAllOrders();
         List<Order> deliveredOrders = new ArrayList<>();
@@ -87,7 +86,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.toolbar_update_order:
-                //TODO Update view.
+                refreshView();
                 return true;
 
             case R.id.toolbar_settings:
@@ -114,5 +113,23 @@ public class OrderHistoryActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    //TODO Check if method works
+    public void refreshView() {
+        List<Order> allOrders = MainActivity.db.getAllOrders();
+        List<Order> deliveredOrders = new ArrayList<>();
+
+        for (int i = 0; i < allOrders.size(); i++) {
+            if (allOrders.get(i).getIsDelivered()) {
+                deliveredOrders.add(allOrders.get(i));
+            }
+        }
+
+        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, deliveredOrders);
+
+        historyListView = (ListView) findViewById(R.id.order_history_listview);
+        historyListView.setAdapter(adapter);
+        Log.d(TAG, "ListView refreshed");
     }
 }
