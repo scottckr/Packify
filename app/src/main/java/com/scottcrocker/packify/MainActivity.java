@@ -12,6 +12,8 @@ import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
 
 
 
+
+
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
