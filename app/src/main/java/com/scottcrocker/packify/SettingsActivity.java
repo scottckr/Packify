@@ -53,14 +53,14 @@ public class SettingsActivity extends AppCompatActivity {
         menu.getItem(0).setVisible(false);
         menu.getItem(1).setVisible(false);
 
-        Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " + user.getIsAdmin());
+        /*Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " + user.getIsAdmin());
         if (user.getIsAdmin()) {
             Log.d(TAG, "Showing admin choices in toolbar menu");
         } else {
             Log.d(TAG, "Disabling admin choices in toolbar menu");
             menu.getItem(4).setVisible(false);
             menu.getItem(5).setVisible(false);
-        }
+        }*/
 
         return super.onCreateOptionsMenu(menu);
     }
