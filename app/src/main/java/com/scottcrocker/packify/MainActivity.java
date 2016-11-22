@@ -1,12 +1,18 @@
 package com.scottcrocker.packify;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import com.scottcrocker.packify.controller.DBHandler;
 import com.scottcrocker.packify.helper.GPSHelper;
 import com.scottcrocker.packify.model.User;
+
+
+
+
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;

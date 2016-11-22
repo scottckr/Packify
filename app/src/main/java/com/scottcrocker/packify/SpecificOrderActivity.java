@@ -1,16 +1,20 @@
 package com.scottcrocker.packify;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.scottcrocker.packify.model.Order;
@@ -52,12 +56,18 @@ public class SpecificOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_specific_order);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.SEND_SMS},1);
+
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
         user = MainActivity.db.getUser(currentUserId);
         orderNumber = getIntent().getIntExtra("ORDERNO", 0);
         specificOrder = MainActivity.db.getOrder(orderNumber);
         refreshView();
+
+
     }
 
     @Override
@@ -76,7 +86,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
     }
 
 
-    @Override
+        @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         switch (item.getItemId()) {
@@ -123,8 +133,18 @@ public class SpecificOrderActivity extends AppCompatActivity {
         specificOrder.setDeliveryDate(currentDate);
 
         MainActivity.db.editOrder(specificOrder);
+        sendSms();
         refreshView();
     }
+
+    public void sendSms() {
+        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
+        String sharedPhoneNumber = sharedPreferences.getString("number", "");
+        String messageSms = "Order " + specificOrder.getOrderNo() + " levererad";
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(sharedPhoneNumber, null, messageSms, null, null);
+    }
+
 
     public void refreshView() {
         orderNumTv = (TextView) findViewById(R.id.order_number);
