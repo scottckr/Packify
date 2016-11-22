@@ -16,13 +16,14 @@ import android.widget.Toast;
 
 import com.scottcrocker.packify.model.User;
 
+import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
+
 public class SettingsActivity extends AppCompatActivity {
 
     private static final String TAG = "SettingsActivity";
     private SeekBar seekBar;
     private TextView valueOfSeekBar;
     private EditText phoneNumber;
-    public static final String SHARED_PREFERENCES = "PackifySharedPreferences";
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     User user;

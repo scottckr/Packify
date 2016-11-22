@@ -21,7 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
+import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
+
 
 public class SpecificOrderActivity extends AppCompatActivity {
 

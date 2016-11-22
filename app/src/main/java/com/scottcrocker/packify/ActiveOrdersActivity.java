@@ -19,7 +19,8 @@ import com.scottcrocker.packify.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
+import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
+
 
 public class ActiveOrdersActivity extends AppCompatActivity {
 
@@ -37,6 +38,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
+
         user = MainActivity.db.getUser(currentUserId);
 
 
@@ -71,7 +73,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         menu.getItem(2).setVisible(false);
 
-        Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " + user.getIsAdmin());
+        Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " );
         if (user.getIsAdmin()) {
             Log.d(TAG, "Showing admin choices in toolbar menu");
 
@@ -80,6 +82,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
             menu.getItem(4).setVisible(false);
             menu.getItem(5).setVisible(false);
         }
+
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -19,7 +19,7 @@ import com.scottcrocker.packify.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.scottcrocker.packify.SettingsActivity.SHARED_PREFERENCES;
+import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 
 public class OrderHistoryActivity extends AppCompatActivity {
 
