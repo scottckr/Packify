@@ -1,0 +1,42 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/toolbar_update_order"
+        android:orderInCategory="100"
+        android:title="@string/toolbar_update_order"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/toolbar_settings"
+        android:orderInCategory="200"
+        android:title="@string/toolbar_settings"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/toolbar_activeorders"
+        android:orderInCategory="300"
+        android:title="@string/toolbar_activeorders"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/toolbar_orderhistory"
+        android:orderInCategory="400"
+        android:title="@string/toolbar_orderhistory"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/toolbar_admin_userhandler"
+        android:orderInCategory="500"
+        android:title="@string/toolbar_admin_userhandler"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/toolbar_admin_orderhandler"
+        android:orderInCategory="600"
+        android:title="@string/toolbar_admin_orderhandler"
+        app:showAsAction="never"/>
+
+
+</menu>
