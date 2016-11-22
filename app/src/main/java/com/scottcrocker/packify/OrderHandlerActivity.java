@@ -21,10 +21,13 @@ import java.util.List;
 
 public class OrderHandlerActivity extends AppCompatActivity {
 
+    private static final String TAG = "OrderHandlerActivity";
     EditText orderNoET;
     EditText customerIdET;
     EditText orderSumET;
     EditText addressET;
+    EditText postAddressET;
+    boolean isValidInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,23 +83,32 @@ public class OrderHandlerActivity extends AppCompatActivity {
     // TO-DO: create new object containing order information, send to database
 
     public void addOrder(View view) {
+
+        isValidInput = true;
         orderNoET = (EditText) findViewById(R.id.input_order_number);
-        int orderNo = Integer.parseInt(orderNoET.getText().toString());
+        String orderNo = orderNoET.getText().toString();
+        validateInput(orderNo, "Ordernummer");
+
         customerIdET = (EditText) findViewById(R.id.input_customer_id);
-        int customerId = Integer.parseInt(customerIdET.getText().toString());
+        String customerId = customerIdET.getText().toString();
+        validateInput(customerId, "Kundnummer");
+
         orderSumET = (EditText) findViewById(R.id.input_order_sum);
-        int orderSum = Integer.parseInt(orderSumET.getText().toString());
+        String orderSum = orderSumET.getText().toString();
+        validateInput(orderSum, "Ordersumma");
+
         addressET = (EditText) findViewById(R.id.input_order_address);
-        String address = addressET.getText().toString();
+        postAddressET = (EditText) findViewById(R.id.input_order_post_address);
+        String address = addressET.getText().toString()+", "+postAddressET.getText().toString();
 
-        Order order = new Order(orderNo, customerId, address, orderSum, "---", false,
-                MainActivity.gps.getLongitude(address), MainActivity.gps.getLatitude(address));
-
-        MainActivity.db.addOrder(order);
-
+        if(isValidInput) {
+            Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId), address, Integer.parseInt(orderSum), "---", false,
+                    MainActivity.gps.getLongitude(address), MainActivity.gps.getLatitude(address));
+            MainActivity.db.addOrder(order);
+            Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
+        }
         //Log.d("DATABASE", "Order: " + MainActivity.db.getOrder(order.getOrderNo()).getDeliveryDate());
 
-        Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -113,7 +125,23 @@ public class OrderHandlerActivity extends AppCompatActivity {
      */
     // TO-DO: method shall delete order information in database
     public void deleteOrder(View view) {
-
         Toast.makeText(getApplicationContext(), "Order raderad", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Validates the input from user. Makes sure its only digits and not empty.
+     * @param input - Users input value.
+     * @param fieldName - The name of current field.
+     */
+    public void validateInput(String input, String fieldName){
+        if (input.matches("\\d")){
+            Log.d(TAG, "Input for "+fieldName+" is valid");
+        }else if(input.equals("")){
+            isValidInput = false;
+            Toast.makeText(getApplicationContext(), fieldName+" är tom", Toast.LENGTH_SHORT).show();
+        }else{
+            isValidInput = false;
+            Toast.makeText(getApplicationContext(), fieldName+" måste bestå av siffror!", Toast.LENGTH_SHORT).show();
+        }
     }
 }

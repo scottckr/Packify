@@ -46,4 +46,5 @@
     <string name="toolbar_orderhistory">Orderhistorik</string>
     <string name="toolbar_activeorders">Aktiva ordrar</string>
     <string name="delivered_by">Levererad av:</string>
+    <string name="input_order_post_address">Postadress</string>
 </resources>

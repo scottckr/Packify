@@ -129,7 +129,7 @@ public class SettingsActivity extends AppCompatActivity {
         String savedPhoneNumber = phoneNumber.getText().toString();
         String savedSeekBarValue = valueOfSeekBar.getText().toString();
 
-        if(savedPhoneNumber.matches("[0-9]{10}")){
+        if(savedPhoneNumber.matches("[0-9]{9,10}")){
             editor.putString("seekBarValue", savedSeekBarValue);
             editor.putString("number", savedPhoneNumber);
             editor.commit();

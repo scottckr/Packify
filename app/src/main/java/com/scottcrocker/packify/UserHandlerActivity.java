@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,14 +23,15 @@ import java.util.List;
 
 public class UserHandlerActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    private static final String TAG = "UserHandlerActivity";
     Spinner mSpinner;
     EditText inputName;
     EditText inputPassword;
     EditText inputPhoneNr;
     EditText inputUserId;
-
     Button addUserBtn;
     Button deleteUserBtn;
+    boolean isValidInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         inputPassword = (EditText) findViewById(R.id.input_user_password);
         inputPhoneNr = (EditText) findViewById(R.id.input_user_phone);
         inputUserId = (EditText) findViewById(R.id.input_user_id);
-
         addUserBtn = (Button) findViewById(R.id.btn_submit_user);
         deleteUserBtn = (Button) findViewById(R.id.btn_delete_user);
 
@@ -54,7 +55,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     private void loadSpinnerData() {
 
         List<User> users = MainActivity.db.getAllUsers();
-
         ArrayAdapter<User> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, users);
 
@@ -89,7 +89,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         menu.getItem(4).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -128,11 +127,18 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
      */
     // TODO: create new object containing user information, send to database
     public void addUser(View view) {
-
+        isValidInput = true;
         String newUsername = String.valueOf(inputName.getText());
+        validateInput(newUsername, "Namn");
+
         String newUserPass = String.valueOf(inputPassword.getText());
-        int newUserPhoneNr = Integer.parseInt(inputPhoneNr.getText().toString());
-        int newUserId = Integer.parseInt(inputUserId.getText().toString());
+        validateInput(newUserPass, "Lösenord");
+
+        String newUserPhoneNr = inputPhoneNr.getText().toString();
+        validateInput(newUserPhoneNr, "Telefonnummer");
+
+        String newUserId = inputUserId.getText().toString();
+        validateInput(newUserId, "Användar ID");
 
         Switch toggle = (Switch) findViewById(R.id.admin_switch);
 
@@ -147,13 +153,14 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
             }
         });
 
-        User user = new User(newUserId, newUserPass, newUsername, newUserPhoneNr, toggle.isChecked());
+        if(isValidInput){
+            User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, Integer.parseInt(newUserPhoneNr), toggle.isChecked());
+            MainActivity.db.addUser(user);
+            Toast.makeText(getApplicationContext(), "Användare sparad", Toast.LENGTH_SHORT).show();
+            finish();
+            startActivity(getIntent());
+        }
 
-        MainActivity.db.addUser(user);
-
-        Toast.makeText(getApplicationContext(), "Användare sparad", Toast.LENGTH_SHORT).show();
-        finish();
-        startActivity(getIntent());
     }
 
     /**
@@ -162,6 +169,54 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
      */
     // TODO: method shall delete user information in database
     public void deleteUser(View view) {
+
+    }
+
+    /**
+     * Validates the input from user. Sends a toast if userinput is not valid.
+     * @param input - Users input value.
+     * @param fieldName - The name of current field.
+     */
+    public void validateInput(String input, String fieldName){
+
+        switch(fieldName){
+            case "Användar ID":
+                if (input.matches("\\d*")){
+                    Log.d(TAG, "Input for "+fieldName+" is valid");
+                }else if(input.equals("")){
+                    isValidInput = false;
+                    Toast.makeText(getApplicationContext(), fieldName+" är tom", Toast.LENGTH_SHORT).show();
+                }else{
+                    isValidInput = false;
+                    Toast.makeText(getApplicationContext(), fieldName+" måste bestå av siffror!", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+            case "Namn":
+                if(input.equals("")){
+                    isValidInput = false;
+                    Toast.makeText(getApplicationContext(), fieldName+" är tom", Toast.LENGTH_SHORT).show();
+                }else{
+                    //intended to accept numbers as user input. Maybe a name can be "Kenny212".
+                    Log.d(TAG, "Input for "+fieldName+" is valid");
+                }
+                break;
+
+            case "Lösenord":
+                break;
+
+            case "Telefonnummer":
+                if (input.matches("[0-9]{9,10}")){
+                    Log.d(TAG, "Input for "+fieldName+" is valid");
+                }else if(input.equals("")){
+                    isValidInput = false;
+                    Toast.makeText(getApplicationContext(), fieldName+" är tom", Toast.LENGTH_SHORT).show();
+                }else{
+                    isValidInput = false;
+                    Toast.makeText(getApplicationContext(), fieldName+" måste bestå 9-10 av siffror!", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
 
     }
 }
