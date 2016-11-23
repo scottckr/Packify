@@ -39,16 +39,15 @@ public class OrderHistoryActivity extends AppCompatActivity {
         currentUserId = sharedPreferences.getInt("USERID", -1);
         user = MainActivity.db.getUser(currentUserId);
 
-        List<Order> allOrders = MainActivity.db.getAllOrders();
         List<Order> deliveredOrders = new ArrayList<>();
 
-        for (int i = 0; i < allOrders.size(); i++) {
-            if (allOrders.get(i).getIsDelivered()) {
-                deliveredOrders.add(allOrders.get(i));
+        for (int i = 0; i < MainActivity.db.getAllOrders().size(); i++) {
+            if (MainActivity.db.getAllOrders().get(i).getIsDelivered()) {
+                deliveredOrders.add(MainActivity.db.getAllOrders().get(i));
             }
         }
 
-        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, deliveredOrders);
+        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.list_item_label, deliveredOrders);
 
         historyListView = (ListView) findViewById(R.id.order_history_listview);
         historyListView.setAdapter(adapter);
