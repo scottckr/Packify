@@ -168,8 +168,14 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         String newUserId = inputUserId.getText().toString();
         validateInput(newUserId, "Användar ID");
 
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-        if (isValidInput && !MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
+            }
+        });
+
+
+        if(isValidInput){
             User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, Integer.parseInt(newUserPhoneNr), toggle.isChecked());
             MainActivity.db.addUser(user);
             Toast.makeText(getApplicationContext(), "Användare sparad", Toast.LENGTH_SHORT).show();
