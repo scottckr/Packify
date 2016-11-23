@@ -6,6 +6,7 @@ package com.scottcrocker.packify.model;
 
 public class Order {
     private String address;
+    private String postAddress;
     private int orderSum;
     private int orderNo;
     private boolean isDelivered;
@@ -19,10 +20,11 @@ public class Order {
     public Order() {
     }
 
-    public Order(int orderNo, int customerNo, String customerName, String address, int orderSum,
+    public Order(int orderNo, int customerNo, String customerName, String address, String postAddress, int orderSum,
                  String deliveryDate, boolean isDelivered, int deliveredBy, double longitude, double latitude) {
         this.orderNo = orderNo;
         this.address = address;
+        this.postAddress = postAddress;
         this.customerName = customerName;
         this.orderSum = orderSum;
         this.isDelivered = isDelivered;
@@ -115,5 +117,13 @@ public class Order {
 
     public String getCustomerName() {
         return customerName;
+    }
+
+    public void setPostAddress(String postAddress) {
+        this.postAddress = postAddress;
+    }
+
+    public String getPostAddress() {
+        return postAddress;
     }
 }

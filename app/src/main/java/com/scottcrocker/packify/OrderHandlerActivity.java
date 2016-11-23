@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.scottcrocker.packify.model.User;
 import java.util.List;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
+import static com.scottcrocker.packify.MainActivity.db;
 
 public class OrderHandlerActivity extends AppCompatActivity {
 
@@ -33,6 +35,8 @@ public class OrderHandlerActivity extends AppCompatActivity {
     EditText orderSumET;
     EditText addressET;
     EditText postAddressET;
+    Button addOrderBtn;
+    Button editOrderBtn;
     boolean isValidInput;
     SharedPreferences sharedPreferences;
     int currentUserId;
@@ -43,6 +47,9 @@ public class OrderHandlerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_handler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        addOrderBtn = (Button) findViewById(R.id.btn_submit_order);
+        editOrderBtn = (Button) findViewById(R.id.btn_edit_order);
+        editOrderBtn.setVisibility(View.INVISIBLE);
         orderNoET = (EditText) findViewById(R.id.input_order_number);
         customerIdET = (EditText) findViewById(R.id.input_customer_id);
         customerNameET = (EditText) findViewById(R.id.input_customer_name);
@@ -63,6 +70,9 @@ public class OrderHandlerActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (MainActivity.db.doesFieldExist("Orders", "orderNo", editable.toString())) {
+                    editOrderBtn.setVisibility(View.VISIBLE);
+                    addOrderBtn.setVisibility(View.INVISIBLE);
+
                     String customerIdStr = String.valueOf(MainActivity.db.getOrder(Integer.parseInt(editable.toString())).getCustomerNo());
                     customerIdET.setText(customerIdStr);
 
@@ -75,8 +85,17 @@ public class OrderHandlerActivity extends AppCompatActivity {
                     String addressStr = String.valueOf(MainActivity.db.getOrder(Integer.parseInt(editable.toString())).getAddress());
                     addressET.setText(addressStr);
 
-                    String postAddressStr = String.valueOf(MainActivity.db.getOrder(Integer.parseInt(editable.toString())).getAddress());
+                    String postAddressStr = String.valueOf(MainActivity.db.getOrder(Integer.parseInt(editable.toString())).getPostAddress());
                     postAddressET.setText(postAddressStr);
+                } else {
+                    editOrderBtn.setVisibility(View.INVISIBLE);
+                    addOrderBtn.setVisibility(View.VISIBLE);
+
+                    customerIdET.setText("");
+                    customerNameET.setText("");
+                    orderSumET.setText("");
+                    addressET.setText("");
+                    postAddressET.setText("");
                 }
             }
         });
@@ -89,7 +108,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
         menu.getItem(5).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -149,11 +167,13 @@ public class OrderHandlerActivity extends AppCompatActivity {
         validateInput(orderSum, "Ordersumma");
 
         addressET = (EditText) findViewById(R.id.input_order_address);
+        String address = addressET.getText().toString();
+
         postAddressET = (EditText) findViewById(R.id.input_order_post_address);
-        String address = addressET.getText().toString() + ", " + postAddressET.getText().toString();
+        String postAddress = postAddressET.getText().toString();
 
         if(isValidInput && !MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
-            Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId), customerName, address, Integer.parseInt(orderSum), "---", false, MainActivity.db.getUser(currentUserId).getId(),MainActivity.gps.getLongitude(address), MainActivity.gps.getLatitude(address));
+            Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId), customerName, address, postAddress, Integer.parseInt(orderSum), "---", false, MainActivity.db.getUser(currentUserId).getId(),MainActivity.gps.getLongitude(address), MainActivity.gps.getLatitude(address));
 
             MainActivity.db.addOrder(order);
             Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
@@ -162,6 +182,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
         }
         //Log.d("DATABASE", "Order: " + MainActivity.db.getOrder(order.getOrderNo()).getDeliveryDate());
 
+        refreshView();
     }
 
     /**
@@ -169,7 +190,13 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * @param view
      */
     public void editOrder(View view) {
-
+        Order order = db.getOrder(Integer.parseInt(orderNoET.getText().toString()));
+        Order editedOrder = new Order(order.getOrderNo(), Integer.parseInt(customerIdET.getText().toString()),
+                customerNameET.getText().toString(), addressET.getText().toString(), postAddressET.getText().toString(),
+                Integer.parseInt(orderSumET.getText().toString()), order.getDeliveryDate(), order.getIsDelivered(),
+                order.getDeliveredBy(), order.getLongitude(), order.getLatitude());
+        db.editOrder(editedOrder);
+        refreshView();
     }
 
     /**
@@ -178,7 +205,19 @@ public class OrderHandlerActivity extends AppCompatActivity {
      */
     // TO-DO: method shall delete order information in database
     public void deleteOrder(View view) {
+        Order order = db.getOrder(Integer.parseInt(orderNoET.getText().toString()));
+        db.deleteOrder(order);
         Toast.makeText(getApplicationContext(), "Order raderad", Toast.LENGTH_SHORT).show();
+        refreshView();
+    }
+
+    public void refreshView() {
+        orderNoET.setText("");
+        customerIdET.setText("");
+        customerNameET.setText("");
+        orderSumET.setText("");
+        addressET.setText("");
+        postAddressET.setText("");
     }
 
     /**

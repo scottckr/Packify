@@ -98,6 +98,15 @@
             android:layout_alignParentBottom="true">
 
             <Button
+                android:id="@+id/btn_edit_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btn_edit_order"
+                android:onClick="editOrder"
+                android:background="@drawable/button_style"/>
+
+            <Button
                 android:id="@+id/btn_submit_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

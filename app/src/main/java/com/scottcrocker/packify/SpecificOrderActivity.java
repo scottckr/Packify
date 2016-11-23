@@ -49,6 +49,8 @@ public class SpecificOrderActivity extends AppCompatActivity {
     Button btnDeliverOrder;
     TextView deliveredByTv;
     String deliveredByStr;
+    TextView postAddressTv;
+    String postAddressStr;
     User user;
     int currentUserId;
 
@@ -169,6 +171,10 @@ public class SpecificOrderActivity extends AppCompatActivity {
         addressTv = (TextView) findViewById(R.id.address);
         addressStr = getString(R.string.address) + " " + specificOrder.getAddress();
         addressTv.setText(addressStr);
+
+        postAddressTv = (TextView) findViewById(R.id.post_address);
+        postAddressStr = getString(R.string.post_address) + " " + specificOrder.getPostAddress();
+        postAddressTv.setText(postAddressStr);
 
         if (specificOrder.getIsDelivered()) {
             deliveryDateTv = (TextView) findViewById(R.id.delivery_date);
