@@ -38,6 +38,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
+        int amountOfOrders = Integer.parseInt(sharedPreferences.getString("seekBarValue", "30"));
 
         user = MainActivity.db.getUser(currentUserId);
 
@@ -46,7 +47,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
 
         List<Order> undeliveredOrders = new ArrayList<>();
 
-        for (int i = 0; i < allOrders.size(); i++) {
+        for (int i = 0; i < amountOfOrders; i++) {
             if (!allOrders.get(i).getIsDelivered()) {
                 undeliveredOrders.add(allOrders.get(i));
             }
