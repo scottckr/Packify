@@ -207,9 +207,9 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         switch (fieldName) {
             case "Användar ID":
-                if (input.matches("\\d*")) {
-                    Log.d(TAG, "Input for " + fieldName + " is valid");
-                } else if (input.equals("")) {
+                if (input.matches("^\\d{1,9}$")){
+                    Log.d(TAG, "Input for "+fieldName+" is valid");
+                }else if(input.equals("")){
                     isValidInput = false;
                     Toast.makeText(getApplicationContext(), fieldName + " är tom", Toast.LENGTH_SHORT).show();
                 } else {

@@ -226,7 +226,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * @param fieldName - The name of current field.
      */
     public void validateInput(String input, String fieldName){
-        if (input.matches("\\d*")){
+        if (input.matches("^\\d{1,9}$")){
             Log.d(TAG, "Input for "+fieldName+" is valid");
         }else if(input.equals("")){
             isValidInput = false;
