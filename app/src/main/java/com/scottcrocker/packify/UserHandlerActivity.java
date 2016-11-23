@@ -84,7 +84,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         user = (User) parent.getItemAtPosition(position);
         // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "You selected: " + user.toString(),
+        Toast.makeText(parent.getContext(), "You selected: " + user,
                 Toast.LENGTH_LONG).show();
 
         populateInputFields();
@@ -179,7 +179,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         });
 
 
-        if(isValidInput){
+        if (isValidInput) {
             User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, Integer.parseInt(newUserPhoneNr), toggle.isChecked());
             MainActivity.db.addUser(user);
             Toast.makeText(getApplicationContext(), "Användare sparad", Toast.LENGTH_SHORT).show();
@@ -209,31 +209,32 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
     /**
      * Validates the input from user. Sends a toast if userinput is not valid.
-     * @param input - Users input value.
+     *
+     * @param input     - Users input value.
      * @param fieldName - The name of current field.
      */
-    public void validateInput(String input, String fieldName){
+    public void validateInput(String input, String fieldName) {
 
-        switch(fieldName){
+        switch (fieldName) {
             case "Användar ID":
-                if (input.matches("\\d*")){
-                    Log.d(TAG, "Input for "+fieldName+" is valid");
-                }else if(input.equals("")){
+                if (input.matches("\\d*")) {
+                    Log.d(TAG, "Input for " + fieldName + " is valid");
+                } else if (input.equals("")) {
                     isValidInput = false;
-                    Toast.makeText(getApplicationContext(), fieldName+" är tom", Toast.LENGTH_SHORT).show();
-                }else{
+                    Toast.makeText(getApplicationContext(), fieldName + " är tom", Toast.LENGTH_SHORT).show();
+                } else {
                     isValidInput = false;
-                    Toast.makeText(getApplicationContext(), fieldName+" måste bestå av siffror!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), fieldName + " måste bestå av siffror!", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
             case "Namn":
-                if(input.equals("")){
+                if (input.equals("")) {
                     isValidInput = false;
-                    Toast.makeText(getApplicationContext(), fieldName+" är tom", Toast.LENGTH_SHORT).show();
-                }else{
+                    Toast.makeText(getApplicationContext(), fieldName + " är tom", Toast.LENGTH_SHORT).show();
+                } else {
                     //intended to accept numbers as user input. Maybe a name can be "Kenny212".
-                    Log.d(TAG, "Input for "+fieldName+" is valid");
+                    Log.d(TAG, "Input for " + fieldName + " is valid");
                 }
                 break;
 
@@ -241,14 +242,14 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
                 break;
 
             case "Telefonnummer":
-                if (input.matches("[0-9]{9,10}")){
-                    Log.d(TAG, "Input for "+fieldName+" is valid");
-                }else if(input.equals("")){
+                if (input.matches("[0-9]{9,10}")) {
+                    Log.d(TAG, "Input for " + fieldName + " is valid");
+                } else if (input.equals("")) {
                     isValidInput = false;
-                    Toast.makeText(getApplicationContext(), fieldName+" är tom", Toast.LENGTH_SHORT).show();
-                }else{
+                    Toast.makeText(getApplicationContext(), fieldName + " är tom", Toast.LENGTH_SHORT).show();
+                } else {
                     isValidInput = false;
-                    Toast.makeText(getApplicationContext(), fieldName+" måste bestå 9-10 av siffror!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), fieldName + " måste bestå 9-10 av siffror!", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

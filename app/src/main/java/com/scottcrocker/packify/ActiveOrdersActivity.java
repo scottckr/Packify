@@ -138,7 +138,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
             }
         }
 
-        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, undeliveredOrders);
+        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.list_item_label, undeliveredOrders);
 
         listView = (ListView) findViewById(R.id.active_orders_listview);
         listView.setAdapter(adapter);

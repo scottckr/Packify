@@ -27,15 +27,15 @@
     <string name="btn_delete_user">Radera</string>
     <string name="login_activity_title">Logga in</string>
     <string name="btn_login_submit">SKICKA</string>
-    <string name="order_number">Ordernummer</string>
-    <string name="customer_id">Kundnummer</string>
-    <string name="order_sum">Ordersumma</string>
-    <string name="address">Adress</string>
-    <string name="btn_deliver_order">Leverera</string>
+    <string name="order_number">Ordernummer:</string>
+    <string name="customer_id">Kundnummer:</string>
+    <string name="order_sum">Ordersumma:</string>
+    <string name="address">Adress:</string>
+    <string name="btn_deliver_order">Levererad</string>
     <string name="btn_open_map">Vägbeskrivning</string>
-    <string name="delivery_date">Levererad</string>
+    <string name="delivery_date">Levererad:</string>
     <string name="toolbar_settings">Inställningar</string>
-    <string name="input_password">Lösenord</string>
+    <string name="input_password">Lösenord:</string>
     <string name="input_userid">Användar-ID:</string>
     <string name="toolbar_update_order">Uppdatera</string>
     <string name="toolbar_admin_userhandler">Användarhantering</string>
@@ -46,7 +46,7 @@
     <string name="toolbar_orderhistory">Orderhistorik</string>
     <string name="toolbar_activeorders">Aktiva ordrar</string>
     <string name="delivered_by">Levererad av:</string>
-    <string name="input_order_post_address">Postadress</string>
+    <string name="input_order_post_address">Postadress:</string>
     <string name="input_customer_name">Hantera kundnamn:</string>
-    <string name="customer_name">Kundnamn</string>
+    <string name="customer_name">Kundnamn:</string>
 </resources>

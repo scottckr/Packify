@@ -125,7 +125,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
             }
         }
 
-        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, deliveredOrders);
+        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.list_item_label, deliveredOrders);
 
         historyListView = (ListView) findViewById(R.id.order_history_listview);
         historyListView.setAdapter(adapter);
