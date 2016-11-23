@@ -1,7 +1,6 @@
 package com.scottcrocker.packify;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,10 +11,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.scottcrocker.packify.model.User;
@@ -32,12 +31,12 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     EditText inputName;
     EditText inputPassword;
     EditText inputPhoneNr;
-    EditText inputUserId;
+    TextView inputUserId;
     boolean isValidInput;
 
     Switch toggle;
 
-    Button addUserBtn;
+    Button saveEditedUserBtn;
     Button deleteUserBtn;
     List<User> users;
     User user;
@@ -53,11 +52,11 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         inputName = (EditText) findViewById(R.id.input_user_name);
         inputPassword = (EditText) findViewById(R.id.input_user_password);
         inputPhoneNr = (EditText) findViewById(R.id.input_user_phone);
-        inputUserId = (EditText) findViewById(R.id.input_user_id);
+        inputUserId = (TextView) findViewById(R.id.input_user_id);
 
         toggle = (Switch) findViewById(R.id.admin_switch);
 
-        addUserBtn = (Button) findViewById(R.id.btn_submit_user);
+        saveEditedUserBtn = (Button) findViewById(R.id.btn_save_existing_user);
         deleteUserBtn = (Button) findViewById(R.id.btn_delete_user);
 
         mSpinner = (Spinner) findViewById(R.id.spinner_user_id);
@@ -95,65 +94,29 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     private void populateInputFields() {
 
         inputName.setText(user.getName());
-        inputUserId.setText(String.valueOf(user.getId()));
+        inputUserId.setText("ID:"+String.valueOf(user.getId()));
         inputPassword.setText(user.getPassword());
         inputPhoneNr.setText(String.valueOf(user.getTelephone()));
-
         toggle.setChecked(user.getIsAdmin());
 
     }
+    public void saveEditedUser(View view) {
 
-
-    public void onNothingSelected(AdapterView<?> arg0) {
-        // TODO Auto-generated method stub
+        user.setName(String.valueOf(inputName.getText()));
+        user.setPassword(String.valueOf(inputPassword.getText()));
+        user.setTelephone(Integer.parseInt(String.valueOf(inputPhoneNr.getText())));
+        user.setIsAdmin(toggle.isChecked());
+        db.editUser(user);
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        menu.getItem(0).setVisible(false);
-        menu.getItem(4).setVisible(false);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()) {
-
-            case R.id.toolbar_settings:
-                intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.toolbar_admin_orderhandler:
-                intent = new Intent(this, OrderHandlerActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.toolbar_activeorders:
-                intent = new Intent(this, ActiveOrdersActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.toolbar_orderhistory:
-                intent = new Intent(this, OrderHistoryActivity.class);
-                startActivity(intent);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-
-        }
-    }
 
     /**
      * Method to create a new user object, or handle an existing user object which will be sent to DB
      *
      * @param view
      */
-    // TODO: create new object containing user information, send to database
+    // TODO: create new object containing user information in a new popup window, send to database
     public void addUser(View view) {
         isValidInput = true;
         String newUsername = String.valueOf(inputName.getText());
@@ -172,7 +135,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         if (isValidInput && !MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
             User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, Integer.parseInt(newUserPhoneNr), toggle.isChecked());
             MainActivity.db.addUser(user);
-            Toast.makeText(getApplicationContext(), "Användare sparad", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Användare tillagd", Toast.LENGTH_SHORT).show();
             finish();
             startActivity(getIntent());
         } else if (MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
@@ -244,5 +207,51 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
                 break;
         }
 
+    }
+
+
+
+    public void onNothingSelected(AdapterView<?> arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        menu.getItem(0).setVisible(false);
+        menu.getItem(4).setVisible(false);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+
+            case R.id.toolbar_settings:
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.toolbar_admin_orderhandler:
+                intent = new Intent(this, OrderHandlerActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.toolbar_activeorders:
+                intent = new Intent(this, ActiveOrdersActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.toolbar_orderhistory:
+                intent = new Intent(this, OrderHistoryActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 }

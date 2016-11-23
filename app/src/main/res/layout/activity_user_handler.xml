@@ -44,11 +44,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <EditText
+    <TextView
         android:id="@+id/input_user_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:text="ID:"
         android:inputType="number"
         android:paddingBottom="5dp"
         android:hint="@string/input_user_id"/>
@@ -93,15 +94,16 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true" >
+    android:layout_alignParentBottom="true"
+    android:id="@+id/linearLayout">
 
     <Button
-        android:id="@+id/btn_submit_user"
+        android:id="@+id/btn_save_existing_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/btn_submit_user"
-        android:onClick="addUser"
+        android:onClick="saveEditedUser"
         android:background="@drawable/button_style"/>
 
     <Button
@@ -113,7 +115,17 @@
         android:onClick="deleteUser"
         android:background="@drawable/button_style"/>
 </LinearLayout>
-        </RelativeLayout>
+
+        <Button
+            android:text="@string/add_new_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/linearLayout"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/btn_add_new_user"
+            android:onClick="addUser"/>
+    </RelativeLayout>
 
 
 </LinearLayout>
