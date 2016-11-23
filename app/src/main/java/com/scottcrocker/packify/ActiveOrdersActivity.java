@@ -29,6 +29,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     ListView listView;
     User user;
     int currentUserId;
+    int amountOfOrdersDisplayed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +39,23 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
-
+        int amountOfOrders = Integer.parseInt(sharedPreferences.getString("seekBarValue", "30"));
         user = MainActivity.db.getUser(currentUserId);
 
         List<Order> undeliveredOrders = new ArrayList<>();
 
-        for (int i = 0; i < MainActivity.db.getAllOrders().size(); i++) {
+        if (amountOfOrders > MainActivity.db.getAllOrders().size()) {
+            amountOfOrdersDisplayed = MainActivity.db.getAllOrders().size();
+        } else {
+            amountOfOrdersDisplayed = amountOfOrders;
+        }
+
+        for (int i = 0; i < amountOfOrdersDisplayed; i++) {
             if (!MainActivity.db.getAllOrders().get(i).getIsDelivered()) {
                 undeliveredOrders.add(MainActivity.db.getAllOrders().get(i));
             }
         }
+
 
         final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.list_item_label, undeliveredOrders);
 

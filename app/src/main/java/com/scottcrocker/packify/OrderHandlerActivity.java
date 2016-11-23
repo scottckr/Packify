@@ -1,6 +1,7 @@
 package com.scottcrocker.packify;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,8 @@ import com.scottcrocker.packify.model.User;
 
 import java.util.List;
 
+import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
+
 public class OrderHandlerActivity extends AppCompatActivity {
 
     private static final String TAG = "OrderHandlerActivity";
@@ -31,6 +34,8 @@ public class OrderHandlerActivity extends AppCompatActivity {
     EditText postAddressET;
     boolean isValidInput;
     User user;
+    SharedPreferences sharedPreferences;
+    int currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +92,9 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
     public void addOrder(View view) {
 
+        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        currentUserId = sharedPreferences.getInt("USERID", -1);
+
         isValidInput = true;
         orderNoET = (EditText) findViewById(R.id.input_order_number);
         String orderNo = orderNoET.getText().toString();
@@ -106,7 +114,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
         String address = addressET.getText().toString() + ", " + postAddressET.getText().toString();
 
         if(isValidInput) {
-            Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId), address, Integer.parseInt(orderSum), "---", false, user.getId(),MainActivity.gps.getLongitude(address), MainActivity.gps.getLatitude(address));
+            Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId), address, Integer.parseInt(orderSum), "---", false, MainActivity.db.getUser(currentUserId).getId(),MainActivity.gps.getLongitude(address), MainActivity.gps.getLatitude(address));
 
             MainActivity.db.addOrder(order);
             Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
@@ -138,7 +146,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * @param fieldName - The name of current field.
      */
     public void validateInput(String input, String fieldName){
-        if (input.matches("\\d")){
+        if (input.matches("\\d*")){
             Log.d(TAG, "Input for "+fieldName+" is valid");
         }else if(input.equals("")){
             isValidInput = false;
