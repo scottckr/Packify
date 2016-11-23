@@ -22,12 +22,17 @@ public class SettingsActivity extends AppCompatActivity {
 
     private static final String TAG = "SettingsActivity";
     private SeekBar seekBar;
+    private int seekBarMax = 30;
+    private int seekBarMin = 10;
+    private int seekBarStep = 1;
     private TextView valueOfSeekBar;
     private EditText phoneNumber;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     User user;
     int currentUserId;
+
+
 
 
     @Override
@@ -45,6 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
         phoneNumber = (EditText)findViewById(R.id.sms_number);
 
         loadSavedSettings();
+        seekBar.setMax((seekBarMax-seekBarMin)/seekBarStep);
         onSeekBarChanges();
     }
 
@@ -97,6 +103,8 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+
+
     /**
      * onSeekBarChanges senses when you change the value and displays it in textview field above the bar.
      */
@@ -105,7 +113,8 @@ public class SettingsActivity extends AppCompatActivity {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                valueOfSeekBar.setText(String.valueOf(progress));
+                int value = seekBarMin + (progress * seekBarStep);
+                valueOfSeekBar.setText(String.valueOf(value));
             }
 
             @Override
@@ -145,12 +154,13 @@ public class SettingsActivity extends AppCompatActivity {
      */
     public void loadSavedSettings(){
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
-        String sharedSeekBarValue = sharedPreferences.getString("seekBarValue", "0");
+        String sharedSeekBarValue = sharedPreferences.getString("seekBarValue", "10");
         String sharedPhoneNumber = sharedPreferences.getString("number", "");
 
         phoneNumber.setText(sharedPhoneNumber);
-        seekBar.setProgress(Integer.parseInt(sharedSeekBarValue));
-        valueOfSeekBar.setText(sharedSeekBarValue.toString());
+        seekBar.setProgress((Integer.parseInt(sharedSeekBarValue)-seekBarMin));
+        valueOfSeekBar.setText((sharedSeekBarValue).toString());
+
 
     }
 
