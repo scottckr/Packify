@@ -28,8 +28,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String orderSql = "CREATE TABLE Orders (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "orderNo INTEGER NOT NULL, customerNo INTEGER NOT NULL, customerName TEXT NOT NULL, " +
-                "address TEXT NOT NULL, " +
-                "orderSum INTEGER NOT NULL, deliveryDate TEXT NOT NULL, " +
+                "address TEXT NOT NULL, orderSum INTEGER NOT NULL, deliveryDate TEXT NOT NULL, " +
                 "isDelivered INTEGER NOT NULL, deliveredBy INTEGER NOT NULL, " +
                 "longitude REAL NOT NULL, latitude REAL NOT NULL);";
         String userSql = "CREATE TABLE Users (id INTEGER PRIMARY KEY AUTOINCREMENT, " +

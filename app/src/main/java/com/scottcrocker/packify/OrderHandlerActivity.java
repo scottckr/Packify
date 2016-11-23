@@ -34,7 +34,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
     EditText addressET;
     EditText postAddressET;
     boolean isValidInput;
-    User user;
     SharedPreferences sharedPreferences;
     int currentUserId;
 

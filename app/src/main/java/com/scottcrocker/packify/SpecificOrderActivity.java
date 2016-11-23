@@ -163,7 +163,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
         customerNameTv.setText(customerNameStr);
 
         orderSumTv = (TextView) findViewById(R.id.order_sum);
-        orderSumStr = getString(R.string.order_sum) + " " + specificOrder.getOrderSum();
+        orderSumStr = getString(R.string.order_sum) + " " + specificOrder.getOrderSum() + " SEK";
         orderSumTv.setText(orderSumStr);
 
         addressTv = (TextView) findViewById(R.id.address);
@@ -177,7 +177,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
             deliveryDateTv.setVisibility(View.VISIBLE);
 
             deliveredByTv = (TextView) findViewById(R.id.delivered_by);
-            deliveredByStr = getString(R.string.delivered_by) + " " + specificOrder.getDeliveredBy();
+            deliveredByStr = getString(R.string.delivered_by) + " " + specificOrder.getDeliveredBy() + ", " + MainActivity.db.getUser(specificOrder.getDeliveredBy()).getName();
             deliveredByTv.setText(deliveredByStr);
             deliveredByTv.setVisibility(View.VISIBLE);
 
