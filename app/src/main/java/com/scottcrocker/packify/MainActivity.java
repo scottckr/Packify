@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         gps = new GPSHelper(this);
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
 
+
         if (sharedPreferences.getBoolean("isLoggedIn", false)) {
             Intent intent = new Intent(this, ActiveOrdersActivity.class);
             startActivity(intent);
