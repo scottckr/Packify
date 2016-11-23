@@ -43,6 +43,43 @@ public class OrderHandlerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_handler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        orderNoET = (EditText) findViewById(R.id.input_order_number);
+        customerIdET = (EditText) findViewById(R.id.input_customer_id);
+        customerNameET = (EditText) findViewById(R.id.input_customer_name);
+        orderSumET = (EditText) findViewById(R.id.input_order_sum);
+        addressET = (EditText) findViewById(R.id.input_order_address);
+        postAddressET = (EditText) findViewById(R.id.input_order_post_address);
+        orderNoET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (MainActivity.db.doesFieldExist("Orders", "orderNo", editable.toString())) {
+                    String customerIdStr = String.valueOf(MainActivity.db.getOrder(Integer.parseInt(editable.toString())).getCustomerNo());
+                    customerIdET.setText(customerIdStr);
+
+                    String customerNameStr = String.valueOf(MainActivity.db.getOrder(Integer.parseInt(editable.toString())).getCustomerName());
+                    customerNameET.setText(customerNameStr);
+
+                    String orderSumStr = String.valueOf(MainActivity.db.getOrder(Integer.parseInt(editable.toString())).getOrderSum());
+                    orderSumET.setText(orderSumStr);
+
+                    String addressStr = String.valueOf(MainActivity.db.getOrder(Integer.parseInt(editable.toString())).getAddress());
+                    addressET.setText(addressStr);
+
+                    String postAddressStr = String.valueOf(MainActivity.db.getOrder(Integer.parseInt(editable.toString())).getAddress());
+                    postAddressET.setText(postAddressStr);
+                }
+            }
+        });
     }
 
     @Override
@@ -115,11 +152,13 @@ public class OrderHandlerActivity extends AppCompatActivity {
         postAddressET = (EditText) findViewById(R.id.input_order_post_address);
         String address = addressET.getText().toString() + ", " + postAddressET.getText().toString();
 
-        if(isValidInput) {
+        if(isValidInput && !MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
             Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId), customerName, address, Integer.parseInt(orderSum), "---", false, MainActivity.db.getUser(currentUserId).getId(),MainActivity.gps.getLongitude(address), MainActivity.gps.getLatitude(address));
 
             MainActivity.db.addOrder(order);
             Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
+        } else if(MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
+            Toast.makeText(getApplicationContext(), "Ordernumret finns redan!", Toast.LENGTH_LONG).show();
         }
         //Log.d("DATABASE", "Order: " + MainActivity.db.getOrder(order.getOrderNo()).getDeliveryDate());
 

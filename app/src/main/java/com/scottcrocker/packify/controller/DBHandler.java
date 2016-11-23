@@ -270,4 +270,17 @@ public class DBHandler extends SQLiteOpenHelper {
         db.delete("Users", "userId = ?", new String[]{String.valueOf(user.getId())});
         db.close();
     }
+
+    public boolean doesFieldExist(String tableName, String fieldName, String input) {
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "SELECT * FROM " + tableName + " WHERE " + fieldName + " = " + input;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.getCount() <= 0) {
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        return true;
+    }
 }

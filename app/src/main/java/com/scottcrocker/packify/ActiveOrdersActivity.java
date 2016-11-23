@@ -120,7 +120,6 @@ public class ActiveOrdersActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
 
-
             default:
                 return super.onOptionsItemSelected(item);
 

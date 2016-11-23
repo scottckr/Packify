@@ -1,6 +1,7 @@
 package com.scottcrocker.packify;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -167,27 +168,16 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         String newUserId = inputUserId.getText().toString();
         validateInput(newUserId, "Användar ID");
 
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
 
-                    // The toggle is enabled
-                } else {
-
-                }
-            }
-        });
-
-
-        if (isValidInput) {
+        if (isValidInput && !MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
             User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, Integer.parseInt(newUserPhoneNr), toggle.isChecked());
             MainActivity.db.addUser(user);
             Toast.makeText(getApplicationContext(), "Användare sparad", Toast.LENGTH_SHORT).show();
             finish();
             startActivity(getIntent());
+        } else if (MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
+            Toast.makeText(getApplicationContext(), "Användar-ID finns redan!", Toast.LENGTH_LONG).show();
         }
-
-
     }
 
     /**
