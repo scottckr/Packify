@@ -7,7 +7,7 @@ package com.scottcrocker.packify.model;
 public class Order {
     private String address;
     private int orderSum;
-    private static int orderNo;
+    private int orderNo;
     private boolean isDelivered;
     private String deliveryDate;
     private double latitude;

@@ -103,7 +103,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
         addressET = (EditText) findViewById(R.id.input_order_address);
         postAddressET = (EditText) findViewById(R.id.input_order_post_address);
-        String address = addressET.getText().toString()+", "+postAddressET.getText().toString();
+        String address = addressET.getText().toString() + ", " + postAddressET.getText().toString();
 
         if(isValidInput) {
             Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId), address, Integer.parseInt(orderSum), "---", false, user.getId(),MainActivity.gps.getLongitude(address), MainActivity.gps.getLatitude(address));

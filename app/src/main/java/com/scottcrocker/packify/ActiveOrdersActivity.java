@@ -41,20 +41,17 @@ public class ActiveOrdersActivity extends AppCompatActivity {
 
         user = MainActivity.db.getUser(currentUserId);
 
-
-        List<Order> allOrders = MainActivity.db.getAllOrders();
-
         List<Order> undeliveredOrders = new ArrayList<>();
 
-        for (int i = 0; i < allOrders.size(); i++) {
-            if (!allOrders.get(i).getIsDelivered()) {
-                undeliveredOrders.add(allOrders.get(i));
+        for (int i = 0; i < MainActivity.db.getAllOrders().size(); i++) {
+            if (!MainActivity.db.getAllOrders().get(i).getIsDelivered()) {
+                undeliveredOrders.add(MainActivity.db.getAllOrders().get(i));
             }
         }
 
-        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, undeliveredOrders);
+        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.list_item_label, undeliveredOrders);
 
-        listView = (ListView)findViewById(R.id.active_orders_listview);
+        listView = (ListView) findViewById(R.id.active_orders_listview);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -73,7 +70,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         menu.getItem(2).setVisible(false);
 
-        Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " );
+        Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " + user.getIsAdmin());
         if (user.getIsAdmin()) {
             Log.d(TAG, "Showing admin choices in toolbar menu");
 
@@ -135,7 +132,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
 
         final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, undeliveredOrders);
 
-        listView = (ListView)findViewById(R.id.active_orders_listview);
+        listView = (ListView) findViewById(R.id.active_orders_listview);
         listView.setAdapter(adapter);
         Log.d(TAG, "ListView refreshed");
     }

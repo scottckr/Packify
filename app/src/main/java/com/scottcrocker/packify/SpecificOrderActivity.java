@@ -131,6 +131,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
 
         specificOrder.setIsDelivered(true);
         specificOrder.setDeliveryDate(currentDate);
+        specificOrder.setDeliveredBy(currentUserId);
 
         MainActivity.db.editOrder(specificOrder);
         sendSms();
@@ -166,16 +167,18 @@ public class SpecificOrderActivity extends AppCompatActivity {
         if (specificOrder.getIsDelivered()) {
             deliveryDateTv = (TextView) findViewById(R.id.delivery_date);
             deliveryDateStr = getString(R.string.delivery_date) + " " + specificOrder.getDeliveryDate();
+            deliveryDateTv.setVisibility(View.VISIBLE);
             deliveryDateTv.setText(deliveryDateStr);
 
             deliveredByTv = (TextView) findViewById(R.id.delivered_by);
+            deliveredByTv.setVisibility(View.VISIBLE);
 
             btnDeliverOrder = (Button) findViewById(R.id.btn_deliver_order);
             btnDeliverOrder.setEnabled(false);
         } else {
             deliveredByTv = (TextView) findViewById(R.id.delivered_by);
             //Waiting for method to be done at dbhandler....
-            //deliveredByStr = getString(R.string.delivered_by) + " " + specificOrder.getDeliveredBy();
+            deliveredByStr = getString(R.string.delivered_by) + " " + specificOrder.getDeliveredBy();
 
             deliveryDateTv = (TextView) findViewById(R.id.delivery_date);
             deliveryDateTv.setVisibility(View.INVISIBLE);

@@ -65,10 +65,7 @@
                 android:inputType="number"
                 android:paddingBottom="5dp"
                 android:hint="@string/input_order_sum"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/input_order_address"
                 android:layout_width="match_parent"
@@ -84,7 +81,6 @@
                 android:layout_weight="1"
                 android:paddingBottom="5dp"
                 android:hint="@string/input_order_post_address"/>
-            </LinearLayout>
 
         </LinearLayout>
 

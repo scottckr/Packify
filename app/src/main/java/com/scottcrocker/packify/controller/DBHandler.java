@@ -108,7 +108,9 @@ public class DBHandler extends SQLiteOpenHelper {
         cvs.put("longitude", order.getLongitude());
         cvs.put("latitude", order.getLatitude());
 
-        return db.update("Orders", cvs, "id" + " = ?", new String[]{String.valueOf(order.getOrderNo())});
+        Log.d("DATABASE", "Order updated: " + cvs);
+
+        return db.update("Orders", cvs, "orderNo" + " = ?", new String[]{String.valueOf(order.getOrderNo())});
     }
 
     public int editUser(User user) {
@@ -121,7 +123,7 @@ public class DBHandler extends SQLiteOpenHelper {
         cvs.put("telephone", user.getTelephone());
         cvs.put("isAdmin", user.getIsAdmin());
 
-        return db.update("Users", cvs, "id" + " = ?", new String[]{String.valueOf(user.getId())});
+        return db.update("Users", cvs, "userId" + " = ?", new String[]{String.valueOf(user.getId())});
     }
 
     public Order getOrder(int orderNo) {
