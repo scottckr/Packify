@@ -49,4 +49,6 @@
     <string name="input_order_post_address">Postadress:</string>
     <string name="input_customer_name">Hantera kundnamn:</string>
     <string name="customer_name">Kundnamn:</string>
+    <string name="drawer_open">Öppna sidomeny</string>
+    <string name="drawer_close">Stäng sidomeny</string>
 </resources>

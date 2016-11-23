@@ -13,6 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <include
+        layout="@layout/navigation_drawer" />
+
 
     <RelativeLayout
         android:layout_height="match_parent"

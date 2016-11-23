@@ -3,6 +3,8 @@ package com.scottcrocker.packify;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
@@ -30,6 +33,14 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     User user;
     int currentUserId;
     int amountOfOrdersDisplayed;
+
+    //Navigation Drawers variables
+    private ListView mDrawerList;
+    private ArrayAdapter<String> mAdapter;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private String mActivityTitle;
+    //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +82,19 @@ public class ActiveOrdersActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // Navigation Drawer stuff
+        mDrawerList = (ListView)findViewById(R.id.navList);
+        addDrawerItems();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mActivityTitle = getTitle().toString();
+        setupDrawer();
+        //
+
     }
 
     @Override
@@ -94,7 +118,12 @@ public class ActiveOrdersActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         Intent intent;
+
         switch (item.getItemId()) {
             case R.id.toolbar_update_order:
                 refreshView();
@@ -120,11 +149,55 @@ public class ActiveOrdersActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
 
-
             default:
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+
+    private void addDrawerItems() {
+        String[] itemList = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, itemList);
+        mDrawerList.setAdapter(mAdapter);
+
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(ActiveOrdersActivity.this, "You clicked something" , Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void setupDrawer() {
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.string.drawer_open, R.string.drawer_close) {
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle("Meny");
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getSupportActionBar().setTitle(mActivityTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
 
     //TODO Check if method works
