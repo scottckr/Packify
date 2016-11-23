@@ -29,6 +29,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
     private static final String TAG = "OrderHandlerActivity";
     EditText orderNoET;
     EditText customerIdET;
+    EditText customerNameET;
     EditText orderSumET;
     EditText addressET;
     EditText postAddressET;
@@ -104,6 +105,8 @@ public class OrderHandlerActivity extends AppCompatActivity {
         String customerId = customerIdET.getText().toString();
         validateInput(customerId, "Kundnummer");
 
+        customerNameET = (EditText) findViewById(R.id.input_customer_name);
+        String customerName = customerNameET.getText().toString();
 
         orderSumET = (EditText) findViewById(R.id.input_order_sum);
         String orderSum = orderSumET.getText().toString();
@@ -114,7 +117,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
         String address = addressET.getText().toString() + ", " + postAddressET.getText().toString();
 
         if(isValidInput) {
-            Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId), address, Integer.parseInt(orderSum), "---", false, MainActivity.db.getUser(currentUserId).getId(),MainActivity.gps.getLongitude(address), MainActivity.gps.getLatitude(address));
+            Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId), customerName, address, Integer.parseInt(orderSum), "---", false, MainActivity.db.getUser(currentUserId).getId(),MainActivity.gps.getLongitude(address), MainActivity.gps.getLatitude(address));
 
             MainActivity.db.addOrder(order);
             Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();

@@ -14,14 +14,16 @@ public class Order {
     private double longitude;
     private int customerNo;
     private int deliveredBy;
+    private String customerName;
 
     public Order() {
     }
 
-    public Order(int orderNo, int customerNo, String address, int orderSum,
+    public Order(int orderNo, int customerNo, String customerName, String address, int orderSum,
                  String deliveryDate, boolean isDelivered, int deliveredBy, double longitude, double latitude) {
         this.orderNo = orderNo;
         this.address = address;
+        this.customerName = customerName;
         this.orderSum = orderSum;
         this.isDelivered = isDelivered;
         this.deliveryDate = deliveryDate;
@@ -32,7 +34,7 @@ public class Order {
     }
 
     public String toString() {
-        return "Order number: " + orderNo;
+        return "Order number: " + orderNo + ", name: " + customerName;
     }
 
     public int getCustomerNo() {
@@ -105,5 +107,13 @@ public class Order {
 
     public int getDeliveredBy() {
         return deliveredBy;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getCustomerName() {
+        return customerName;
     }
 }

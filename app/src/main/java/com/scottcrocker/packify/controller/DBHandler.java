@@ -21,21 +21,24 @@ import java.util.List;
 public class DBHandler extends SQLiteOpenHelper {
 
     public DBHandler(Context context) {
-        super(context, "PackifyDB", null, 4);
+        super(context, "PackifyDB", null, 9);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         String orderSql = "CREATE TABLE Orders (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "orderNo INTEGER NOT NULL, customerNo INTEGER NOT NULL, address TEXT NOT NULL, " +
+                "orderNo INTEGER NOT NULL, customerNo INTEGER NOT NULL, customerName TEXT NOT NULL, " +
+                "address TEXT NOT NULL, " +
                 "orderSum INTEGER NOT NULL, deliveryDate TEXT NOT NULL, " +
                 "isDelivered INTEGER NOT NULL, deliveredBy INTEGER NOT NULL, " +
                 "longitude REAL NOT NULL, latitude REAL NOT NULL);";
         String userSql = "CREATE TABLE Users (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "userId INTEGER NOT NULL, password TEXT NOT NULL, name TEXT NOT NULL, " +
                 "telephone INTEGER NOT NULL, isAdmin INTEGER NOT NULL);";
+        String createAdminSql = "INSERT INTO Users VALUES (1, 0, 'admin', 'ADMIN', '0', 1)";
         db.execSQL(orderSql);
         db.execSQL(userSql);
+        db.execSQL(createAdminSql);
     }
 
     @Override
@@ -54,6 +57,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues cvs = new ContentValues();
         cvs.put("orderNo", order.getOrderNo());
         cvs.put("customerNo", order.getCustomerNo());
+        cvs.put("customerName", order.getCustomerName());
         cvs.put("address", order.getAddress());
         cvs.put("orderSum", order.getOrderSum());
         cvs.put("deliveryDate", order.getDeliveryDate());
@@ -100,6 +104,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues cvs = new ContentValues();
         cvs.put("orderNo", order.getOrderNo());
         cvs.put("customerNo", order.getCustomerNo());
+        cvs.put("customerName", order.getCustomerName());
         cvs.put("address", order.getAddress());
         cvs.put("orderSum", order.getOrderSum());
         cvs.put("deliveryDate", order.getDeliveryDate());
@@ -139,18 +144,19 @@ public class DBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             order.setOrderNo(cursor.getInt(1));
             order.setCustomerNo(cursor.getInt(2));
-            order.setAddress(cursor.getString(3));
-            order.setOrderSum(cursor.getInt(4));
-            order.setDeliveryDate(cursor.getString(5));
-            if (cursor.getInt(6) == 1) {
+            order.setCustomerName(cursor.getString(3));
+            order.setAddress(cursor.getString(4));
+            order.setOrderSum(cursor.getInt(5));
+            order.setDeliveryDate(cursor.getString(6));
+            if (cursor.getInt(7) == 1) {
                 isDeliveredBool = true;
             } else {
                 isDeliveredBool = false;
             }
             order.setIsDelivered(isDeliveredBool);
-            order.setDeliveredBy(cursor.getInt(7));
-            order.setLongitude(cursor.getDouble(8));
-            order.setLatitude(cursor.getDouble(9));
+            order.setDeliveredBy(cursor.getInt(8));
+            order.setLongitude(cursor.getDouble(9));
+            order.setLatitude(cursor.getDouble(10));
             cursor.close();
         } else {
             order = null;
@@ -200,17 +206,18 @@ public class DBHandler extends SQLiteOpenHelper {
                 Order order = new Order();
                 order.setOrderNo(cursor.getInt(1));
                 order.setCustomerNo(cursor.getInt(2));
-                order.setAddress(cursor.getString(3));
-                order.setOrderSum(cursor.getInt(4));
-                order.setDeliveryDate(cursor.getString(5));
-                if (cursor.getInt(6) == 1) {
+                order.setCustomerName(cursor.getString(3));
+                order.setAddress(cursor.getString(4));
+                order.setOrderSum(cursor.getInt(5));
+                order.setDeliveryDate(cursor.getString(6));
+                if (cursor.getInt(7) == 1) {
                     order.setIsDelivered(true);
                 } else {
                     order.setIsDelivered(false);
                 }
-                order.setDeliveredBy(cursor.getInt(7));
-                order.setLongitude(cursor.getDouble(8));
-                order.setLatitude(cursor.getDouble(9));
+                order.setDeliveredBy(cursor.getInt(8));
+                order.setLongitude(cursor.getDouble(9));
+                order.setLatitude(cursor.getDouble(10));
 
                 allOrders.add(order);
             } while (cursor.moveToNext());

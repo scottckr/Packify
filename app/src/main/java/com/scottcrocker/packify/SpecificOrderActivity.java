@@ -38,6 +38,8 @@ public class SpecificOrderActivity extends AppCompatActivity {
     String orderNumStr;
     TextView customerIdTv;
     String customerIdStr;
+    TextView customerNameTv;
+    String customerNameStr;
     TextView orderSumTv;
     String orderSumStr;
     TextView addressTv;
@@ -155,6 +157,10 @@ public class SpecificOrderActivity extends AppCompatActivity {
         customerIdTv = (TextView) findViewById(R.id.customer_id);
         customerIdStr = getString(R.string.customer_id) + " " + specificOrder.getCustomerNo();
         customerIdTv.setText(customerIdStr);
+
+        customerNameTv = (TextView) findViewById(R.id.customer_name);
+        customerNameStr = getString(R.string.customer_name) + " " + specificOrder.getCustomerName();
+        customerNameTv.setText(customerNameStr);
 
         orderSumTv = (TextView) findViewById(R.id.order_sum);
         orderSumStr = getString(R.string.order_sum) + " " + specificOrder.getOrderSum();

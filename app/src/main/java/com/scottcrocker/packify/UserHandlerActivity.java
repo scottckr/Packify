@@ -21,6 +21,7 @@ import com.scottcrocker.packify.model.User;
 
 import java.util.List;
 
+import static com.scottcrocker.packify.MainActivity.currentUserId;
 import static com.scottcrocker.packify.MainActivity.db;
 
 public class UserHandlerActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -196,10 +197,13 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
      */
     // TODO: method shall delete user information in database
     public void deleteUser(View view) {
-
-        db.deleteUser(user);
-        Toast.makeText(this, user.getName().toString() + " deleted.", Toast.LENGTH_SHORT).show();
-
+        Log.d("DELETEUSER", "" + user);
+        if (user.getId() != currentUserId || user.getId() != 0) {
+            db.deleteUser(user);
+            Toast.makeText(this, user.getName() + " deleted.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "You cannot delete yourself or the main admin account!", Toast.LENGTH_LONG).show();
+        }
     }
 
 
