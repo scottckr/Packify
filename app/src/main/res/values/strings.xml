@@ -53,4 +53,5 @@
     <string name="post_address">Postadress:</string>
     <string name="drawer_open">Öppna sidomeny</string>
     <string name="drawer_close">Stäng sidomeny</string>
+    <string name="add_new_user">Lägg till ny användare</string>
 </resources>
