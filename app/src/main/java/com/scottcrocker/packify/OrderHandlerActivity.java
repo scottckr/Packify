@@ -144,7 +144,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * @param view
      */
     // TO-DO: create new object containing order information, send to database
-
     public void addOrder(View view) {
 
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
@@ -226,7 +225,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * @param fieldName - The name of current field.
      */
     public void validateInput(String input, String fieldName){
-        if (input.matches("\\d*")){
+        if (input.matches("^\\d{1,9}$")){
             Log.d(TAG, "Input for "+fieldName+" is valid");
         }else if(input.equals("")){
             isValidInput = false;

@@ -45,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:inputType="number"
+                android:maxLength="9"
                 android:paddingBottom="5dp"
                 android:hint="@string/input_order_number"/>
 
@@ -62,6 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:inputType="number"
+                android:maxLength="9"
                 android:paddingBottom="5dp"
                 android:hint="@string/input_customer_id"/>
 
@@ -71,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:inputType="number"
+                android:maxLength="9"
                 android:paddingBottom="5dp"
                 android:hint="@string/input_order_sum"/>
 
