@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.helper.RandomHelper;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
 
@@ -33,6 +34,10 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     User user;
     int currentUserId;
     int amountOfOrdersDisplayed;
+    int amountOfOrders;
+    List<Order> currentListedOrders = new ArrayList<>();
+    List<Order> undeliveredOrders = new ArrayList<>();
+    List<Order> allOrders = new ArrayList<>();
 
     //Navigation Drawers variables
     private ListView mDrawerList;
@@ -50,25 +55,11 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
-        int amountOfOrders = Integer.parseInt(sharedPreferences.getString("seekBarValue", "30"));
+        amountOfOrders = Integer.parseInt(sharedPreferences.getString("seekBarValue", "30"));
         user = MainActivity.db.getUser(currentUserId);
 
-        List<Order> undeliveredOrders = new ArrayList<>();
 
-        if (amountOfOrders > MainActivity.db.getAllOrders().size()) {
-            amountOfOrdersDisplayed = MainActivity.db.getAllOrders().size();
-        } else {
-            amountOfOrdersDisplayed = amountOfOrders;
-        }
-
-        for (int i = 0; i < amountOfOrdersDisplayed; i++) {
-            if (!MainActivity.db.getAllOrders().get(i).getIsDelivered()) {
-                undeliveredOrders.add(MainActivity.db.getAllOrders().get(i));
-            }
-        }
-
-
-        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.list_item_label, undeliveredOrders);
+        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.list_item_label, currentListedOrders);
 
         listView = (ListView) findViewById(R.id.active_orders_listview);
         listView.setAdapter(adapter);
@@ -202,17 +193,45 @@ public class ActiveOrdersActivity extends AppCompatActivity {
 
     //TODO Check if method works
     public void refreshView() {
-        List<Order> allOrders = MainActivity.db.getAllOrders();
-        List<Order> undeliveredOrders = new ArrayList<>();
+        RandomHelper rnd = new RandomHelper();
+        allOrders = MainActivity.db.getAllOrders();
 
-        for (int i = 0; i < allOrders.size(); i++) {
-            if (!allOrders.get(i).getIsDelivered()) {
+        /////////
+        if (amountOfOrders > MainActivity.db.getAllOrders().size()) {
+            amountOfOrdersDisplayed = MainActivity.db.getAllOrders().size();
+        }else if(amountOfOrders > currentListedOrders.size()){
+
+        }else{
+            amountOfOrdersDisplayed = amountOfOrders;
+        }
+
+        for (int i = 0; i < amountOfOrdersDisplayed; i++) {
+            if (!MainActivity.db.getAllOrders().get(i).getIsDelivered()) {
+                undeliveredOrders.add(MainActivity.db.getAllOrders().get(i));
+                currentListedOrders.add(MainActivity.db.getAllOrders().get(i));//nytt
+            }
+        }
+        /////////
+
+
+        for (int i =0; i < allOrders.size(); i++) {
+            if(!allOrders.get(i).getIsDelivered()) {
                 undeliveredOrders.add(allOrders.get(i));
             }
         }
 
-        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.list_item_label, undeliveredOrders);
+        int amountOfNewOrdersNeeded = amountOfOrdersDisplayed - currentListedOrders.size();
+        int rndOrder=0;
+        for(int i = 0; i < amountOfNewOrdersNeeded; i++){
+            rndOrder = rnd.randomNrGenerator(undeliveredOrders.size());
+            if (undeliveredOrders.get(rndOrder).getOrderNo() != currentListedOrders.get(i).getOrderNo()){
+                currentListedOrders.add(undeliveredOrders.get(rndOrder));
+            }else{
+                i--;
+            }
+        }
 
+        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.list_item_label, currentListedOrders);
         listView = (ListView) findViewById(R.id.active_orders_listview);
         listView.setAdapter(adapter);
         Log.d(TAG, "ListView refreshed");

@@ -23,7 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
     private static final String TAG = "SettingsActivity";
     private SeekBar seekBar;
     private int seekBarMax = 30;
-    private int seekBarMin = 10;
+    private int seekBarMin = 5;
     private int seekBarStep = 1;
     private TextView valueOfSeekBar;
     private EditText phoneNumber;

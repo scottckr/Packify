@@ -7,9 +7,8 @@ import java.util.Random;
  */
 public class RandomHelper {
 
-    public int randomNrGenerator(int min, int max){
+    public int randomNrGenerator(int max){
         Random rand = new Random();
-        int randomNr = rand.nextInt(min - max);
-        return randomNr;
+        return rand.nextInt(max);
     }
 }

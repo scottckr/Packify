@@ -144,7 +144,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * @param view
      */
     // TO-DO: create new object containing order information, send to database
-
     public void addOrder(View view) {
 
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
