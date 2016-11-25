@@ -51,4 +51,6 @@
     <string name="customer_name">Kundnamn:</string>
     <string name="btn_edit_order">Spara order</string>
     <string name="post_address">Postadress:</string>
+    <string name="drawer_open">Öppna sidomeny</string>
+    <string name="drawer_close">Stäng sidomeny</string>
 </resources>
