@@ -2,14 +2,12 @@ package com.scottcrocker.packify;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.KeyListener;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,10 +16,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.scottcrocker.packify.model.Order;
-import com.scottcrocker.packify.model.User;
-
-
-import java.util.List;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
