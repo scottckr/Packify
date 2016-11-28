@@ -66,6 +66,16 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         loadSpinnerData();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     private void loadSpinnerData() {
 
         users = db.getAllUsers();
@@ -116,7 +126,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     public void callPopup(View view) {
         Intent intent = new Intent(this, NewUserActivity.class);
         startActivity(intent);
-        finish();
     }
 
 
