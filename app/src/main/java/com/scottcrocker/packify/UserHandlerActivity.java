@@ -114,13 +114,16 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     }
 
     public void saveEditedUser(View view) {
-
-        user.setName(String.valueOf(inputName.getText()));
-        user.setPassword(String.valueOf(inputPassword.getText()));
-        user.setTelephone(Integer.parseInt(String.valueOf(inputPhoneNr.getText())));
-        user.setIsAdmin(toggle.isChecked());
-        db.editUser(user);
-
+        if (user.getId() != 0) {
+            user.setName(String.valueOf(inputName.getText()));
+            user.setPassword(String.valueOf(inputPassword.getText()));
+            user.setTelephone(Integer.parseInt(String.valueOf(inputPhoneNr.getText())));
+            user.setIsAdmin(toggle.isChecked());
+            db.editUser(user);
+        } else {
+            recreate();
+            Toast.makeText(getApplicationContext(), "Du kan inte redigera huvudadminkontot!", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void callPopup(View view) {
