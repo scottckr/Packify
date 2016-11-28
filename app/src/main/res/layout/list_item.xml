@@ -6,12 +6,12 @@
 
     <ImageView
         android:id="@+id/list_item_icon"
-        android:layout_width="37dp"
-        android:layout_height="37dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         android:layout_marginTop="4dp"
         android:src="@drawable/button_style"/>
 
@@ -22,7 +22,7 @@
         android:layout_toEndOf="@+id/list_item_icon"
         android:layout_toRightOf="@+id/list_item_icon"
         android:text="@+id/list_item_label"
-        android:textSize="20sp"/>
+        android:textSize="15sp"/>
 
     <TextView
         android:id="@+id/list_item_label2"
@@ -32,6 +32,6 @@
         android:layout_toRightOf="@+id/list_item_icon"
         android:layout_below="@+id/list_item_label"
         android:text="@+id/list_item_label2"
-        android:textSize="15sp"/>
+        android:textSize="12sp"/>
 
 </RelativeLayout>

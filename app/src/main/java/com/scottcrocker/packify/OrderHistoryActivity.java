@@ -10,9 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.scottcrocker.packify.controller.OrderViewAdapter;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
 
@@ -47,7 +47,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
             }
         }
 
-        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.list_item_label, deliveredOrders);
+        final OrderViewAdapter adapter = new OrderViewAdapter(this, deliveredOrders, R.drawable.parcel_delivered);
 
         historyListView = (ListView) findViewById(R.id.order_history_listview);
         historyListView.setAdapter(adapter);
@@ -116,16 +116,15 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
     //TODO Check if method works
     public void refreshView() {
-        List<Order> allOrders = MainActivity.db.getAllOrders();
         List<Order> deliveredOrders = new ArrayList<>();
 
-        for (int i = 0; i < allOrders.size(); i++) {
-            if (allOrders.get(i).getIsDelivered()) {
-                deliveredOrders.add(allOrders.get(i));
+        for (int i = 0; i < MainActivity.db.getAllOrders().size(); i++) {
+            if (MainActivity.db.getAllOrders().get(i).getIsDelivered()) {
+                deliveredOrders.add(MainActivity.db.getAllOrders().get(i));
             }
         }
 
-        final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.list_item_label, deliveredOrders);
+        final OrderViewAdapter adapter = new OrderViewAdapter(this, deliveredOrders, R.drawable.parcel_delivered);
 
         historyListView = (ListView) findViewById(R.id.order_history_listview);
         historyListView.setAdapter(adapter);
