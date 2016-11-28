@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.Switch;
@@ -12,7 +11,7 @@ import android.widget.Toast;
 
 import com.scottcrocker.packify.model.User;
 
-public class PopUpActivity extends AppCompatActivity {
+public class NewUserActivity extends AppCompatActivity {
 
     EditText inputNewUserName;
     EditText inputNewUserPass;
@@ -26,7 +25,7 @@ public class PopUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pop_up);
+        setContentView(R.layout.activity_new_user);
 
         inputNewUserName = (EditText) findViewById(R.id.input_new_user_name);
         inputNewUserPass = (EditText) findViewById(R.id.input_new_user_pass);
@@ -37,7 +36,7 @@ public class PopUpActivity extends AppCompatActivity {
 
     }
 
-    public void cancel_Btn(View view) {
+    public void cancelBtn(View view) {
         finish();
     }
 
@@ -57,19 +56,18 @@ public class PopUpActivity extends AppCompatActivity {
         String newUserId = inputNewUserId.getText().toString();
        // validateInput(newUserId, "Användar ID");
 
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-            }
-        });
-
-       // if (isValidInput) {
+       // if (isValidInput && !MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
+        if (!MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
             User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, Integer.parseInt(newUserPhoneNr), toggle.isChecked());
             MainActivity.db.addUser(user);
             Toast.makeText(getApplicationContext(), "Användare tillagd", Toast.LENGTH_SHORT).show();
             finish();
             Intent intent = new Intent(this, UserHandlerActivity.class);
             startActivity(intent);
+        } else {
+            Toast.makeText(getApplicationContext(), "Användar-ID finns redan!", Toast.LENGTH_LONG).show();
+        }
+
        // } else if (MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
         //    Toast.makeText(getApplicationContext(), "Användar-ID finns redan!", Toast.LENGTH_LONG).show();
        // }

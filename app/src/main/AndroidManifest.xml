@@ -43,7 +43,7 @@
             android:label="@string/login_label"
             android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name=".PopUpActivity"
+            android:name=".NewUserActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog"/>
     </application>
     <uses-permission android:name="android.permission.SEND_SMS"/>

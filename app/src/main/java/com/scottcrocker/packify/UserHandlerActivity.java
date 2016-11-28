@@ -114,7 +114,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     }
 
     public void callPopup(View view) {
-        Intent intent = new Intent(this, PopUpActivity.class);
+        Intent intent = new Intent(this, NewUserActivity.class);
         startActivity(intent);
         finish();
     }
