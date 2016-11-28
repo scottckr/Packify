@@ -120,7 +120,8 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         user.setTelephone(Integer.parseInt(String.valueOf(inputPhoneNr.getText())));
         user.setIsAdmin(toggle.isChecked());
         db.editUser(user);
-
+        Toast.makeText(getApplicationContext(), " Användar uppgifter uppdaterade", Toast.LENGTH_SHORT).show();
+        recreate();
     }
 
     public void callPopup(View view) {
