@@ -47,7 +47,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
             }
         }
 
-        final OrderViewAdapter adapter = new OrderViewAdapter(this, deliveredOrders, R.drawable.parcel_delivered);
+        final OrderViewAdapter adapter = new OrderViewAdapter(this, deliveredOrders, R.mipmap.package_delivered);
 
         historyListView = (ListView) findViewById(R.id.order_history_listview);
         historyListView.setAdapter(adapter);
@@ -124,7 +124,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
             }
         }
 
-        final OrderViewAdapter adapter = new OrderViewAdapter(this, deliveredOrders, R.drawable.parcel_delivered);
+        final OrderViewAdapter adapter = new OrderViewAdapter(this, deliveredOrders, R.mipmap.package_delivered);
 
         historyListView = (ListView) findViewById(R.id.order_history_listview);
         historyListView.setAdapter(adapter);

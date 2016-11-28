@@ -92,7 +92,11 @@
                 android:layout_weight="1"
                 android:paddingBottom="5dp"
                 android:hint="@string/input_order_post_address"/>
-
+            <Switch
+                android:id="@+id/is_delivered_switch"
+                android:layout_gravity="end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
@@ -126,6 +130,8 @@
                 android:text="@string/btn_delete_order"
                 android:onClick="deleteOrder"
                 android:background="@drawable/button_style"/>
+
         </LinearLayout>
+
     </RelativeLayout>
 </LinearLayout>

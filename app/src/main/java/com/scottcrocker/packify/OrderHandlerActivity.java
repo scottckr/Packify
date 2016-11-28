@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.scottcrocker.packify.model.Order;
@@ -29,6 +30,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
     EditText orderSumET;
     EditText addressET;
     EditText postAddressET;
+    Switch isDeliveredSwitch;
     Button addOrderBtn;
     Button editOrderBtn;
     boolean isValidInput;
@@ -50,6 +52,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
         orderSumET = (EditText) findViewById(R.id.input_order_sum);
         addressET = (EditText) findViewById(R.id.input_order_address);
         postAddressET = (EditText) findViewById(R.id.input_order_post_address);
+        isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
         orderNoET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -81,6 +84,12 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
                     String postAddressStr = String.valueOf(MainActivity.db.getOrder(Integer.parseInt(editable.toString())).getPostAddress());
                     postAddressET.setText(postAddressStr);
+
+                    if (db.getOrder(Integer.parseInt(orderNoET.getText().toString())).getIsDelivered()) {
+                        isDeliveredSwitch.setChecked(true);
+                    } else {
+                        isDeliveredSwitch.setChecked(false);
+                    }
                 } else {
                     editOrderBtn.setVisibility(View.INVISIBLE);
                     addOrderBtn.setVisibility(View.VISIBLE);
@@ -165,8 +174,13 @@ public class OrderHandlerActivity extends AppCompatActivity {
         postAddressET = (EditText) findViewById(R.id.input_order_post_address);
         String postAddress = postAddressET.getText().toString();
 
+        isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
+
         if(isValidInput && !MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
-            Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId), customerName, address, postAddress, Integer.parseInt(orderSum), "---", false, MainActivity.db.getUser(currentUserId).getId(),MainActivity.gps.getLongitude(address), MainActivity.gps.getLatitude(address));
+            Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
+                    customerName, address, postAddress, Integer.parseInt(orderSum), "---",
+                    isDeliveredSwitch.isChecked(), MainActivity.db.getUser(currentUserId).getId(),MainActivity.gps.getLongitude(address),
+                    MainActivity.gps.getLatitude(address));
 
             MainActivity.db.addOrder(order);
             Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
@@ -184,9 +198,10 @@ public class OrderHandlerActivity extends AppCompatActivity {
      */
     public void editOrder(View view) {
         Order order = db.getOrder(Integer.parseInt(orderNoET.getText().toString()));
+        isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
         Order editedOrder = new Order(order.getOrderNo(), Integer.parseInt(customerIdET.getText().toString()),
                 customerNameET.getText().toString(), addressET.getText().toString(), postAddressET.getText().toString(),
-                Integer.parseInt(orderSumET.getText().toString()), order.getDeliveryDate(), order.getIsDelivered(),
+                Integer.parseInt(orderSumET.getText().toString()), order.getDeliveryDate(), isDeliveredSwitch.isChecked(),
                 order.getDeliveredBy(), order.getLongitude(), order.getLatitude());
         db.editOrder(editedOrder);
         refreshView();
