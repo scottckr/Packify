@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.scottcrocker.packify">
+<manifest package="com.scottcrocker.packify"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.SEND_SMS">
+    </uses-permission>
 
     <application
         android:allowBackup="true"
@@ -10,29 +13,38 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ActiveOrdersActivity"
+        <activity
+            android:name=".ActiveOrdersActivity"
             android:label="@string/active_orders_label"/>
-        <activity android:name=".OrderHistoryActivity"
+        <activity
+            android:name=".OrderHistoryActivity"
             android:label="@string/order_history_label"/>
-        <activity android:name=".SpecificOrderActivity"
+        <activity
+            android:name=".SpecificOrderActivity"
             android:label="@string/specific_order_label"/>
-        <activity android:name=".OrderHandlerActivity"
+        <activity
+            android:name=".OrderHandlerActivity"
             android:label="@string/order_handler_label"/>
-        <activity android:name=".SettingsActivity"
+        <activity
+            android:name=".SettingsActivity"
             android:label="@string/settings_label"/>
-        <activity android:name=".UserHandlerActivity"
+        <activity
+            android:name=".UserHandlerActivity"
             android:label="@string/user_handler_label"/>
-        <activity android:name=".LoginActivity"
-            android:label="@string/login_label"
+        <activity
+            android:name=".LoginActivity"
             android:fitsSystemWindows="true"
+            android:label="@string/login_label"
             android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".PopUpActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
+
+        </activity>
     </application>
 
-    <uses-permission android:name="android.permission.SEND_SMS">
-    </uses-permission>
 </manifest>
