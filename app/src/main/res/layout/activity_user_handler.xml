@@ -125,7 +125,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:id="@+id/btn_add_new_user"
-            android:onClick="addUser"/>
+            android:onClick="callPopup"/>
     </RelativeLayout>
 
 

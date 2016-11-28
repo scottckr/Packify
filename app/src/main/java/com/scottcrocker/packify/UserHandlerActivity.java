@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -41,6 +40,8 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     Button deleteUserBtn;
     List<User> users;
     User user;
+
+
 
 
     @Override
@@ -95,12 +96,13 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     private void populateInputFields() {
 
         inputName.setText(user.getName());
-        inputUserId.setText("ID:"+String.valueOf(user.getId()));
+        inputUserId.setText("ID:" + String.valueOf(user.getId()));
         inputPassword.setText(user.getPassword());
         inputPhoneNr.setText(String.valueOf(user.getTelephone()));
         toggle.setChecked(user.getIsAdmin());
 
     }
+
     public void saveEditedUser(View view) {
 
         user.setName(String.valueOf(inputName.getText()));
@@ -111,44 +113,12 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
     }
 
-
-    /**
-     * Method to create a new user object, or handle an existing user object which will be sent to DB
-     *
-     * @param view
-     */
-    // TODO: create new object containing user information in a new popup window, send to database
-    public void addUser(View view) {
-        isValidInput = true;
-        String newUsername = String.valueOf(inputName.getText());
-        validateInput(newUsername, "Namn");
-
-        String newUserPass = String.valueOf(inputPassword.getText());
-        validateInput(newUserPass, "Lösenord");
-
-        String newUserPhoneNr = inputPhoneNr.getText().toString();
-        validateInput(newUserPhoneNr, "Telefonnummer");
-
-        String newUserId = inputUserId.getText().toString();
-        validateInput(newUserId, "Användar ID");
-
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-            }
-        });
-
-
-        if(isValidInput){
-            User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, Integer.parseInt(newUserPhoneNr), toggle.isChecked());
-            MainActivity.db.addUser(user);
-            Toast.makeText(getApplicationContext(), "Användare tillagd", Toast.LENGTH_SHORT).show();
-            finish();
-            startActivity(getIntent());
-        } else if (MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
-            Toast.makeText(getApplicationContext(), "Användar-ID finns redan!", Toast.LENGTH_LONG).show();
-        }
+    public void callPopup(View view) {
+        Intent intent = new Intent(this, PopUpActivity.class);
+        startActivity(intent);
+        finish();
     }
+
 
     /**
      * Method to delete user from DB
@@ -161,6 +131,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         if (user.getId() != currentUserId || user.getId() != 0) {
             db.deleteUser(user);
             Toast.makeText(this, user.getName() + " deleted.", Toast.LENGTH_SHORT).show();
+            recreate();
         } else {
             Toast.makeText(this, "You cannot delete yourself or the main admin account!", Toast.LENGTH_LONG).show();
         }
@@ -177,9 +148,9 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         switch (fieldName) {
             case "Användar ID":
-                if (input.matches("^\\d{1,9}$")){
-                    Log.d(TAG, "Input for "+fieldName+" is valid");
-                }else if(input.equals("")){
+                if (input.matches("^\\d{1,9}$")) {
+                    Log.d(TAG, "Input for " + fieldName + " is valid");
+                } else if (input.equals("")) {
                     isValidInput = false;
                     Toast.makeText(getApplicationContext(), fieldName + " är tom", Toast.LENGTH_SHORT).show();
                 } else {
@@ -215,7 +186,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         }
 
     }
-
 
 
     public void onNothingSelected(AdapterView<?> arg0) {
