@@ -26,6 +26,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
+import static com.scottcrocker.packify.MainActivity.db;
 
 
 public class SpecificOrderActivity extends AppCompatActivity {
@@ -95,6 +96,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.toolbar_update_order:
+                specificOrder = db.getOrder(orderNumber);
                 refreshView();
                 return true;
 
