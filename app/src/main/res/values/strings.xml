@@ -34,17 +34,17 @@
     <string name="btn_deliver_order">Levererad</string>
     <string name="btn_open_map">Vägbeskrivning</string>
     <string name="delivery_date">Levererad:</string>
-    <string name="toolbar_settings">Inställningar</string>
+    <string name="menu_settings">Inställningar</string>
     <string name="input_password">Lösenord:</string>
     <string name="input_userid">Användar-ID:</string>
-    <string name="toolbar_update_order">Uppdatera</string>
-    <string name="toolbar_admin_userhandler">Användarhantering</string>
-    <string name="toolbar_admin_orderhandler">Orderhantering</string>
+    <string name="menu_update_order">Uppdatera</string>
+    <string name="menu_admin_userhandler">Användarhantering</string>
+    <string name="menu_admin_orderhandler">Orderhantering</string>
     <string name="new_user_id">ID</string>
     <string name="is_admin">Admin</string>
     <string name="input_user_id">Användar-ID</string>
-    <string name="toolbar_orderhistory">Orderhistorik</string>
-    <string name="toolbar_activeorders">Aktiva ordrar</string>
+    <string name="menu_orderhistory">Orderhistorik</string>
+    <string name="menu_activeorders">Aktiva ordrar</string>
     <string name="delivered_by">Levererad av:</string>
     <string name="input_order_post_address">Hantera postadress:</string>
     <string name="input_customer_name">Hantera kundnamn:</string>
@@ -53,4 +53,5 @@
     <string name="post_address">Postadress:</string>
     <string name="drawer_open">Öppna sidomeny</string>
     <string name="drawer_close">Stäng sidomeny</string>
+    <string name="add_new_user">Lägg till ny användare</string>
 </resources>

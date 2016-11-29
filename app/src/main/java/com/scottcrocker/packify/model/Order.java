@@ -89,6 +89,7 @@ public class Order implements Parcelable{
         }
     };
 
+    @Override
     public String toString() {
         return "Order number: " + orderNo + ", name: " + customerName;
     }
