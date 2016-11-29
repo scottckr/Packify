@@ -32,7 +32,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     EditText inputPassword;
     EditText inputPhoneNr;
     TextView inputUserId;
-    boolean isValidInput;
+
 
     Switch toggle;
 
@@ -152,54 +152,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     }
 
 
-    /**
-     * Validates the input from user. Sends a toast if userinput is not valid.
-     *
-     * @param input     - Users input value.
-     * @param fieldName - The name of current field.
-     */
-    public void validateInput(String input, String fieldName) {
 
-        switch (fieldName) {
-            case "Användar ID":
-                if (input.matches("^\\d{1,9}$")) {
-                    Log.d(TAG, "Input for " + fieldName + " is valid");
-                } else if (input.equals("")) {
-                    isValidInput = false;
-                    Toast.makeText(getApplicationContext(), fieldName + " är tom", Toast.LENGTH_SHORT).show();
-                } else {
-                    isValidInput = false;
-                    Toast.makeText(getApplicationContext(), fieldName + " måste bestå av siffror!", Toast.LENGTH_SHORT).show();
-                }
-                break;
-
-            case "Namn":
-                if (input.equals("")) {
-                    isValidInput = false;
-                    Toast.makeText(getApplicationContext(), fieldName + " är tom", Toast.LENGTH_SHORT).show();
-                } else {
-                    //intended to accept numbers as user input. Maybe a name can be "Kenny212".
-                    Log.d(TAG, "Input for " + fieldName + " is valid");
-                }
-                break;
-
-            case "Lösenord":
-                break;
-
-            case "Telefonnummer":
-                if (input.matches("[0-9]{9,10}")) {
-                    Log.d(TAG, "Input for " + fieldName + " is valid");
-                } else if (input.equals("")) {
-                    isValidInput = false;
-                    Toast.makeText(getApplicationContext(), fieldName + " är tom", Toast.LENGTH_SHORT).show();
-                } else {
-                    isValidInput = false;
-                    Toast.makeText(getApplicationContext(), fieldName + " måste bestå 9-10 av siffror!", Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
-
-    }
 
 
     public void onNothingSelected(AdapterView<?> arg0) {
