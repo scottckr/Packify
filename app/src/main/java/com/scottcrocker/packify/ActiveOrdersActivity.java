@@ -2,7 +2,9 @@ package com.scottcrocker.packify;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+
 
 import com.scottcrocker.packify.helper.RandomHelper;
 import com.scottcrocker.packify.model.Order;
@@ -26,7 +28,7 @@ import java.util.List;
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 
 
-public class ActiveOrdersActivity extends AppCompatActivity {
+public class ActiveOrdersActivity extends AppCompatActivity{
 
     SharedPreferences sharedPreferences;
     private static final String TAG = "ActiveOrdersActivity";
@@ -38,14 +40,8 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     List<Order> currentListedOrders = new ArrayList<>();
     List<Order> undeliveredOrders = new ArrayList<>();
     List<Order> allOrders = new ArrayList<>();
-
-    //Navigation Drawers variables
-    private ListView mDrawerList;
-    private ArrayAdapter<String> mAdapter;
-    private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-    private String mActivityTitle;
-    //
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +53,6 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         currentUserId = sharedPreferences.getInt("USERID", -1);
         amountOfOrders = Integer.parseInt(sharedPreferences.getString("seekBarValue", "30"));
         user = MainActivity.db.getUser(currentUserId);
-
 
         final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.list_item_label, currentListedOrders);
 
@@ -74,35 +69,69 @@ public class ActiveOrdersActivity extends AppCompatActivity {
             }
         });
 
-        // Navigation Drawer stuff
-        mDrawerList = (ListView)findViewById(R.id.navList);
-        addDrawerItems();
 
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_active_orders);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.string.drawer_open, R.string.drawer_close);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        setUpNavigationView();
 
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        mActivityTitle = getTitle().toString();
-        setupDrawer();
-        //
+    }
 
+    private void setUpNavigationView() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navList);
+
+        // Disabling menu-item for this activity and admin options for non-admin users
+        navigationView.getMenu().findItem(R.id.navDrawer_activeorders).setVisible(false);
+        if (!user.getIsAdmin()) {
+            navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
+            navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+        }
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                Intent intent;
+                int id = menuItem.getItemId();
+                switch (id) {
+                    case R.id.navDrawer_settings:
+                        intent = new Intent(ActiveOrdersActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                        return true;
+
+                    case R.id.navDrawer_admin_userhandler:
+                        intent = new Intent(ActiveOrdersActivity.this, UserHandlerActivity.class);
+                        startActivity(intent);
+                        return true;
+
+                    case R.id.navDrawer_admin_orderhandler:
+                        intent = new Intent(ActiveOrdersActivity.this, OrderHandlerActivity.class);
+                        startActivity(intent);
+                        return true;
+
+                    case R.id.navDrawer_orderhistory:
+                        intent = new Intent(ActiveOrdersActivity.this, OrderHistoryActivity.class);
+                        startActivity(intent);
+                        return true;
+
+
+                }
+                return false;
+            }
+        });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         menu.getItem(2).setVisible(false);
-
-       /*Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " + user.getIsAdmin());
-        if (user.getIsAdmin()) {
-            Log.d(TAG, "Showing admin choices in toolbar menu");
-
-        } else {
-            Log.d(TAG, "Disabling admin choices in toolbar menu");
-            menu.getItem(4).setVisible(false);
-            menu.getItem(5).setVisible(false);
-        }*/
-
+        // TODO: Delete items from toolbar_menu.xml after implementing the navDrawer on all activities
+        menu.getItem(1).setVisible(false);
+        menu.getItem(3).setVisible(false);
+        menu.getItem(4).setVisible(false);
+        menu.getItem(5).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -113,36 +142,11 @@ public class ActiveOrdersActivity extends AppCompatActivity {
             return true;
         }
 
-        Intent intent;
-
-        switch (item.getItemId()) {
-            case R.id.toolbar_update_order:
-                refreshView();
-                return true;
-
-            case R.id.toolbar_settings:
-                intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.toolbar_admin_userhandler:
-                intent = new Intent(this, UserHandlerActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.toolbar_admin_orderhandler:
-                intent = new Intent(this, OrderHandlerActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.toolbar_orderhistory:
-                intent = new Intent(this, OrderHistoryActivity.class);
-                startActivity(intent);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-
+        if (item.getItemId() == R.id.toolbar_update_order) {
+            refreshView();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -152,43 +156,11 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
     }
 
-
-    private void addDrawerItems() {
-        String[] itemList = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, itemList);
-        mDrawerList.setAdapter(mAdapter);
-
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(ActiveOrdersActivity.this, "You clicked something" , Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
-    private void setupDrawer() {
-
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.string.drawer_open, R.string.drawer_close) {
-
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle("Meny");
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                getSupportActionBar().setTitle(mActivityTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-        };
-
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
+    //What's this? What's this? Whaaaaaat iiiiiiiis thiiiiiiis?
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     //TODO Check if method works
@@ -236,4 +208,5 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         Log.d(TAG, "ListView refreshed");
     }
+
 }
