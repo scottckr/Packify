@@ -22,6 +22,7 @@ import com.scottcrocker.packify.model.User;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -67,6 +68,11 @@ public class SpecificOrderActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
         user = MainActivity.db.getUser(currentUserId);
+
+        //Bundle bundle = getIntent().getExtras();
+        //orderNumber = bundle.getInt("ORDERNO", 0);
+        //ArrayList<Order> listOfOrders = bundle.getParcelable("test");
+        //ArrayList<Order> listOfOrders = getParcelableArrayListExtra("test");
         orderNumber = getIntent().getIntExtra("ORDERNO", 0);
         specificOrder = MainActivity.db.getOrder(orderNumber);
         refreshView();

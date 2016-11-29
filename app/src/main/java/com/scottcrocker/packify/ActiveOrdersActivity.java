@@ -3,6 +3,7 @@ package com.scottcrocker.packify;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +38,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     int amountOfOrders;
     List<Order> currentListedOrders = new ArrayList<>();
     List<Order> undeliveredOrders = new ArrayList<>();
-    List<Order> allOrders = new ArrayList<>();
+    List<Integer> currentListedOrderNumbers = new ArrayList<>();
 
     //Navigation Drawers variables
     private ListView mDrawerList;
@@ -59,6 +60,20 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         user = MainActivity.db.getUser(currentUserId);
 
 
+        int undeliveredOrderAmount = filterUndeliveredOrders().size();
+        if (amountOfOrders > undeliveredOrderAmount) {
+            amountOfOrdersDisplayed = undeliveredOrderAmount;
+        } else {
+            amountOfOrdersDisplayed = amountOfOrders;
+        }
+
+        for (int i = 0; i < amountOfOrdersDisplayed; i++) {
+            currentListedOrders.add(undeliveredOrders.get(i));
+        }
+
+
+
+
         final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.list_item_label, currentListedOrders);
 
         listView = (ListView) findViewById(R.id.active_orders_listview);
@@ -69,7 +84,9 @@ public class ActiveOrdersActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Order selectedOrder = adapter.getItem(position);
                 Intent intent = new Intent(getApplicationContext(), SpecificOrderActivity.class);
+                //Bundle bundle = new Bundle();
                 intent.putExtra("ORDERNO", selectedOrder.getOrderNo());
+                //bundle.putParcelableArrayListExtra("test", (ArrayList<? extends Parcelable>) currentListedOrders);
                 startActivity(intent);
             }
         });
@@ -93,7 +110,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         menu.getItem(2).setVisible(false);
 
-       /*Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " + user.getIsAdmin());
+       Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " + user.getIsAdmin());
         if (user.getIsAdmin()) {
             Log.d(TAG, "Showing admin choices in toolbar menu");
 
@@ -101,7 +118,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
             Log.d(TAG, "Disabling admin choices in toolbar menu");
             menu.getItem(4).setVisible(false);
             menu.getItem(5).setVisible(false);
-        }*/
+        }
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -109,9 +126,9 @@ public class ActiveOrdersActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        /*if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
-        }
+        }*/
 
         Intent intent;
 
@@ -172,14 +189,14 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.drawer_open, R.string.drawer_close) {
 
-            /** Called when a drawer has settled in a completely open state. */
+            //Called when a drawer has settled in a completely open state.
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 getSupportActionBar().setTitle("Meny");
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
-            /** Called when a drawer has settled in a completely closed state. */
+            //Called when a drawer has settled in a completely closed state.
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 getSupportActionBar().setTitle(mActivityTitle);
@@ -194,40 +211,22 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     //TODO Check if method works
     public void refreshView() {
         RandomHelper rnd = new RandomHelper();
-        allOrders = MainActivity.db.getAllOrders();
-
-        /////////
-        if (amountOfOrders > MainActivity.db.getAllOrders().size()) {
-            amountOfOrdersDisplayed = MainActivity.db.getAllOrders().size();
-        }else if(amountOfOrders > currentListedOrders.size()){
-
-        }else{
-            amountOfOrdersDisplayed = amountOfOrders;
-        }
-
-        for (int i = 0; i < amountOfOrdersDisplayed; i++) {
-            if (!MainActivity.db.getAllOrders().get(i).getIsDelivered()) {
-                undeliveredOrders.add(MainActivity.db.getAllOrders().get(i));
-                currentListedOrders.add(MainActivity.db.getAllOrders().get(i));//nytt
-            }
-        }
-        /////////
-
-
-        for (int i =0; i < allOrders.size(); i++) {
-            if(!allOrders.get(i).getIsDelivered()) {
-                undeliveredOrders.add(allOrders.get(i));
-            }
-        }
 
         int amountOfNewOrdersNeeded = amountOfOrdersDisplayed - currentListedOrders.size();
-        int rndOrder=0;
+        int rndOrder;
+        boolean orderDuplicateCheck = false;
         for(int i = 0; i < amountOfNewOrdersNeeded; i++){
             rndOrder = rnd.randomNrGenerator(undeliveredOrders.size());
-            if (undeliveredOrders.get(rndOrder).getOrderNo() != currentListedOrders.get(i).getOrderNo()){
-                currentListedOrders.add(undeliveredOrders.get(rndOrder));
-            }else{
+            for(int y = 0; y < currentListedOrders.size(); y++){
+                if(undeliveredOrders.get(rndOrder).getOrderNo() == currentListedOrders.get(i).getOrderNo()){
+                    orderDuplicateCheck = true;
+                }
+            }
+            if (orderDuplicateCheck){
                 i--;
+                orderDuplicateCheck = false;
+            }else{
+                currentListedOrders.add(undeliveredOrders.get(rndOrder));
             }
         }
 
@@ -235,5 +234,16 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.active_orders_listview);
         listView.setAdapter(adapter);
         Log.d(TAG, "ListView refreshed");
+
+    }
+
+    public List<Order> filterUndeliveredOrders(){
+
+        for (int i = 0; i < MainActivity.db.getAllOrders().size(); i++) {
+            if (!MainActivity.db.getAllOrders().get(i).getIsDelivered()) {
+                undeliveredOrders.add(MainActivity.db.getAllOrders().get(i));
+            }
+        }
+        return undeliveredOrders;
     }
 }
