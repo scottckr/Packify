@@ -60,7 +60,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS},1);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
 
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
@@ -138,7 +138,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
     }
 
     public void sendSms() {
-        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         String sharedPhoneNumber = sharedPreferences.getString("number", "");
         String messageSms = "Order " + specificOrder.getOrderNo() + " levererad.";
         SmsManager sms = SmsManager.getDefault();
