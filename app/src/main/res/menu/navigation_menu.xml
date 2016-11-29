@@ -3,40 +3,34 @@
 
 
     <item
-        android:id="@+id/navDrawer_update_order"
-        android:orderInCategory="100"
-        android:title="@string/menu_update_order"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/navDrawer_settings"
-        android:orderInCategory="200"
-        android:title="@string/menu_settings"
-        app:showAsAction="never"/>
-
-    <item
         android:id="@+id/navDrawer_activeorders"
-        android:orderInCategory="300"
-        android:title="@string/menu_activeorders"
-        app:showAsAction="never"/>
+        android:icon="@mipmap/ic_check_box_outline_blank_black_24dp"
+        android:orderInCategory="100"
+        android:title="@string/menu_activeorders" />
 
     <item
         android:id="@+id/navDrawer_orderhistory"
-        android:orderInCategory="400"
-        android:title="@string/menu_orderhistory"
-        app:showAsAction="never"/>
+        android:icon="@mipmap/ic_check_box_black_24dp"
+        android:orderInCategory="200"
+        android:title="@string/menu_orderhistory" />
 
     <item
         android:id="@+id/navDrawer_admin_userhandler"
-        android:orderInCategory="500"
-        android:title="@string/menu_admin_userhandler"
-        app:showAsAction="never"/>
+        android:icon="@mipmap/ic_people_black_24dp"
+        android:orderInCategory="300"
+        android:title="@string/menu_admin_userhandler" />
 
     <item
         android:id="@+id/navDrawer_admin_orderhandler"
-        android:orderInCategory="600"
-        android:title="@string/menu_admin_orderhandler"
-        app:showAsAction="never"/>
+        android:icon="@mipmap/ic_border_color_black_24dp"
+        android:orderInCategory="400"
+        android:title="@string/menu_admin_orderhandler" />
+
+    <item
+        android:id="@+id/navDrawer_settings"
+        android:icon="@mipmap/ic_settings_black_24dp"
+        android:orderInCategory="500"
+        android:title="@string/menu_settings" />
 
 
 </menu>

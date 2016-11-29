@@ -139,6 +139,12 @@ public class SpecificOrderActivity extends AppCompatActivity {
         specificOrder.setDeliveryDate(currentDate);
         specificOrder.setDeliveredBy(currentUserId);
 
+        for(int i =0; i < Order.getCurrentListedOrders().size(); i++){
+            if (Order.getCurrentListedOrders().get(i).getOrderNo() == specificOrder.getOrderNo()){
+                Order.getCurrentListedOrders().get(i).setIsDelivered(true);
+            }
+        }
+
         MainActivity.db.editOrder(specificOrder);
         sendSms();
         refreshView();

@@ -23,8 +23,17 @@ public class Order implements Parcelable{
     private int deliveredBy;
     private String customerName;
     List<Order> orderList = new ArrayList<>();
+    static List<Order> currentListedOrders = new ArrayList<>();
 
     public Order() {
+    }
+
+    public static List<Order> getCurrentListedOrders() {
+        return currentListedOrders;
+    }
+
+    public static void setCurrentListedOrders(List<Order> currentListedOrders) {
+        Order.currentListedOrders = currentListedOrders;
     }
 
     public Order(int orderNo, int customerNo, String customerName, String address, String postAddress, int orderSum,
