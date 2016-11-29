@@ -64,18 +64,18 @@ public class Order implements Parcelable{
 
 
     @Override
-    public void writeToParcel(Parcel dest, int flag){
-        dest.writeString(address);
-        dest.writeString(postAddress);
-        dest.writeInt(orderSum);
-        dest.writeInt(orderNo);
-        dest.writeByte((byte) (isDelivered ? 0x01 : 0x00));
-        dest.writeString(deliveryDate);
-        dest.writeDouble(latitude);
-        dest.writeDouble(longitude);
-        dest.writeInt(customerNo);
-        dest.writeInt(deliveredBy);
-        dest.writeString(customerName);
+    public void writeToParcel(Parcel out, int flag){
+        out.writeString(address);
+        out.writeString(postAddress);
+        out.writeInt(orderSum);
+        out.writeInt(orderNo);
+        out.writeByte((byte) (isDelivered ? 0x01 : 0x00));
+        out.writeString(deliveryDate);
+        out.writeDouble(latitude);
+        out.writeDouble(longitude);
+        out.writeInt(customerNo);
+        out.writeInt(deliveredBy);
+        out.writeString(customerName);
     }
 
     public static final Parcelable.Creator<Order> CREATOR = new Parcelable.Creator<Order>(){

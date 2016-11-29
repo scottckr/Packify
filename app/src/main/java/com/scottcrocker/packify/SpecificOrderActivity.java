@@ -69,10 +69,6 @@ public class SpecificOrderActivity extends AppCompatActivity {
         currentUserId = sharedPreferences.getInt("USERID", -1);
         user = MainActivity.db.getUser(currentUserId);
 
-        //Bundle bundle = getIntent().getExtras();
-        //orderNumber = bundle.getInt("ORDERNO", 0);
-        //ArrayList<Order> listOfOrders = bundle.getParcelable("test");
-        //ArrayList<Order> listOfOrders = getParcelableArrayListExtra("test");
         orderNumber = getIntent().getIntExtra("ORDERNO", 0);
         specificOrder = MainActivity.db.getOrder(orderNumber);
         refreshView();

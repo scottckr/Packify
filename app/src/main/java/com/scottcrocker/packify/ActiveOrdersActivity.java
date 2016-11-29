@@ -71,9 +71,6 @@ public class ActiveOrdersActivity extends AppCompatActivity {
             currentListedOrders.add(undeliveredOrders.get(i));
         }
 
-
-
-
         final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.list_item_label, currentListedOrders);
 
         listView = (ListView) findViewById(R.id.active_orders_listview);
@@ -84,9 +81,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Order selectedOrder = adapter.getItem(position);
                 Intent intent = new Intent(getApplicationContext(), SpecificOrderActivity.class);
-                //Bundle bundle = new Bundle();
                 intent.putExtra("ORDERNO", selectedOrder.getOrderNo());
-                //bundle.putParcelableArrayListExtra("test", (ArrayList<? extends Parcelable>) currentListedOrders);
                 startActivity(intent);
             }
         });
@@ -174,7 +169,6 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         String[] itemList = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, itemList);
         mDrawerList.setAdapter(mAdapter);
-
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
