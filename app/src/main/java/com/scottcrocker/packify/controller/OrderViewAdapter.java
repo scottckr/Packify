@@ -20,7 +20,7 @@ import java.util.List;
 
 public class OrderViewAdapter extends BaseAdapter {
     public OrderViewAdapter(Activity activity, List<Order> orders, int iconId) {
-        inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.iconId = iconId;
         dataSource = orders;
     }
@@ -33,12 +33,15 @@ public class OrderViewAdapter extends BaseAdapter {
     public int getCount() {
         return dataSource.size();
     }
+
     public Order getItem(int position) {
         return dataSource.get(position);
     }
+
     public long getItemId(int position) {
         return position;
     }
+
     public View getView(int pos, View convertView, ViewGroup parent) {
         View v;
         if (convertView == null) {
@@ -46,12 +49,12 @@ public class OrderViewAdapter extends BaseAdapter {
         } else {
             v = convertView;
         }
-        icon = (ImageView)v.findViewById(R.id.list_item_icon);
+        icon = (ImageView) v.findViewById(R.id.list_item_icon);
         icon.setImageResource(iconId);
-        TextView orderLabelTv = (TextView)v.findViewById(R.id.list_item_label);
+        TextView orderLabelTv = (TextView) v.findViewById(R.id.list_item_label);
         String orderLabelOne = "Order: " + dataSource.get(pos).getOrderNo();
         orderLabelTv.setText(orderLabelOne);
-        orderLabelTv = (TextView)v.findViewById(R.id.list_item_label2);
+        orderLabelTv = (TextView) v.findViewById(R.id.list_item_label2);
         String orderLabelTwo = "Adress: " + dataSource.get(pos).getAddress() + ", " + dataSource.get(pos).getPostAddress();
         orderLabelTv.setText(orderLabelTwo);
         return v;

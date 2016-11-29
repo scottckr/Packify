@@ -1,11 +1,10 @@
-<android.support.design.widget.NavigationView
+<android.support.design.widget.NavigationView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navList"
-    app:menu="@menu/navigation_menu"
     android:layout_width="200dp"
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:background="#ffeeeeee"
     app:headerLayout="@layout/navigation_header"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    app:menu="@menu/navigation_menu">
 </android.support.design.widget.NavigationView>

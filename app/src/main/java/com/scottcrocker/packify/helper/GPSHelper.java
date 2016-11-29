@@ -13,7 +13,7 @@ import java.util.List;
  * Created by samantha on 2016-11-11.
  */
 
-public class GPSHelper extends AppCompatActivity{
+public class GPSHelper extends AppCompatActivity {
     Context context;
 
     public GPSHelper(Context context) {
@@ -24,10 +24,11 @@ public class GPSHelper extends AppCompatActivity{
 
     /**
      * This method takes an address and returns a double with the longitude coordinate of the address.
+     *
      * @param address
      * @return longitude
      */
-    public double getLongitude(String address){
+    public double getLongitude(String address) {
         Geocoder gc = new Geocoder(context);
         List<Address> addressList;
         double longitude = 0;
@@ -38,7 +39,7 @@ public class GPSHelper extends AppCompatActivity{
             return longitude;
         }
 
-        if(addressList.size() > 0) {
+        if (addressList.size() > 0) {
             longitude = addressList.get(0).getLongitude();
         }
         Log.d(TAG, "Longitude: " + longitude);
@@ -47,10 +48,11 @@ public class GPSHelper extends AppCompatActivity{
 
     /**
      * This method takes an address and returns a double with the latitude coordinate of the address.
+     *
      * @param address
      * @return latitude
      */
-    public double getLatitude(String address){
+    public double getLatitude(String address) {
         Geocoder gc = new Geocoder(context);
         List<Address> addressList;
         double latitude = 0;
@@ -61,10 +63,10 @@ public class GPSHelper extends AppCompatActivity{
             return latitude;
         }
 
-        if(addressList.size() > 0) {
+        if (addressList.size() > 0) {
             latitude = addressList.get(0).getLatitude();
         }
-            Log.d(TAG, "Latitude: " + latitude);
+        Log.d(TAG, "Latitude: " + latitude);
         return latitude;
     }
 

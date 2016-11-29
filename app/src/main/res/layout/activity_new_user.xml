@@ -1,74 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/new_user_element"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:background="#ffffff"
-              android:padding="10px"
-              android:orientation="vertical">
+    android:id="@+id/new_user_element"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:padding="10px">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
-        android:layout_gravity="center_horizontal">
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/new_user_add"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:text="@string/new_user_add" />
+
         <EditText
+            android:id="@+id/input_new_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
             android:hint="@string/new_user_name"
-            android:id="@+id/input_new_user_name" />
+            android:inputType="text" />
+
         <EditText
+            android:id="@+id/input_new_user_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="number"
             android:hint="@string/new_userid"
-            android:id="@+id/input_new_user_id"/>
+            android:inputType="number" />
+
         <EditText
+            android:id="@+id/input_new_user_pass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
             android:hint="@string/new_user_password"
-            android:id="@+id/input_new_user_pass"/>
+            android:inputType="textPassword" />
+
         <EditText
+            android:id="@+id/input_new_user_phonenr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="phone"
             android:hint="@string/new_user_phonenumber"
-            android:id="@+id/input_new_user_phonenr"/>
+            android:inputType="phone" />
+
         <Switch
+            android:id="@+id/is_new_admin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/new_user_is_admin"
-            android:id="@+id/is_new_admin"/>
+            android:text="@string/new_user_is_admin" />
     </LinearLayout>
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal|bottom">
+        android:gravity="center_horizontal|bottom"
+        android:orientation="horizontal">
 
         <Button
+            android:id="@+id/add_new_user_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/add_new_user_btn"
-            android:text="@string/new_user_add_button"
-            android:onClick="addNewUser" />
+            android:onClick="addNewUser"
+            android:text="@string/new_user_add_button" />
 
         <Button
             android:id="@+id/cancel_btn"
-            android:drawablePadding="3sp"
-            android:text="@string/new_user_cancel_button"
-            android:onClick="cancelBtn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:drawablePadding="3sp"
+            android:onClick="cancelBtn"
+            android:text="@string/new_user_cancel_button" />
     </LinearLayout>
 </LinearLayout>

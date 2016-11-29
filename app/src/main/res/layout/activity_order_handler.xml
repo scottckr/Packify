@@ -15,9 +15,10 @@
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <RelativeLayout
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -34,8 +35,8 @@
                 android:id="@+id/register_order"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:paddingBottom="5dp"
                 android:text="@string/register_order" />
 
@@ -44,63 +45,64 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:hint="@string/input_order_number"
                 android:inputType="number"
                 android:maxLength="9"
-                android:paddingBottom="5dp"
-                android:hint="@string/input_order_number"/>
+                android:paddingBottom="5dp" />
 
             <EditText
                 android:id="@+id/input_customer_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:hint="@string/input_customer_name"
                 android:inputType="text"
-                android:paddingBottom="5dp"
-                android:hint="@string/input_customer_name"/>
+                android:paddingBottom="5dp" />
 
             <EditText
                 android:id="@+id/input_customer_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:hint="@string/input_customer_id"
                 android:inputType="number"
                 android:maxLength="9"
-                android:paddingBottom="5dp"
-                android:hint="@string/input_customer_id"/>
+                android:paddingBottom="5dp" />
 
             <EditText
                 android:id="@+id/input_order_sum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:hint="@string/input_order_sum"
                 android:inputType="number"
                 android:maxLength="9"
-                android:paddingBottom="5dp"
-                android:hint="@string/input_order_sum"/>
+                android:paddingBottom="5dp" />
 
             <EditText
                 android:id="@+id/input_order_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:hint="@string/input_order_address"
                 android:inputType="text"
-                android:paddingBottom="5dp"
-                android:hint="@string/input_order_address"/>
+                android:paddingBottom="5dp" />
 
             <EditText
                 android:id="@+id/input_order_post_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:hint="@string/input_order_post_address"
                 android:inputType="text"
-                android:paddingBottom="5dp"
-                android:hint="@string/input_order_post_address"/>
+                android:paddingBottom="5dp" />
+
             <Switch
                 android:id="@+id/is_delivered_switch"
-                android:layout_gravity="end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/order_delivered_switch"/>
+                android:layout_gravity="end"
+                android:text="@string/order_delivered_switch" />
         </LinearLayout>
 
         <LinearLayout
@@ -113,27 +115,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_edit_order"
+                android:background="@drawable/button_style"
                 android:onClick="editOrder"
-                android:background="@drawable/button_style"/>
+                android:text="@string/btn_edit_order" />
 
             <Button
                 android:id="@+id/btn_submit_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_submit_order"
+                android:background="@drawable/button_style"
                 android:onClick="addOrder"
-                android:background="@drawable/button_style"/>
+                android:text="@string/btn_submit_order" />
 
             <Button
                 android:id="@+id/btn_delete_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_delete_order"
+                android:background="@drawable/button_style"
                 android:onClick="deleteOrder"
-                android:background="@drawable/button_style"/>
+                android:text="@string/btn_delete_order" />
 
         </LinearLayout>
 

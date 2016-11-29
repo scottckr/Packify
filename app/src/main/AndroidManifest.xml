@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.scottcrocker.packify">
 
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:allowBackup="true"
@@ -15,38 +15,40 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ActiveOrdersActivity"
-            android:label="@string/active_orders_label"/>
+            android:label="@string/active_orders_label" />
         <activity
             android:name=".MainActivity"
-            android:label="Packify"/>
+            android:label="Packify" />
         <activity
             android:name=".OrderHistoryActivity"
-            android:label="@string/order_history_label"/>
+            android:label="@string/order_history_label" />
         <activity
             android:name=".SpecificOrderActivity"
-            android:label="@string/specific_order_label"/>
+            android:label="@string/specific_order_label" />
         <activity
             android:name=".OrderHandlerActivity"
-            android:label="@string/order_handler_label"/>
+            android:label="@string/order_handler_label" />
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/settings_label"/>
+            android:label="@string/settings_label" />
         <activity
             android:name=".UserHandlerActivity"
-            android:label="@string/user_handler_label"/>
+            android:label="@string/user_handler_label" />
         <activity
             android:name=".LoginActivity"
             android:fitsSystemWindows="true"
             android:label="@string/login_label"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".NewUserActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity android:name=".SignatureActivity"></activity>
     </application>
 
 </manifest>
