@@ -21,7 +21,7 @@ import java.util.List;
 public class DBHandler extends SQLiteOpenHelper {
 
     public DBHandler(Context context) {
-        super(context, "PackifyDB", null, 10);
+        super(context, "PackifyDB", null, 11);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 "longitude REAL NOT NULL, latitude REAL NOT NULL);";
         String userSql = "CREATE TABLE Users (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "userId INTEGER NOT NULL, password TEXT NOT NULL, name TEXT NOT NULL, " +
-                "telephone INTEGER NOT NULL, isAdmin INTEGER NOT NULL);";
+                "telephone TEXT NOT NULL, isAdmin INTEGER NOT NULL);";
         String createAdminSql = "INSERT INTO Users VALUES (1, 0, 'admin', 'ADMIN', '0', 1)";
         db.execSQL(orderSql);
         db.execSQL(userSql);
@@ -181,7 +181,7 @@ public class DBHandler extends SQLiteOpenHelper {
             user.setId(cursor.getInt(1));
             user.setPassword(cursor.getString(2));
             user.setName(cursor.getString(3));
-            user.setTelephone(cursor.getInt(4));
+            user.setTelephone(cursor.getString(4));
             if (cursor.getInt(5) == 1) {
                 isAdminBool = true;
             } else {
@@ -247,7 +247,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 user.setId(cursor.getInt(1));
                 user.setPassword(cursor.getString(2));
                 user.setName(cursor.getString(3));
-                user.setTelephone(cursor.getInt(4));
+                user.setTelephone(cursor.getString(4));
                 if (cursor.getInt(5) == 1) {
                     user.setIsAdmin(true);
                 } else {

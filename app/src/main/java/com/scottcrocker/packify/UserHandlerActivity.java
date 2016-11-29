@@ -1,9 +1,11 @@
 package com.scottcrocker.packify;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,9 +43,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     List<User> users;
     User user;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +54,8 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         inputPassword = (EditText) findViewById(R.id.input_user_password);
         inputPhoneNr = (EditText) findViewById(R.id.input_user_phone);
         inputUserId = (TextView) findViewById(R.id.input_user_id);
+        inputPassword.setTypeface(Typeface.DEFAULT);
+        inputPassword.setTransformationMethod(new PasswordTransformationMethod());
 
         toggle = (Switch) findViewById(R.id.admin_switch);
 
@@ -117,10 +118,10 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         if (user.getId() != 0) {
             user.setName(String.valueOf(inputName.getText()));
             user.setPassword(String.valueOf(inputPassword.getText()));
-            user.setTelephone(Integer.parseInt(String.valueOf(inputPhoneNr.getText())));
+            user.setTelephone(String.valueOf(inputPhoneNr.getText()));
             user.setIsAdmin(toggle.isChecked());
             db.editUser(user);
-            Toast.makeText(getApplicationContext(), " Användar uppgifter uppdaterade", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Användaruppgifter uppdaterade", Toast.LENGTH_SHORT).show();
             recreate();
         } else {
             recreate();

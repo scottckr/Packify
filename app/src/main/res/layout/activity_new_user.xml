@@ -16,58 +16,59 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lägg till ny användare"
+            android:text="@string/new_user_add"
             android:layout_marginBottom="20dp"/>
         <EditText
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Skriv nytt namn här"
-            android:id="@+id/input_new_user_name"
-            />
+            android:inputType="text"
+            android:hint="@string/new_user_name"
+            android:id="@+id/input_new_user_name" />
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Skriv nytt ID här"
+            android:inputType="number"
+            android:hint="@string/new_userid"
             android:id="@+id/input_new_user_id"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Skriv nytt lösenord här"
+            android:inputType="textPassword"
+            android:hint="@string/new_user_password"
             android:id="@+id/input_new_user_pass"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Skriv nytt telefon nr här"
+            android:inputType="phone"
+            android:hint="@string/new_user_phonenumber"
             android:id="@+id/input_new_user_phonenr"/>
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Admin"
+            android:text="@string/new_user_is_admin"
             android:id="@+id/is_new_admin"/>
     </LinearLayout>
 
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="fill_parent"
-                  android:layout_height="fill_parent"
-                  android:orientation="horizontal"
-                  android:gravity="center_horizontal|bottom">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal|bottom">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/add_new_user_btn"
-            android:text="Lägg till"
-            android:onClick="addNewUser"
-            />
+            android:text="@string/new_user_add_button"
+            android:onClick="addNewUser" />
 
-        <Button android:id="@+id/cancel_btn"
-                android:drawablePadding="3sp"
-                android:text="Avbryt"
-                android:onClick="cancelBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
+        <Button
+            android:id="@+id/cancel_btn"
+            android:drawablePadding="3sp"
+            android:text="@string/new_user_cancel_button"
+            android:onClick="cancelBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </LinearLayout>

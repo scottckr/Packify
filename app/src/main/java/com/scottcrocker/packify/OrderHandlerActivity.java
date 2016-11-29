@@ -43,6 +43,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_handler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         addOrderBtn = (Button) findViewById(R.id.btn_submit_order);
         editOrderBtn = (Button) findViewById(R.id.btn_edit_order);
         editOrderBtn.setVisibility(View.INVISIBLE);
