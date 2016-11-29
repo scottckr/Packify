@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 import com.scottcrocker.packify.helper.RandomHelper;
@@ -42,6 +43,8 @@ public class ActiveOrdersActivity extends AppCompatActivity{
     List<Order> allOrders = new ArrayList<>();
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
+    TextView currentUserName;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +80,14 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
+        View header = navigationView.getHeaderView(0);
+        currentUserName = (TextView) header.findViewById(R.id.current_user_name);
+        currentUserName.setText(user.getName());
 
     }
 
     private void setUpNavigationView() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navList);
+        navigationView = (NavigationView) findViewById(R.id.navList);
 
         // Disabling menu-item for this activity and admin options for non-admin users
         navigationView.getMenu().findItem(R.id.navDrawer_activeorders).setVisible(false);
