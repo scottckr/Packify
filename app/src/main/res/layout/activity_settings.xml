@@ -40,7 +40,7 @@
                 android:text="@string/number_of_orders" />
 
             <SeekBar
-                android:id="@+id/seekBar"
+                android:id="@+id/seek_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="20" />

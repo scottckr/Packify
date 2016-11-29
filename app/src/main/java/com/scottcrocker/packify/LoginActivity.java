@@ -11,20 +11,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.scottcrocker.packify.model.User;
-
-import java.util.List;
-
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
+import static com.scottcrocker.packify.MainActivity.db;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText inputPasswordEt;
-    private EditText inputIdEt;
+    EditText inputPasswordEt;
+    EditText inputIdEt;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
@@ -52,37 +48,32 @@ public class LoginActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //TODO : create the login validation for the application and send to proper activity.
     public void loginValidation(View view) {
-        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         editor = sharedPreferences.edit();
-
-        List<User> users = MainActivity.db.getAllUsers();
 
         inputIdEt = (EditText) findViewById(R.id.input_login_id);
         int inputId = Integer.parseInt(inputIdEt.getText().toString());
         inputPasswordEt = (EditText) findViewById(R.id.input_login_password);
         String inputPassword = inputPasswordEt.getText().toString();
 
-        Intent intent = new Intent(this, MainActivity.class);
-
         int currentUserId;
 
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getId() == inputId) {
-                if (users.get(i).getPassword().equals(inputPassword)) {
-                    currentUserId = users.get(i).getId();
+        for (int i = 0; i < db.getAllUsers().size(); i++) {
+            if (db.getAllUsers().get(i).getId() == inputId) {
+                if (db.getAllUsers().get(i).getPassword().equals(inputPassword)) {
+                    currentUserId = db.getAllUsers().get(i).getId();
                     editor.putInt("USERID", currentUserId);
                     editor.putBoolean("isLoggedIn", true);
                     editor.apply();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Lösenordet är felaktigt!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Lösenordet är felaktigt!", Toast.LENGTH_SHORT).show();
                     editor.putBoolean("isLoggedIn", false);
                     editor.apply();
                 }
             }
         }
-
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 }
