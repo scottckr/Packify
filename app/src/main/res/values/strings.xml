@@ -63,4 +63,6 @@
     <string name="new_user_add_button">Lägg till</string>
     <string name="new_user_cancel_button">Avbryt</string>
     <string name="order_delivered_switch">Levererad</string>
+    <string name="save_signature_button">Spara signatur</string>
+    <string name="please_sign_below">Signera nedan, tack!</string>
 </resources>
