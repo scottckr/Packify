@@ -19,13 +19,14 @@ import com.scottcrocker.packify.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.scottcrocker.packify.MainActivity.db;
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 
 public class OrderHistoryActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     private static final String TAG = "OrderHistoryActivity";
-    private ListView historyListView;
+    ListView historyListView;
     User user;
     int currentUserId;
 
@@ -37,13 +38,13 @@ public class OrderHistoryActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
-        user = MainActivity.db.getUser(currentUserId);
+        user = db.getUser(currentUserId);
 
         List<Order> deliveredOrders = new ArrayList<>();
 
-        for (int i = 0; i < MainActivity.db.getAllOrders().size(); i++) {
-            if (MainActivity.db.getAllOrders().get(i).getIsDelivered()) {
-                deliveredOrders.add(MainActivity.db.getAllOrders().get(i));
+        for (int i = 0; i < db.getAllOrders().size(); i++) {
+            if (db.getAllOrders().get(i).getIsDelivered()) {
+                deliveredOrders.add(db.getAllOrders().get(i));
             }
         }
 
@@ -110,7 +111,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
-
         }
     }
 
@@ -118,9 +118,9 @@ public class OrderHistoryActivity extends AppCompatActivity {
     public void refreshView() {
         List<Order> deliveredOrders = new ArrayList<>();
 
-        for (int i = 0; i < MainActivity.db.getAllOrders().size(); i++) {
-            if (MainActivity.db.getAllOrders().get(i).getIsDelivered()) {
-                deliveredOrders.add(MainActivity.db.getAllOrders().get(i));
+        for (int i = 0; i < db.getAllOrders().size(); i++) {
+            if (db.getAllOrders().get(i).getIsDelivered()) {
+                deliveredOrders.add(db.getAllOrders().get(i));
             }
         }
 

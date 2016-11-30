@@ -1,18 +1,12 @@
 package com.scottcrocker.packify;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+
 import com.scottcrocker.packify.controller.DBHandler;
 import com.scottcrocker.packify.helper.GPSHelper;
-import com.scottcrocker.packify.model.User;
-
-
-
-
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
@@ -28,8 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         db = new DBHandler(this);
         gps = new GPSHelper(this);
-        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
-
+        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
 
         if (sharedPreferences.getBoolean("isLoggedIn", false)) {
             Intent intent = new Intent(this, ActiveOrdersActivity.class);

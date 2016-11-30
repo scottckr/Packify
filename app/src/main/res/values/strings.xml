@@ -54,4 +54,15 @@
     <string name="drawer_open">Öppna sidomeny</string>
     <string name="drawer_close">Stäng sidomeny</string>
     <string name="add_new_user">Lägg till ny användare</string>
+    <string name="new_user_add">Lägg till ny användare</string>
+    <string name="new_user_name">Skriv nytt namn här</string>
+    <string name="new_userid">Skriv nytt ID här</string>
+    <string name="new_user_password">Skriv nytt lösenord här</string>
+    <string name="new_user_phonenumber">Skriv nytt telefon nr här</string>
+    <string name="new_user_is_admin">Admin</string>
+    <string name="new_user_add_button">Lägg till</string>
+    <string name="new_user_cancel_button">Avbryt</string>
+    <string name="order_delivered_switch">Levererad</string>
+    <string name="save_signature_button">Spara signatur</string>
+    <string name="please_sign_below">Signera nedan, tack!</string>
 </resources>

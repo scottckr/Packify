@@ -1,8 +1,10 @@
 package com.scottcrocker.packify;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.PopupWindow;
@@ -18,8 +20,6 @@ public class NewUserActivity extends AppCompatActivity {
     EditText inputNewUserId;
     EditText inputNewUserPhoneNr;
 
-    PopupWindow pw;
-
     Switch toggle;
 
     @Override
@@ -27,10 +27,13 @@ public class NewUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user);
 
+
         inputNewUserName = (EditText) findViewById(R.id.input_new_user_name);
         inputNewUserPass = (EditText) findViewById(R.id.input_new_user_pass);
         inputNewUserId = (EditText) findViewById(R.id.input_new_user_id);
         inputNewUserPhoneNr = (EditText) findViewById(R.id.input_new_user_phonenr);
+        inputNewUserPass.setTypeface(Typeface.DEFAULT);
+        inputNewUserPass.setTransformationMethod(new PasswordTransformationMethod());
 
         toggle = (Switch) findViewById(R.id.is_new_admin);
 
@@ -58,7 +61,7 @@ public class NewUserActivity extends AppCompatActivity {
 
        // if (isValidInput && !MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
         if (!MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
-            User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, Integer.parseInt(newUserPhoneNr), toggle.isChecked());
+            User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, newUserPhoneNr, toggle.isChecked());
             MainActivity.db.addUser(user);
             Toast.makeText(getApplicationContext(), "Användare tillagd", Toast.LENGTH_SHORT).show();
             finish();

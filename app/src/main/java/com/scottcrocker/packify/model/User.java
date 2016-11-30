@@ -9,7 +9,7 @@ public class User {
 
     }
 
-    public User(int id, String password, String name, int telephone, boolean isAdmin) {
+    public User(int id, String password, String name, String telephone, boolean isAdmin) {
         this.id = id;
         this.password = password;
         this.name = name;
@@ -28,7 +28,7 @@ public class User {
     private int id;
     private String password;
     private String name;
-    private int telephone;
+    private String telephone;
     private boolean isAdmin;
 
     public int getId() {
@@ -55,11 +55,11 @@ public class User {
         this.name = name;
     }
 
-    public int getTelephone() {
+    public String getTelephone() {
         return telephone;
     }
 
-    public void setTelephone(int telephone) {
+    public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 

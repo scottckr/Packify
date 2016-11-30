@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.scottcrocker.packify.model.Order;
@@ -24,9 +23,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
+import static com.scottcrocker.packify.MainActivity.db;
 
 
 public class SpecificOrderActivity extends AppCompatActivity {
@@ -62,18 +61,15 @@ public class SpecificOrderActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ActivityCompat.requestPermissions(this, new String[]{
-                Manifest.permission.SEND_SMS},1);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
 
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
-        user = MainActivity.db.getUser(currentUserId);
 
+        user = db.getUser(currentUserId);
         orderNumber = getIntent().getIntExtra("ORDERNO", 0);
-        specificOrder = MainActivity.db.getOrder(orderNumber);
+        specificOrder = db.getOrder(orderNumber);
         refreshView();
-
-
     }
 
     @Override
@@ -91,12 +87,12 @@ public class SpecificOrderActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-
-        @Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.toolbar_update_order:
+                specificOrder = db.getOrder(orderNumber);
                 refreshView();
                 return true;
 
@@ -127,7 +123,6 @@ public class SpecificOrderActivity extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
-
         }
     }
 
@@ -139,25 +134,25 @@ public class SpecificOrderActivity extends AppCompatActivity {
         specificOrder.setDeliveryDate(currentDate);
         specificOrder.setDeliveredBy(currentUserId);
 
+
         for(int i =0; i < Order.getCurrentListedOrders().size(); i++){
             if (Order.getCurrentListedOrders().get(i).getOrderNo() == specificOrder.getOrderNo()){
                 Order.getCurrentListedOrders().get(i).setIsDelivered(true);
             }
         }
 
-        MainActivity.db.editOrder(specificOrder);
+        db.editOrder(specificOrder);
         sendSms();
         refreshView();
     }
 
     public void sendSms() {
-        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES,MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         String sharedPhoneNumber = sharedPreferences.getString("number", "");
-        String messageSms = "Order " + specificOrder.getOrderNo() + " levererad";
+        String messageSms = "Order " + specificOrder.getOrderNo() + " levererad.";
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(sharedPhoneNumber, null, messageSms, null, null);
     }
-
 
     public void refreshView() {
         orderNumTv = (TextView) findViewById(R.id.order_number);
@@ -191,7 +186,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
             deliveryDateTv.setVisibility(View.VISIBLE);
 
             deliveredByTv = (TextView) findViewById(R.id.delivered_by);
-            deliveredByStr = getString(R.string.delivered_by) + " " + specificOrder.getDeliveredBy() + ", " + MainActivity.db.getUser(specificOrder.getDeliveredBy()).getName();
+            deliveredByStr = getString(R.string.delivered_by) + " " + specificOrder.getDeliveredBy() + ", " + db.getUser(specificOrder.getDeliveredBy()).getName();
             deliveredByTv.setText(deliveredByStr);
             deliveredByTv.setVisibility(View.VISIBLE);
 
