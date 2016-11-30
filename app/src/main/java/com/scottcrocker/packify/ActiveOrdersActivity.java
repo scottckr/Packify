@@ -23,9 +23,6 @@ import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
@@ -42,6 +39,7 @@ public class ActiveOrdersActivity extends AppCompatActivity{
     int amountOfOrders;
     int amountOfNewOrdersNeeded;
     int amountOfOrdersToRemove;
+    List<Order> allOrders = new ArrayList<>();
     List<Order> undeliveredOrders = new ArrayList<>();
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -259,10 +257,11 @@ public class ActiveOrdersActivity extends AppCompatActivity{
     }
 
     public List<Order> filterUndeliveredOrders(){
-
-        for (int i = 0; i < MainActivity.db.getAllOrders().size(); i++) {
-            if (!MainActivity.db.getAllOrders().get(i).getIsDelivered()) {
-                undeliveredOrders.add(MainActivity.db.getAllOrders().get(i));
+        allOrders = MainActivity.db.getAllOrders();
+        Log.d(TAG, "Number of orders in database: "+allOrders.size());
+        for (int i = 0; i < allOrders.size(); i++) {
+            if (!allOrders.get(i).getIsDelivered()) {
+                undeliveredOrders.add(allOrders.get(i));
             }
         }
         return undeliveredOrders;

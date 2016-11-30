@@ -20,6 +20,8 @@ import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
 
+    private static final String TAG = "DATABASE";
+
     public DBHandler(Context context) {
         super(context, "PackifyDB", null, 10);
     }
@@ -47,7 +49,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(orderSql);
         db.execSQL(userSql);
         onCreate(db);
-        Log.d("DATABASE", "Database updated!");
+        Log.d(TAG, "Database updated!");
     }
 
     public void addOrder(Order order) {
@@ -74,7 +76,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         long id = db.insert("Orders", null, cvs);
         db.close();
-        Log.d("DATABASE", "Added order: " + id);
+        Log.d(TAG, "Added order: " + id);
     }
 
     public void addUser(User user) {
@@ -95,7 +97,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         long id = db.insert("Users", null, cvs);
         db.close();
-        Log.d("DATABASE", "Added user: " + id);
+        Log.d(TAG, "Added user: " + id);
     }
 
     public int editOrder(Order order) {
@@ -114,7 +116,7 @@ public class DBHandler extends SQLiteOpenHelper {
         cvs.put("longitude", order.getLongitude());
         cvs.put("latitude", order.getLatitude());
 
-        Log.d("DATABASE", "Order updated: " + cvs);
+        Log.d(TAG, "Order updated: " + cvs);
 
         return db.update("Orders", cvs, "orderNo" + " = ?", new String[]{String.valueOf(order.getOrderNo())});
     }
@@ -228,7 +230,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         cursor.close();
 
-        Log.d("DATABASE", "Got orders: " + allOrders);
+        Log.d(TAG, "Got orders: " + allOrders);
 
         return allOrders;
     }
