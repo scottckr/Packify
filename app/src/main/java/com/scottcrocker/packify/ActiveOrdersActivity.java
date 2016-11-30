@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.scottcrocker.packify.helper.RandomHelper;
@@ -42,6 +43,7 @@ public class ActiveOrdersActivity extends AppCompatActivity{
     int amountOfOrdersToRemove;
     List<Order> allOrders = new ArrayList<>();
     List<Order> undeliveredOrders = new ArrayList<>();
+    List<Order> deliveredOrders = new ArrayList<>();
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     TextView currentUserName;
@@ -57,14 +59,9 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         currentUserId = sharedPreferences.getInt("USERID", -1);
         amountOfOrders = Integer.parseInt(sharedPreferences.getString("seekBarValue", "30"));
         user = MainActivity.db.getUser(currentUserId);
+        allOrders = MainActivity.db.getAllOrders();
 
-        int undeliveredOrderAmount = filterUndeliveredOrders().size();
-        if (amountOfOrders > undeliveredOrderAmount) {
-            amountOfOrdersToDisplay = undeliveredOrderAmount;
-        } else {
-            amountOfOrdersToDisplay = amountOfOrders;
-        }
-
+        orderAmountToShow();
         cleanCurrentOrders();
         refreshOrders();
 
@@ -174,7 +171,7 @@ public class ActiveOrdersActivity extends AppCompatActivity{
     }
 
 
-    //What's this? What's this? Whaaaaaat iiiiiiiis thiiiiiiis?
+    //What's this? What's this? Whaaaaaat iiiiiiiis thiiiiiiis? QUE?
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -185,7 +182,9 @@ public class ActiveOrdersActivity extends AppCompatActivity{
      * Refreshes the view with the right amount of delivered orders.
      */
     public void refreshView() {
-        cleanCurrentOrders();
+
+        clearUndeliveredOrders();
+        //cleanCurrentOrders();
         refreshOrders();
 
         final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.list_item_label, Order.getCurrentListedOrders());
@@ -262,15 +261,61 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         }
     }
 
+    public void orderAmountToShow(){
+        int undeliveredOrderAmount = filterUndeliveredOrders().size();
+        if (amountOfOrders > undeliveredOrderAmount) {
+            amountOfOrdersToDisplay = undeliveredOrderAmount;
+        } else {
+            amountOfOrdersToDisplay = amountOfOrders;
+        }
+    }
+
     public List<Order> filterUndeliveredOrders(){
         allOrders = MainActivity.db.getAllOrders();
-        Log.d(TAG, "Number of orders in database: "+allOrders.size());
+        Log.d(TAG, "Number of orders in database: " + allOrders.size());
         for (int i = 0; i < allOrders.size(); i++) {
             if (!allOrders.get(i).getIsDelivered()) {
                 undeliveredOrders.add(allOrders.get(i));
             }
+            else{
+                deliveredOrders.add(allOrders.get(i));
+            }
         }
         return undeliveredOrders;
+    }
+
+    public void clearUndeliveredOrders(){
+        filterUndeliveredOrders();
+        List<Order> tempOrder = new ArrayList<>();
+        boolean deliveredOrder = false;
+        int amountRemoved;
+
+        for(int i =0; i < Order.getCurrentListedOrders().size(); i++){
+            for(int y = 0; y < deliveredOrders.size(); y++){
+                if(Order.getCurrentListedOrders().get(i).getOrderNo() == deliveredOrders.get(y).getOrderNo()){
+                    deliveredOrder = true;
+                }
+            }
+            if (deliveredOrder == false){
+                tempOrder.add(Order.getCurrentListedOrders().get(i));
+            }else{
+                deliveredOrder = false;
+            }
+        }
+
+        Order.getCurrentListedOrders().clear();
+        for(int i =0; i < tempOrder.size(); i++){
+            Order.getCurrentListedOrders().add(tempOrder.get(i));
+        }
+        amountRemoved = amountOfOrdersToDisplay-tempOrder.size();
+        if(amountRemoved == 1){
+            Toast.makeText(this, amountRemoved + " levererad order togs bort", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, amountRemoved + " levererade ordrar togs bort", Toast.LENGTH_SHORT).show();
+        }
+
+
+
     }
 
 }

@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
@@ -127,23 +128,31 @@ public class SpecificOrderActivity extends AppCompatActivity {
     }
 
     public void deliverOrder(View view) {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        String currentDate = df.format(Calendar.getInstance().getTime());
+        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        String sharedPhoneNumber = sharedPreferences.getString("number", "");
+        if (sharedPhoneNumber.equals("")){
+            Toast.makeText(this, "Du måste fylla i ett telefonummer i Inställningar", Toast.LENGTH_SHORT).show();
+        }else{
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            String currentDate = df.format(Calendar.getInstance().getTime());
 
-        specificOrder.setIsDelivered(true);
-        specificOrder.setDeliveryDate(currentDate);
-        specificOrder.setDeliveredBy(currentUserId);
+            specificOrder.setIsDelivered(true);
+            specificOrder.setDeliveryDate(currentDate);
+            specificOrder.setDeliveredBy(currentUserId);
 
 
-        for(int i =0; i < Order.getCurrentListedOrders().size(); i++){
+        /*for(int i =0; i < Order.getCurrentListedOrders().size(); i++){
             if (Order.getCurrentListedOrders().get(i).getOrderNo() == specificOrder.getOrderNo()){
                 Order.getCurrentListedOrders().get(i).setIsDelivered(true);
             }
+        }*/
+
+
+            db.editOrder(specificOrder);
+            sendSms();
+            refreshView();
         }
 
-        db.editOrder(specificOrder);
-        sendSms();
-        refreshView();
     }
 
     public void sendSms() {
