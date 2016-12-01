@@ -63,7 +63,7 @@ public class NewUserActivity extends AppCompatActivity {
 
 
 
-        if (validationHelper.validateNewUserFields() == true && !MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
+        if (validationHelper.validateNewUserFields() && !MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
             User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, newUserPhoneNr, toggle.isChecked());
             MainActivity.db.addUser(user);
             Toast.makeText(getApplicationContext(), "Användare tillagd", Toast.LENGTH_SHORT).show();
