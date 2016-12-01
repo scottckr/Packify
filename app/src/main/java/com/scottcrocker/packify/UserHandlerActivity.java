@@ -1,8 +1,12 @@
 package com.scottcrocker.packify;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.PasswordTransformationMethod;
@@ -42,6 +46,11 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     Button deleteUserBtn;
     List<User> users;
     User user;
+    User currentUser;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+    TextView currentUserName;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +58,8 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         setContentView(R.layout.activity_user_handler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        currentUser = db.getUser(currentUserId);
 
         inputName = (EditText) findViewById(R.id.input_user_name);
         inputPassword = (EditText) findViewById(R.id.input_user_password);
@@ -65,7 +76,85 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         mSpinner = (Spinner) findViewById(R.id.spinner_user_id);
         mSpinner.setOnItemSelectedListener(this);
         loadSpinnerData();
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_user_handler);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.string.drawer_open, R.string.drawer_close);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        setUpNavigationView();
+        View header = navigationView.getHeaderView(0);
+        currentUserName = (TextView) header.findViewById(R.id.current_user_name);
+        currentUserName.setText(currentUser.getName());
     }
+
+    private void setUpNavigationView() {
+        navigationView = (NavigationView) findViewById(R.id.navList);
+
+        // Disabling menu-item for this activity and admin options for non-admin users
+        navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                Intent intent;
+                int id = menuItem.getItemId();
+                switch (id) {
+                    case R.id.navDrawer_settings:
+                        intent = new Intent(UserHandlerActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                        return true;
+
+                    case R.id.navDrawer_admin_orderhandler:
+                        intent = new Intent(UserHandlerActivity.this, OrderHandlerActivity.class);
+                        startActivity(intent);
+                        return true;
+
+                    case R.id.navDrawer_activeorders:
+                        intent = new Intent(UserHandlerActivity.this, ActiveOrdersActivity.class);
+                        startActivity(intent);
+                        return true;
+
+                    case R.id.navDrawer_orderhistory:
+                        intent = new Intent(UserHandlerActivity.this, OrderHistoryActivity.class);
+                        startActivity(intent);
+                        return true;
+
+
+                }
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        if (item.getItemId() == R.id.toolbar_update_order) {
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    //What's this? What's this? Whaaaaaat iiiiiiiis thiiiiiiis?
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
 
     @Override
     protected void onPause() {
@@ -206,44 +295,5 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        menu.getItem(0).setVisible(false);
-        menu.getItem(4).setVisible(false);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()) {
-
-            case R.id.toolbar_settings:
-                intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.toolbar_admin_orderhandler:
-                intent = new Intent(this, OrderHandlerActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.toolbar_activeorders:
-                intent = new Intent(this, ActiveOrdersActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.toolbar_orderhistory:
-                intent = new Intent(this, OrderHistoryActivity.class);
-                startActivity(intent);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-
-        }
     }
 }
