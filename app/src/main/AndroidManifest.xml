@@ -49,7 +49,6 @@
             android:label="@string/login_label"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:launchMode="singleTop"
             android:name=".NewUserActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity android:name=".SignatureActivity"></activity>
