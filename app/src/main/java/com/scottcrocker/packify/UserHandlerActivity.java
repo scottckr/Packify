@@ -43,6 +43,9 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     List<User> users;
     User user;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,12 +94,13 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         mSpinner.setAdapter(dataAdapter);
     }
 
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemSelected(AdapterView<?> parent, View view, int position,
+                               long id) {
         // On selecting a spinner item
 
         user = (User) parent.getItemAtPosition(position);
         // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "Vald användare: " + user,
+        Toast.makeText(parent.getContext(), "You selected: " + user,
                 Toast.LENGTH_LONG).show();
 
         populateInputFields();
@@ -117,7 +121,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         if (user.getId() != 0) {
             user.setName(String.valueOf(inputName.getText()));
             user.setPassword(String.valueOf(inputPassword.getText()));
-            user.setTelephone(String.valueOf(inputPhoneNr.getText()));
+            user.setTelephone(Integer.parseInt(String.valueOf(inputPhoneNr.getText())));
             user.setIsAdmin(toggle.isChecked());
             db.editUser(user);
             Toast.makeText(getApplicationContext(), "Användaruppgifter uppdaterade", Toast.LENGTH_SHORT).show();
