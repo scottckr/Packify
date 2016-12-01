@@ -19,12 +19,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
@@ -70,6 +72,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
+
         user = db.getUser(currentUserId);
         orderNumber = getIntent().getIntExtra("ORDERNO", 0);
         specificOrder = db.getOrder(orderNumber);

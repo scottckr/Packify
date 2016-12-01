@@ -88,10 +88,9 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
                     if (db.getOrder(Integer.parseInt(orderNoET.getText().toString())).getIsDelivered()) {
                         isDeliveredSwitch.setChecked(true);
-                    } else {
-                        isDeliveredSwitch.setChecked(false);
                     }
                 } else {
+                    isDeliveredSwitch.setChecked(false);
                     editOrderBtn.setVisibility(View.INVISIBLE);
                     addOrderBtn.setVisibility(View.VISIBLE);
 

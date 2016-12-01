@@ -91,13 +91,12 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         mSpinner.setAdapter(dataAdapter);
     }
 
-    public void onItemSelected(AdapterView<?> parent, View view, int position,
-                               long id) {
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
 
         user = (User) parent.getItemAtPosition(position);
         // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "You selected: " + user,
+        Toast.makeText(parent.getContext(), "Vald användare: " + user,
                 Toast.LENGTH_LONG).show();
 
         populateInputFields();
@@ -199,9 +198,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
                 }
                 break;
         }
-
     }
-
 
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
