@@ -14,7 +14,7 @@ public class ValidationHelper {
 
     boolean[] validationArray = new boolean[4];
 
-    public boolean validateNewUserFields(){
+    public boolean validatedNewUserFields(){
 
             for(boolean b : validationArray)
                 if(!b){
