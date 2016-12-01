@@ -40,7 +40,7 @@ public class SignatureActivity extends AppCompatActivity {
         ByteArrayOutputStream bs = new ByteArrayOutputStream();
         signature.compress(Bitmap.CompressFormat.PNG, 50, bs);
         if (bs.toByteArray() != null) {
-            Toast.makeText(getApplicationContext(), "Signature saved!" + bs.toByteArray().length, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Signature saved!" + bs.toByteArray().length/1024, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getApplicationContext(), "ERROR!!!", Toast.LENGTH_SHORT).show();
         }
