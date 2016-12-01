@@ -180,7 +180,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
             Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
                     customerName, address, postAddress, Integer.parseInt(orderSum), "---",
                     isDeliveredSwitch.isChecked(), MainActivity.db.getUser(currentUserId).getId(),MainActivity.gps.getLongitude(address),
-                    MainActivity.gps.getLatitude(address));
+                    MainActivity.gps.getLatitude(address), null);
 
             MainActivity.db.addOrder(order);
             Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
@@ -202,7 +202,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
         Order editedOrder = new Order(order.getOrderNo(), Integer.parseInt(customerIdET.getText().toString()),
                 customerNameET.getText().toString(), addressET.getText().toString(), postAddressET.getText().toString(),
                 Integer.parseInt(orderSumET.getText().toString()), order.getDeliveryDate(), isDeliveredSwitch.isChecked(),
-                order.getDeliveredBy(), order.getLongitude(), order.getLatitude());
+                order.getDeliveredBy(), order.getLongitude(), order.getLatitude(), order.getSignature());
         db.editOrder(editedOrder);
         refreshView();
     }

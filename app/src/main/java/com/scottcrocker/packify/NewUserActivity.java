@@ -11,6 +11,7 @@ import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.helper.ValidationHelper;
 import com.scottcrocker.packify.model.User;
 
 public class NewUserActivity extends AppCompatActivity {
@@ -20,11 +21,9 @@ public class NewUserActivity extends AppCompatActivity {
     EditText inputNewUserId;
     EditText inputNewUserPhoneNr;
 
-    PopupWindow pw;
-
     Switch toggle;
+    ValidationHelper validationHelper = new ValidationHelper();
 
-        ValidationHelper validationHelper = new ValidationHelper();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +64,7 @@ public class NewUserActivity extends AppCompatActivity {
 
 
         if (validationHelper.validateNewUserFields() == true && !MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
-            User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, Integer.parseInt(newUserPhoneNr), toggle.isChecked());
+            User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, newUserPhoneNr, toggle.isChecked());
             MainActivity.db.addUser(user);
             Toast.makeText(getApplicationContext(), "Användare tillagd", Toast.LENGTH_SHORT).show();
             finish();

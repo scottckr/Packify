@@ -23,7 +23,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String TAG = "DATABASE";
 
     public DBHandler(Context context) {
-        super(context, "PackifyDB", null, 11);
+        super(context, "PackifyDB", null, 12);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 "orderNo INTEGER NOT NULL, customerNo INTEGER NOT NULL, customerName TEXT NOT NULL, " +
                 "address TEXT NOT NULL, postAddress TEXT NOT NULL, orderSum INTEGER NOT NULL, " +
                 "deliveryDate TEXT NOT NULL, isDelivered INTEGER NOT NULL, deliveredBy INTEGER NOT NULL, " +
-                "longitude REAL NOT NULL, latitude REAL NOT NULL);";
+                "longitude REAL NOT NULL, latitude REAL NOT NULL, signature BLOB);";
         String userSql = "CREATE TABLE Users (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "userId INTEGER NOT NULL, password TEXT NOT NULL, name TEXT NOT NULL, " +
                 "telephone TEXT NOT NULL, isAdmin INTEGER NOT NULL);";
@@ -73,6 +73,7 @@ public class DBHandler extends SQLiteOpenHelper {
         cvs.put("deliveredBy", order.getDeliveredBy());
         cvs.put("longitude", order.getLongitude());
         cvs.put("latitude", order.getLatitude());
+        cvs.put("signature", order.getSignature());
 
         long id = db.insert("Orders", null, cvs);
         db.close();
@@ -115,6 +116,7 @@ public class DBHandler extends SQLiteOpenHelper {
         cvs.put("deliveredBy", order.getDeliveredBy());
         cvs.put("longitude", order.getLongitude());
         cvs.put("latitude", order.getLatitude());
+        cvs.put("signature", order.getSignature());
 
         Log.d(TAG, "Order updated: " + cvs);
 
@@ -161,6 +163,7 @@ public class DBHandler extends SQLiteOpenHelper {
             order.setDeliveredBy(cursor.getInt(9));
             order.setLongitude(cursor.getDouble(10));
             order.setLatitude(cursor.getDouble(11));
+            order.setSignature(cursor.getBlob(12));
             cursor.close();
         } else {
             order = null;
@@ -223,6 +226,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 order.setDeliveredBy(cursor.getInt(9));
                 order.setLongitude(cursor.getDouble(10));
                 order.setLatitude(cursor.getDouble(11));
+                order.setSignature(cursor.getBlob(12));
 
                 allOrders.add(order);
             } while (cursor.moveToNext());

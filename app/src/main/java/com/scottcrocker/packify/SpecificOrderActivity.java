@@ -26,7 +26,6 @@ import com.scottcrocker.packify.model.User;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
@@ -82,11 +81,24 @@ public class SpecificOrderActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
-            if(requestCode == Activity.RESULT_OK) {
-                signature = BitmapFactory.decodeByteArray(data.getByteArrayExtra("SIGNATURE"), 0,
+            if(resultCode == Activity.RESULT_OK) {
+                /*signature = BitmapFactory.decodeByteArray(data.getByteArrayExtra("SIGNATURE"), 0,
                         data.getByteArrayExtra("SIGNATURE").length);
                 signatureIv = (ImageView) findViewById(R.id.signature_imageview);
-                signatureIv.setImageBitmap(signature);
+                signatureIv.setImageBitmap(signature);*/
+
+                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                String currentDate = df.format(Calendar.getInstance().getTime());
+                specificOrder.setIsDelivered(true);
+                specificOrder.setDeliveryDate(currentDate);
+                specificOrder.setDeliveredBy(currentUserId);
+                specificOrder.setSignature(data.getByteArrayExtra("SIGNATURE"));
+
+                db.editOrder(specificOrder);
+
+                sendSms();
+
+                refreshView();
             }
         }
     }
@@ -148,17 +160,6 @@ public class SpecificOrderActivity extends AppCompatActivity {
     public void deliverOrder(View view) {
         Intent intent = new Intent(this, SignatureActivity.class);
         startActivityForResult(intent, 1);
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        String currentDate = df.format(Calendar.getInstance().getTime());
-
-        specificOrder.setIsDelivered(true);
-        specificOrder.setDeliveryDate(currentDate);
-        specificOrder.setDeliveredBy(currentUserId);
-
-        db.editOrder(specificOrder);
-
-        sendSms();
-        refreshView();
     }
 
     public void sendSms() {
@@ -207,6 +208,11 @@ public class SpecificOrderActivity extends AppCompatActivity {
 
             btnDeliverOrder = (Button) findViewById(R.id.btn_deliver_order);
             btnDeliverOrder.setEnabled(false);
+
+            signatureIv = (ImageView) findViewById(R.id.signature_imageview);
+            signature = BitmapFactory.decodeByteArray(specificOrder.getSignature(), 0,
+                    specificOrder.getSignature().length);
+            signatureIv.setImageBitmap(signature);
         } else {
             deliveryDateTv = (TextView) findViewById(R.id.delivery_date);
             deliveryDateTv.setVisibility(View.INVISIBLE);

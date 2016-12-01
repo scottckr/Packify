@@ -121,7 +121,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         if (user.getId() != 0) {
             user.setName(String.valueOf(inputName.getText()));
             user.setPassword(String.valueOf(inputPassword.getText()));
-            user.setTelephone(Integer.parseInt(String.valueOf(inputPhoneNr.getText())));
+            user.setTelephone(String.valueOf(inputPhoneNr.getText()));
             user.setIsAdmin(toggle.isChecked());
             db.editUser(user);
             Toast.makeText(getApplicationContext(), "Användaruppgifter uppdaterade", Toast.LENGTH_SHORT).show();

@@ -3,6 +3,7 @@ package com.scottcrocker.packify.helper;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
@@ -21,7 +22,7 @@ public class DrawingView extends View {
 
     private Path drawPath;
     private Paint drawPaint, canvasPaint;
-    private int paintColor = 0x00000000;
+    int paintColor = Color.BLACK;
     private Canvas drawCanvas;
     private Bitmap canvasBitmap;
 

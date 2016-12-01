@@ -50,6 +50,7 @@
             android:name=".NewUserActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
-            android:name=".SignatureActivity" />
+            android:name=".SignatureActivity"
+            android:screenOrientation="landscape"/>
     </application>
 </manifest>

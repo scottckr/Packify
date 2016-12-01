@@ -22,6 +22,7 @@ public class Order implements Parcelable{
     private int customerNo;
     private int deliveredBy;
     private String customerName;
+    private byte[] signature;
     List<Order> orderList = new ArrayList<>();
     static List<Order> currentListedOrders = new ArrayList<>();
 
@@ -37,7 +38,7 @@ public class Order implements Parcelable{
     }
 
     public Order(int orderNo, int customerNo, String customerName, String address, String postAddress, int orderSum,
-                 String deliveryDate, boolean isDelivered, int deliveredBy, double longitude, double latitude) {
+                 String deliveryDate, boolean isDelivered, int deliveredBy, double longitude, double latitude, byte[] signature) {
         this.orderNo = orderNo;
         this.address = address;
         this.postAddress = postAddress;
@@ -49,6 +50,7 @@ public class Order implements Parcelable{
         this.latitude = latitude;
         this.longitude = longitude;
         this.customerNo = customerNo;
+        this.signature = signature;
     }
 
     protected Order(Parcel in) {
@@ -189,5 +191,13 @@ public class Order implements Parcelable{
 
     public String getPostAddress() {
         return postAddress;
+    }
+
+    public void setSignature(byte[] signature) {
+        this.signature = signature;
+    }
+
+    public byte[] getSignature() {
+        return signature;
     }
 }
