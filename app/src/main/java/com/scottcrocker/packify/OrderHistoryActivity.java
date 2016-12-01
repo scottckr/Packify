@@ -2,7 +2,11 @@ package com.scottcrocker.packify;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -11,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.scottcrocker.packify.controller.OrderViewAdapter;
 import com.scottcrocker.packify.model.Order;
@@ -29,6 +34,10 @@ public class OrderHistoryActivity extends AppCompatActivity {
     ListView historyListView;
     User user;
     int currentUserId;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+    TextView currentUserName;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,56 +71,107 @@ public class OrderHistoryActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_order_history);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.string.drawer_open, R.string.drawer_close);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        setUpNavigationView();
+        View header = navigationView.getHeaderView(0);
+        currentUserName = (TextView) header.findViewById(R.id.current_user_name);
+        currentUserName.setText(user.getName());
+
     }
+
+    private void setUpNavigationView() {
+        navigationView = (NavigationView) findViewById(R.id.navList);
+
+
+        // Disabling menu-item for this activity and admin options for non-admin users
+        navigationView.getMenu().findItem(R.id.navDrawer_orderhistory).setVisible(false);
+        if (!user.getIsAdmin()) {
+            navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
+            navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+        }
+
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                Intent intent;
+                int id = menuItem.getItemId();
+                switch (id) {
+                    case R.id.navDrawer_settings:
+                        intent = new Intent(OrderHistoryActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                        return true;
+
+
+                    case R.id.navDrawer_admin_userhandler:
+                        intent = new Intent(OrderHistoryActivity.this, UserHandlerActivity.class);
+                        startActivity(intent);
+                        return true;
+
+
+                    case R.id.navDrawer_admin_orderhandler:
+                        intent = new Intent(OrderHistoryActivity.this, OrderHandlerActivity.class);
+                        startActivity(intent);
+                        return true;
+
+
+                    case R.id.navDrawer_activeorders:
+                        intent = new Intent(OrderHistoryActivity.this, ActiveOrdersActivity.class);
+                        startActivity(intent);
+                        return true;
+
+
+                }
+                return false;
+            }
+        });
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        menu.getItem(2).setVisible(false);
+        // TODO: Delete items from toolbar_menu.xml after implementing the navDrawer on all activities
+        menu.getItem(1).setVisible(false);
         menu.getItem(3).setVisible(false);
-
-        Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " + user.getIsAdmin());
-        if (user.getIsAdmin()) {
-            Log.d(TAG, "Showing admin choices in toolbar menu");
-        } else {
-            Log.d(TAG, "Disabling admin choices in toolbar menu");
-            menu.getItem(4).setVisible(false);
-            menu.getItem(5).setVisible(false);
-        }
+        menu.getItem(4).setVisible(false);
+        menu.getItem(5).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()) {
-            case R.id.toolbar_update_order:
-                refreshView();
-                return true;
-
-            case R.id.toolbar_settings:
-                intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.toolbar_admin_userhandler:
-                intent = new Intent(this, UserHandlerActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.toolbar_admin_orderhandler:
-                intent = new Intent(this, OrderHandlerActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.toolbar_activeorders:
-                intent = new Intent(this, ActiveOrdersActivity.class);
-                startActivity(intent);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
         }
+
+        if (item.getItemId() == R.id.toolbar_update_order) {
+            refreshView();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    //What's this? What's this? Whaaaaaat iiiiiiiis thiiiiiiis?
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     //TODO Check if method works

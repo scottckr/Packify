@@ -2,7 +2,11 @@ package com.scottcrocker.packify;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -14,9 +18,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.scottcrocker.packify.model.Order;
+import com.scottcrocker.packify.model.User;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
@@ -36,6 +42,11 @@ public class OrderHandlerActivity extends AppCompatActivity {
     boolean isValidInput;
     SharedPreferences sharedPreferences;
     int currentUserId;
+    User user;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+    TextView currentUserName;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +54,8 @@ public class OrderHandlerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_handler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        user = db.getUser(currentUserId);
 
         addOrderBtn = (Button) findViewById(R.id.btn_submit_order);
         editOrderBtn = (Button) findViewById(R.id.btn_edit_order);
@@ -102,45 +115,90 @@ public class OrderHandlerActivity extends AppCompatActivity {
                 }
             }
         });
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_order_handler);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.string.drawer_open, R.string.drawer_close);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        setUpNavigationView();
+        View header = navigationView.getHeaderView(0);
+        currentUserName = (TextView) header.findViewById(R.id.current_user_name);
+        currentUserName.setText(user.getName());
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        menu.getItem(0).setVisible(false);
-        menu.getItem(5).setVisible(false);
-        return super.onCreateOptionsMenu(menu);
+    private void setUpNavigationView() {
+        navigationView = (NavigationView) findViewById(R.id.navList);
+
+        // Disabling menu-item for this activity and admin options for non-admin users
+        navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
+        if (!user.getIsAdmin()) {
+            navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
+            navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+        }
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                Intent intent;
+                int id = menuItem.getItemId();
+                switch (id) {
+                    case R.id.navDrawer_settings:
+                        intent = new Intent(OrderHandlerActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                        return true;
+
+                    case R.id.navDrawer_admin_userhandler:
+                        intent = new Intent(OrderHandlerActivity.this, UserHandlerActivity.class);
+                        startActivity(intent);
+                        return true;
+
+                    case R.id.navDrawer_activeorders:
+                        intent = new Intent(OrderHandlerActivity.this, ActiveOrdersActivity.class);
+                        startActivity(intent);
+                        return true;
+
+                    case R.id.navDrawer_orderhistory:
+                        intent = new Intent(OrderHandlerActivity.this, OrderHistoryActivity.class);
+                        startActivity(intent);
+                        return true;
+
+
+                }
+                return false;
+            }
+        });
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()) {
-            case R.id.toolbar_settings:
-                intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                return true;
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
 
-            case R.id.toolbar_admin_userhandler:
-                intent = new Intent(this, UserHandlerActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.toolbar_activeorders:
-                intent = new Intent(this, ActiveOrdersActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.toolbar_orderhistory:
-                intent = new Intent(this, OrderHistoryActivity.class);
-                startActivity(intent);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-
+        if (item.getItemId() == R.id.toolbar_update_order) {
+            refreshView();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    //What's this? What's this? Whaaaaaat iiiiiiiis thiiiiiiis?
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
 
     /**
      * Method to create a new order object, or handle an existing order object which will be sent to DB
