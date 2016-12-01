@@ -55,6 +55,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
     String deliveredByStr;
     TextView postAddressTv;
     String postAddressStr;
+    TextView receivedByTv;
     User user;
     int currentUserId;
     ImageView signatureIv;
@@ -209,6 +210,9 @@ public class SpecificOrderActivity extends AppCompatActivity {
             btnDeliverOrder = (Button) findViewById(R.id.btn_deliver_order);
             btnDeliverOrder.setEnabled(false);
 
+            receivedByTv = (TextView) findViewById(R.id.received_by);
+            receivedByTv.setVisibility(View.VISIBLE);
+
             signatureIv = (ImageView) findViewById(R.id.signature_imageview);
             signature = BitmapFactory.decodeByteArray(specificOrder.getSignature(), 0,
                     specificOrder.getSignature().length);
@@ -216,6 +220,9 @@ public class SpecificOrderActivity extends AppCompatActivity {
         } else {
             deliveryDateTv = (TextView) findViewById(R.id.delivery_date);
             deliveryDateTv.setVisibility(View.INVISIBLE);
+
+            receivedByTv = (TextView) findViewById(R.id.received_by);
+            receivedByTv.setVisibility(View.INVISIBLE);
 
             deliveredByTv = (TextView) findViewById(R.id.delivered_by);
             deliveredByTv.setVisibility(View.INVISIBLE);
