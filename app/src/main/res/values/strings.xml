@@ -64,5 +64,8 @@
     <string name="new_user_cancel_button">Avbryt</string>
     <string name="order_delivered_switch">Levererad</string>
     <string name="save_signature_button">Spara signatur</string>
-    <string name="please_sign_below">Signera nedan, tack!</string>
+    <string name="please_sign_below"><u>Signera nedan, tack!</u></string>
+    <string name="signature_cancel_button">Avbryt</string>
+    <string name="received_by">Mottagen av:</string>
+    <string name="main_activity_label">Packify</string>
 </resources>

@@ -11,6 +11,7 @@ import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.helper.ValidationHelper;
 import com.scottcrocker.packify.model.User;
 
 public class NewUserActivity extends AppCompatActivity {
@@ -21,12 +22,12 @@ public class NewUserActivity extends AppCompatActivity {
     EditText inputNewUserPhoneNr;
 
     Switch toggle;
+    ValidationHelper validationHelper = new ValidationHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user);
-
 
         inputNewUserName = (EditText) findViewById(R.id.input_new_user_name);
         inputNewUserPass = (EditText) findViewById(R.id.input_new_user_pass);
@@ -48,32 +49,31 @@ public class NewUserActivity extends AppCompatActivity {
         //isValidInput = true;
 
         String newUsername = String.valueOf(inputNewUserName.getText());
-       // validateInput(newUsername, "Namn");
+        validationHelper.validateInputName(newUsername,this);
+
 
         String newUserPass = String.valueOf(inputNewUserPass.getText());
-       // validateInput(newUserPass, "Lösenord");
+        validationHelper.validateInputPassWord(newUserPass,this);
 
         String newUserPhoneNr = inputNewUserPhoneNr.getText().toString();
-       // validateInput(newUserPhoneNr, "Telefonnummer");
+        validationHelper.validateInputPhoneNr(newUserPhoneNr,this);
 
         String newUserId = inputNewUserId.getText().toString();
-       // validateInput(newUserId, "Användar ID");
+        validationHelper.validateInputUserId(newUserId,this);
 
-       // if (isValidInput && !MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
-        if (!MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
+
+
+        if (validationHelper.validateNewUserFields() && !MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
             User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, newUserPhoneNr, toggle.isChecked());
             MainActivity.db.addUser(user);
             Toast.makeText(getApplicationContext(), "Användare tillagd", Toast.LENGTH_SHORT).show();
             finish();
             Intent intent = new Intent(this, UserHandlerActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
-        } else {
+        } else if (MainActivity.db.doesFieldExist("Users", "userId", newUserId)){
             Toast.makeText(getApplicationContext(), "Användar-ID finns redan!", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Något fält är felaktigt.", Toast.LENGTH_LONG).show();
         }
-
-       // } else if (MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
-        //    Toast.makeText(getApplicationContext(), "Användar-ID finns redan!", Toast.LENGTH_LONG).show();
-       // }
     }
 }

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:text="@string/please_sign_below"/>
+        android:text="@string/please_sign_below" />
     <com.scottcrocker.packify.helper.DrawingView
         android:id="@+id/signature_drawingview"
         android:layout_width="match_parent"
@@ -23,12 +23,24 @@
         android:layout_marginEnd="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="3dp"
-        android:layout_weight="1"
-        android:background="#FFFFFFFF"/>
-    <Button
-        android:id="@+id/save_signature_button"
+        android:layout_weight="1"/>
+        <!--android:background="#FFFFFFFF"-->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:text="@string/save_signature_button"/>
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/save_signature_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/save_signature_button"
+            android:onClick="saveSignature"/>
+        <Button
+            android:id="@+id/signature_cancel_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/signature_cancel_button"
+            android:onClick="cancelSignature"/>
+    </LinearLayout>
 </LinearLayout>
