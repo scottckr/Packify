@@ -23,7 +23,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
@@ -117,59 +116,6 @@ public class SpecificOrderActivity extends AppCompatActivity {
                         intent = new Intent(SpecificOrderActivity.this, SettingsActivity.class);
                         startActivity(intent);
                         return true;
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK) {
-                /*signature = BitmapFactory.decodeByteArray(data.getByteArrayExtra("SIGNATURE"), 0,
-                        data.getByteArrayExtra("SIGNATURE").length);
-                signatureIv = (ImageView) findViewById(R.id.signature_imageview);
-                signatureIv.setImageBitmap(signature);*/
-
-                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                String currentDate = df.format(Calendar.getInstance().getTime());
-                specificOrder.setIsDelivered(true);
-                specificOrder.setDeliveryDate(currentDate);
-                specificOrder.setDeliveredBy(currentUserId);
-                specificOrder.setSignature(data.getByteArrayExtra("SIGNATURE"));
-
-                db.editOrder(specificOrder);
-
-                sendSms();
-
-                refreshView();
-            }
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-
-        Log.d(TAG, "Current user id: " + currentUserId + " // User is admin: " + user.getIsAdmin());
-        if (user.getIsAdmin()) {
-            Log.d(TAG, "Showing admin choices in toolbar menu");
-        } else {
-            Log.d(TAG, "Disabling admin choices in toolbar menu");
-            menu.getItem(4).setVisible(false);
-            menu.getItem(5).setVisible(false);
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()) {
-            case R.id.toolbar_update_order:
-                specificOrder = db.getOrder(orderNumber);
-                refreshView();
-                return true;
-
-            case R.id.toolbar_settings:
-                intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                return true;
 
                     case R.id.navDrawer_admin_userhandler:
                         intent = new Intent(SpecificOrderActivity.this, UserHandlerActivity.class);
@@ -199,6 +145,31 @@ public class SpecificOrderActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK) {
+                /*signature = BitmapFactory.decodeByteArray(data.getByteArrayExtra("SIGNATURE"), 0,
+                        data.getByteArrayExtra("SIGNATURE").length);
+                signatureIv = (ImageView) findViewById(R.id.signature_imageview);
+                signatureIv.setImageBitmap(signature);*/
+
+                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                String currentDate = df.format(Calendar.getInstance().getTime());
+                specificOrder.setIsDelivered(true);
+                specificOrder.setDeliveryDate(currentDate);
+                specificOrder.setDeliveredBy(currentUserId);
+                specificOrder.setSignature(data.getByteArrayExtra("SIGNATURE"));
+
+                db.editOrder(specificOrder);
+
+                sendSms();
+
+                refreshView();
+            }
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         menu.getItem(2).setVisible(false);
@@ -209,7 +180,6 @@ public class SpecificOrderActivity extends AppCompatActivity {
         menu.getItem(5).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
