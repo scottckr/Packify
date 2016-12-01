@@ -129,13 +129,12 @@ public class ActiveOrdersActivity extends AppCompatActivity{
                         intent = new Intent(ActiveOrdersActivity.this, OrderHistoryActivity.class);
                         startActivity(intent);
                         return true;
-
-
                 }
                 return false;
             }
         });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -148,7 +147,6 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         menu.getItem(5).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -184,7 +182,7 @@ public class ActiveOrdersActivity extends AppCompatActivity{
     public void refreshView() {
 
         clearUndeliveredOrders();
-        //cleanCurrentOrders();
+        cleanCurrentOrders();
         refreshOrders();
 
         final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.list_item_label, Order.getCurrentListedOrders());

@@ -29,15 +29,18 @@
             android:name=".OrderHistoryActivity"
             android:label="@string/order_history_label" />
         <activity
+
             android:name=".SpecificOrderActivity"
             android:label="@string/specific_order_label" />
         <activity
             android:name=".OrderHandlerActivity"
             android:label="@string/order_handler_label" />
         <activity
+
             android:name=".SettingsActivity"
             android:label="@string/settings_label" />
         <activity
+
             android:name=".UserHandlerActivity"
             android:label="@string/user_handler_label" />
         <activity
@@ -46,6 +49,7 @@
             android:label="@string/login_label"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:launchMode="singleTop"
             android:name=".NewUserActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity android:name=".SignatureActivity"></activity>
