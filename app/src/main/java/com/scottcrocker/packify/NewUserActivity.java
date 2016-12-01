@@ -66,6 +66,7 @@ public class NewUserActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Användare tillagd", Toast.LENGTH_SHORT).show();
             finish();
             Intent intent = new Intent(this, UserHandlerActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), "Användar-ID finns redan!", Toast.LENGTH_LONG).show();
