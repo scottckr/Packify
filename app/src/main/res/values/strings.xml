@@ -65,4 +65,5 @@
     <string name="order_delivered_switch">Levererad</string>
     <string name="save_signature_button">Spara signatur</string>
     <string name="please_sign_below">Signera nedan, tack!</string>
+    <string name="signature_cancel_button">Avbryt</string>
 </resources>

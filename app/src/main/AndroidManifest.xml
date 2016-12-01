@@ -3,6 +3,7 @@
     package="com.scottcrocker.packify">
 
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -48,7 +49,7 @@
         <activity
             android:name=".NewUserActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity android:name=".SignatureActivity"></activity>
+        <activity
+            android:name=".SignatureActivity" />
     </application>
-
 </manifest>

@@ -1,8 +1,11 @@
 package com.scottcrocker.packify;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.scottcrocker.packify.model.Order;
@@ -52,6 +56,8 @@ public class SpecificOrderActivity extends AppCompatActivity {
     String postAddressStr;
     User user;
     int currentUserId;
+    ImageView signatureIv;
+    Bitmap signature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +74,18 @@ public class SpecificOrderActivity extends AppCompatActivity {
         orderNumber = getIntent().getIntExtra("ORDERNO", 0);
         specificOrder = db.getOrder(orderNumber);
         refreshView();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if(requestCode == Activity.RESULT_OK) {
+                signature = BitmapFactory.decodeByteArray(data.getByteArrayExtra("SIGNATURE"), 0,
+                        data.getByteArrayExtra("SIGNATURE").length);
+                signatureIv = (ImageView) findViewById(R.id.signature_imageview);
+                signatureIv.setImageBitmap(signature);
+            }
+        }
     }
 
     @Override
@@ -125,6 +143,8 @@ public class SpecificOrderActivity extends AppCompatActivity {
     }
 
     public void deliverOrder(View view) {
+        Intent intent = new Intent(this, SignatureActivity.class);
+        startActivityForResult(intent, 1);
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         String currentDate = df.format(Calendar.getInstance().getTime());
 
@@ -133,6 +153,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
         specificOrder.setDeliveredBy(currentUserId);
 
         db.editOrder(specificOrder);
+
         sendSms();
         refreshView();
     }
