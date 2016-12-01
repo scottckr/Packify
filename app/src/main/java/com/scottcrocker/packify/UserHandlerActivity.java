@@ -46,6 +46,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     Button deleteUserBtn;
     List<User> users;
     User user;
+    //Variable "currentUser" is only called that because of "user" being used later in code - must be changed
     User currentUser;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -97,6 +98,10 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         // Disabling menu-item for this activity and admin options for non-admin users
         navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+        if (!currentUser.getIsAdmin()) {
+            navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
+            navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+        }
 
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
