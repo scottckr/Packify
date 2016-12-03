@@ -63,7 +63,7 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         allOrders = MainActivity.db.getAllOrders();
 
         orderAmountToShow();
-        cleanCurrentOrders();
+        //cleanCurrentOrders();
         refreshOrders();
 
         final OrderViewAdapter adapter = new OrderViewAdapter(this, Order.getCurrentListedOrders(), R.mipmap.package_undelivered);
@@ -93,6 +93,55 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         currentUserName = (TextView) header.findViewById(R.id.current_user_name);
         currentUserName.setText(user.getName());
 
+    }
+
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setContentView(R.layout.activity_active_orders);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        amountOfOrders = Integer.parseInt(sharedPreferences.getString("seekBarValue", "30"));
+        user = MainActivity.db.getUser(currentUserId);
+        allOrders = MainActivity.db.getAllOrders();
+
+        orderAmountToShow();
+        //cleanCurrentOrders();
+        refreshOrders();
+
+        final OrderViewAdapter adapter = new OrderViewAdapter(this, Order.getCurrentListedOrders(), R.mipmap.package_undelivered);
+
+        listView = (ListView) findViewById(R.id.active_orders_listview);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Order selectedOrder = adapter.getItem(position);
+                Intent intent = new Intent(getApplicationContext(), SpecificOrderActivity.class);
+                intent.putExtra("ORDERNO", selectedOrder.getOrderNo());
+                startActivity(intent);
+            }
+        });
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_active_orders);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.string.drawer_open, R.string.drawer_close);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        setUpNavigationView();
+        View header = navigationView.getHeaderView(0);
+        currentUserName = (TextView) header.findViewById(R.id.current_user_name);
+        currentUserName.setText(user.getName());
     }
 
     private void setUpNavigationView() {
