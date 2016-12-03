@@ -200,7 +200,6 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         List<Order> tempOrders = new ArrayList<>();
         for (int i = 0; i < Order.getCurrentListedOrders().size(); i++){
             if(!Order.getCurrentListedOrders().get(i).getIsDelivered()){
-                boolean x = Order.getCurrentListedOrders().get(i).getIsDelivered();
                 tempOrders.add(Order.getCurrentListedOrders().get(i));
             }
         }
@@ -296,7 +295,7 @@ public class ActiveOrdersActivity extends AppCompatActivity{
                     deliveredOrder = true;
                 }
             }
-            if (deliveredOrder == false){
+            if (!deliveredOrder){
                 tempOrder.add(Order.getCurrentListedOrders().get(i));
             }else{
                 deliveredOrder = false;

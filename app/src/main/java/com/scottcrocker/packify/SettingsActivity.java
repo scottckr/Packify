@@ -18,6 +18,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.helper.ValidationHelper;
 import com.scottcrocker.packify.model.User;
 
 import static com.scottcrocker.packify.MainActivity.db;
@@ -40,6 +41,7 @@ public class SettingsActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     TextView currentUserName;
     NavigationView navigationView;
+    ValidationHelper validationHelper = new ValidationHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,17 +174,16 @@ public class SettingsActivity extends AppCompatActivity {
     public void onSaveSettings(View view) {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         editor = sharedPreferences.edit();
-
+        boolean isValidInput = true;
         String savedPhoneNumber = phoneNumber.getText().toString();
         String savedSeekBarValue = valueOfSeekBar.getText().toString();
+        isValidInput = validationHelper.validateInputPhoneNr(savedPhoneNumber, "Telefonnummer" ,this);
 
-        if (savedPhoneNumber.matches("[0-9]{9,10}")) {
+        if (isValidInput) {
             editor.putString("seekBarValue", savedSeekBarValue);
             editor.putString("number", savedPhoneNumber);
             editor.apply();
             Toast.makeText(this, "Dina inställningar är sparade", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Telefonnummret måste vara 10 siffror 0-9", Toast.LENGTH_SHORT).show();
         }
     }
 

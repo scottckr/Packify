@@ -21,8 +21,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.helper.ValidationHelper;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
@@ -39,7 +43,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
     Switch isDeliveredSwitch;
     Button addOrderBtn;
     Button editOrderBtn;
-    boolean isValidInput;
+    List<Boolean> isValidInput = new ArrayList<>();
     SharedPreferences sharedPreferences;
     int currentUserId;
     User user;
@@ -47,6 +51,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     TextView currentUserName;
     NavigationView navigationView;
+    ValidationHelper validationHelper = new ValidationHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,6 +207,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
     /**
      * Method to create a new order object, or handle an existing order object which will be sent to DB
+     *
      * @param view
      */
     // TO-DO: create new object containing order information, send to database
@@ -210,48 +216,51 @@ public class OrderHandlerActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
 
-        isValidInput = true;
+
         orderNoET = (EditText) findViewById(R.id.input_order_number);
         String orderNo = orderNoET.getText().toString();
-        validateInput(orderNo, "Ordernummer");
+        isValidInput.add(validationHelper.validateInputNumber(orderNo, "Ordernummer", this));
 
         customerIdET = (EditText) findViewById(R.id.input_customer_id);
         String customerId = customerIdET.getText().toString();
-        validateInput(customerId, "Kundnummer");
+        isValidInput.add(validationHelper.validateInputNumber(customerId, "Kundnummer", this));
 
         customerNameET = (EditText) findViewById(R.id.input_customer_name);
         String customerName = customerNameET.getText().toString();
+        isValidInput.add(validationHelper.validateInputText(customerName, "Namn", this));
 
         orderSumET = (EditText) findViewById(R.id.input_order_sum);
         String orderSum = orderSumET.getText().toString();
-        validateInput(orderSum, "Ordersumma");
+        isValidInput.add(validationHelper.validateInputNumber(orderSum, "Ordersumma", this));
 
         addressET = (EditText) findViewById(R.id.input_order_address);
         String address = addressET.getText().toString();
+        isValidInput.add(validationHelper.validateInputText(address, "Address", this));
 
         postAddressET = (EditText) findViewById(R.id.input_order_post_address);
         String postAddress = postAddressET.getText().toString();
+        isValidInput.add(validationHelper.validateInputText(address, "Postadress", this));
 
         isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
 
-        if(isValidInput && !MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
+        if (validationHelper.isAllTrue(isValidInput) && !MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
             Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
                     customerName, address, postAddress, Integer.parseInt(orderSum), "---",
-                    isDeliveredSwitch.isChecked(), MainActivity.db.getUser(currentUserId).getId(),MainActivity.gps.getLongitude(address),
+                    isDeliveredSwitch.isChecked(), MainActivity.db.getUser(currentUserId).getId(), MainActivity.gps.getLongitude(address),
                     MainActivity.gps.getLatitude(address), null);
 
             MainActivity.db.addOrder(order);
             Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
-        } else if(MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
+        } else if (MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
             Toast.makeText(getApplicationContext(), "Ordernumret finns redan!", Toast.LENGTH_LONG).show();
         }
-        //Log.d("DATABASE", "Order: " + MainActivity.db.getOrder(order.getOrderNo()).getDeliveryDate());
-
         refreshView();
+        isValidInput.clear();
     }
 
     /**
      * Method to edit order from DB
+     *
      * @param view
      */
     public void editOrder(View view) {
@@ -267,6 +276,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
     /**
      * Method to delete order from DB
+     *
      * @param view
      */
     // TO-DO: method shall delete order information in database
@@ -286,20 +296,5 @@ public class OrderHandlerActivity extends AppCompatActivity {
         postAddressET.setText("");
     }
 
-    /**
-     * Validates the input from user. Makes sure its only digits and not empty.
-     * @param input - Users input value.
-     * @param fieldName - The name of current field.
-     */
-    public void validateInput(String input, String fieldName){
-        if (input.matches("^\\d{1,9}$")){
-            Log.d(TAG, "Input for "+fieldName+" is valid");
-        }else if(input.equals("")){
-            isValidInput = false;
-            Toast.makeText(getApplicationContext(), fieldName+" är tom", Toast.LENGTH_SHORT).show();
-        }else{
-            isValidInput = false;
-            Toast.makeText(getApplicationContext(), fieldName+" måste bestå av siffror!", Toast.LENGTH_SHORT).show();
-        }
-    }
 }
+
