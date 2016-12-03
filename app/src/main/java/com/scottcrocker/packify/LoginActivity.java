@@ -83,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(this, "Lösenordet är felaktigt!", Toast.LENGTH_SHORT).show();
                         editor.putBoolean("isLoggedIn", false);
                         editor.apply();
+                        inputPasswordEt.setText("");
                     }
                 }
             }
