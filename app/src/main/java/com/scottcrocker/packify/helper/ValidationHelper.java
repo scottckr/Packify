@@ -16,6 +16,7 @@ import static android.content.ContentValues.TAG;
 
 public class ValidationHelper {
 
+    //Denna kommer säkert inte behövas när orderhandler får en popup...
     public static boolean orderExist(Context context, String orderNo){
         boolean validAction = true;
 

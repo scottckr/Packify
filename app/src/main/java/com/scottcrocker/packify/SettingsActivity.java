@@ -21,6 +21,9 @@ import android.widget.Toast;
 import com.scottcrocker.packify.helper.ValidationHelper;
 import com.scottcrocker.packify.model.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.scottcrocker.packify.MainActivity.db;
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 
@@ -42,6 +45,7 @@ public class SettingsActivity extends AppCompatActivity {
     TextView currentUserName;
     NavigationView navigationView;
     ValidationHelper validationHelper = new ValidationHelper();
+    List<Boolean> isValidInput = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,12 +178,11 @@ public class SettingsActivity extends AppCompatActivity {
     public void onSaveSettings(View view) {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        boolean isValidInput = true;
         String savedPhoneNumber = phoneNumber.getText().toString();
         String savedSeekBarValue = valueOfSeekBar.getText().toString();
-        isValidInput = validationHelper.validateInputPhoneNr(savedPhoneNumber, "Telefonnummer" ,this);
+        isValidInput.add(validationHelper.validateInputPhoneNr(savedPhoneNumber, "Telefonnummer" ,this));
 
-        if (isValidInput) {
+        if (validationHelper.isAllTrue(isValidInput)) {
             editor.putString("seekBarValue", savedSeekBarValue);
             editor.putString("number", savedPhoneNumber);
             editor.apply();
