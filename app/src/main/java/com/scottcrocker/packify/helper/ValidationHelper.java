@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.MainActivity;
+
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -13,6 +15,17 @@ import static android.content.ContentValues.TAG;
  */
 
 public class ValidationHelper {
+
+    public static boolean orderExist(Context context, String orderNo){
+        boolean validAction = true;
+
+
+        if (!MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)){
+            Toast.makeText(context, "Order " + orderNo + " does not exist", Toast.LENGTH_SHORT).show();
+            validAction = false;
+        }
+        return validAction;
+    }
 
     public static boolean isAllTrue(List<Boolean> isAllValid){
         for(boolean isValid : isAllValid){

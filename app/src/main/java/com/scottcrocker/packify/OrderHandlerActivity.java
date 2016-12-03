@@ -53,6 +53,13 @@ public class OrderHandlerActivity extends AppCompatActivity {
     NavigationView navigationView;
     ValidationHelper validationHelper = new ValidationHelper();
 
+    String orderNo;
+    String customerId;
+    String customerName;
+    String orderSum;
+    String address;
+    String postAddress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -215,35 +222,8 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
-
-
-        orderNoET = (EditText) findViewById(R.id.input_order_number);
-        String orderNo = orderNoET.getText().toString();
-        isValidInput.add(validationHelper.validateInputNumber(orderNo, "Ordernummer", this));
-
-        customerIdET = (EditText) findViewById(R.id.input_customer_id);
-        String customerId = customerIdET.getText().toString();
-        isValidInput.add(validationHelper.validateInputNumber(customerId, "Kundnummer", this));
-
-        customerNameET = (EditText) findViewById(R.id.input_customer_name);
-        String customerName = customerNameET.getText().toString();
-        isValidInput.add(validationHelper.validateInputText(customerName, "Namn", this));
-
-        orderSumET = (EditText) findViewById(R.id.input_order_sum);
-        String orderSum = orderSumET.getText().toString();
-        isValidInput.add(validationHelper.validateInputNumber(orderSum, "Ordersumma", this));
-
-        addressET = (EditText) findViewById(R.id.input_order_address);
-        String address = addressET.getText().toString();
-        isValidInput.add(validationHelper.validateInputText(address, "Address", this));
-
-        postAddressET = (EditText) findViewById(R.id.input_order_post_address);
-        String postAddress = postAddressET.getText().toString();
-        isValidInput.add(validationHelper.validateInputText(address, "Postadress", this));
-
-        isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
-
-        if (validationHelper.isAllTrue(isValidInput) && !MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
+        orderInputValidation();
+        if (validationHelper.isAllTrue(isValidInput) && !validationHelper.orderExist(this, orderNo)) {
             Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
                     customerName, address, postAddress, Integer.parseInt(orderSum), "---",
                     isDeliveredSwitch.isChecked(), MainActivity.db.getUser(currentUserId).getId(), MainActivity.gps.getLongitude(address),
@@ -251,10 +231,10 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
             MainActivity.db.addOrder(order);
             Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
+            refreshView();
         } else if (MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
             Toast.makeText(getApplicationContext(), "Ordernumret finns redan!", Toast.LENGTH_LONG).show();
         }
-        refreshView();
         isValidInput.clear();
     }
 
@@ -264,14 +244,17 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * @param view
      */
     public void editOrder(View view) {
-        Order order = db.getOrder(Integer.parseInt(orderNoET.getText().toString()));
-        isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
-        Order editedOrder = new Order(order.getOrderNo(), Integer.parseInt(customerIdET.getText().toString()),
-                customerNameET.getText().toString(), addressET.getText().toString(), postAddressET.getText().toString(),
-                Integer.parseInt(orderSumET.getText().toString()), order.getDeliveryDate(), isDeliveredSwitch.isChecked(),
-                order.getDeliveredBy(), order.getLongitude(), order.getLatitude(), order.getSignature());
-        db.editOrder(editedOrder);
-        refreshView();
+        orderInputValidation();
+        Order order = db.getOrder(Integer.parseInt(orderNo));
+        if(validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)){
+            isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
+            Order editedOrder = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
+                    customerName, address, postAddress,Integer.parseInt(orderSum), order.getDeliveryDate(), isDeliveredSwitch.isChecked(),
+                    order.getDeliveredBy(), order.getLongitude(), order.getLatitude(), order.getSignature());
+            db.editOrder(editedOrder);
+            Toast.makeText(getApplicationContext(), "Order ändrad", Toast.LENGTH_SHORT).show();
+        }
+        isValidInput.clear();
     }
 
     /**
@@ -281,10 +264,16 @@ public class OrderHandlerActivity extends AppCompatActivity {
      */
     // TO-DO: method shall delete order information in database
     public void deleteOrder(View view) {
-        Order order = db.getOrder(Integer.parseInt(orderNoET.getText().toString()));
-        db.deleteOrder(order);
-        Toast.makeText(getApplicationContext(), "Order raderad", Toast.LENGTH_SHORT).show();
-        refreshView();
+        String orderNo = orderNoET.getText().toString();
+        Order order = db.getOrder(Integer.parseInt(orderNo));
+        isValidInput.add(validationHelper.validateInputNumber(orderNo, "Ordernummer", this));
+
+        if(validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)){
+            db.deleteOrder(order);
+            Toast.makeText(getApplicationContext(), "Order raderad", Toast.LENGTH_SHORT).show();
+            refreshView();
+        }
+        isValidInput.clear();
     }
 
     public void refreshView() {
@@ -294,6 +283,34 @@ public class OrderHandlerActivity extends AppCompatActivity {
         orderSumET.setText("");
         addressET.setText("");
         postAddressET.setText("");
+    }
+
+    public void orderInputValidation(){
+        orderNoET = (EditText) findViewById(R.id.input_order_number);
+        orderNo = orderNoET.getText().toString();
+        isValidInput.add(validationHelper.validateInputNumber(orderNo, "Ordernummer", this));
+
+        customerIdET = (EditText) findViewById(R.id.input_customer_id);
+        customerId = customerIdET.getText().toString();
+        isValidInput.add(validationHelper.validateInputNumber(customerId, "Kundnummer", this));
+
+        customerNameET = (EditText) findViewById(R.id.input_customer_name);
+        customerName = customerNameET.getText().toString();
+        isValidInput.add(validationHelper.validateInputText(customerName, "Namn", this));
+
+        orderSumET = (EditText) findViewById(R.id.input_order_sum);
+        orderSum = orderSumET.getText().toString();
+        isValidInput.add(validationHelper.validateInputNumber(orderSum, "Ordersumma", this));
+
+        addressET = (EditText) findViewById(R.id.input_order_address);
+        address = addressET.getText().toString();
+        isValidInput.add(validationHelper.validateInputText(address, "Address", this));
+
+        postAddressET = (EditText) findViewById(R.id.input_order_post_address);
+        postAddress = postAddressET.getText().toString();
+        isValidInput.add(validationHelper.validateInputText(postAddress, "Postadress", this));
+
+        isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
     }
 
 }
