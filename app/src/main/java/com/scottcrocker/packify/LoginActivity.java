@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     ValidationHelper validationHelper = new ValidationHelper();
     List<Boolean> isValidInput = new ArrayList<>();
+    boolean userExist = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,6 @@ public class LoginActivity extends AppCompatActivity {
 
         if (validationHelper.isAllTrue(isValidInput)){
             int currentUserId;
-
             for (int i = 0; i < db.getAllUsers().size(); i++) {
                 if (db.getAllUsers().get(i).getId() == Integer.parseInt(inputId)) {
                     if (db.getAllUsers().get(i).getPassword().equals(inputPassword)) {
@@ -77,8 +77,9 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putInt("USERID", currentUserId);
                         editor.putBoolean("isLoggedIn", true);
                         editor.apply();
-                        Intent intent = new Intent(this, MainActivity.class);
+                        Intent intent = new Intent(this, ActiveOrdersActivity.class);
                         startActivity(intent);
+                        isValidInput.clear();
                     } else {
                         Toast.makeText(this, "Lösenordet är felaktigt!", Toast.LENGTH_SHORT).show();
                         editor.putBoolean("isLoggedIn", false);
@@ -86,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                         inputPasswordEt.setText("");
                     }
                 }
+
             }
 
         }
