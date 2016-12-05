@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                         isValidInput.clear();
                     } else {
-                        Toast.makeText(this, "Lösenordet är felaktigt!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Felaktigt lösenord, försök igen", Toast.LENGTH_SHORT).show();
                         editor.putBoolean("isLoggedIn", false);
                         editor.apply();
                         inputPasswordEt.setText("");
@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
             }if(!userExist){
-                Toast.makeText(this, "Användarnamnet är felaktigt!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Felaktigt användarnamn, försök igen", Toast.LENGTH_SHORT).show();
                 editor.putBoolean("isLoggedIn", false);
                 editor.apply();
                 inputPasswordEt.setText("");

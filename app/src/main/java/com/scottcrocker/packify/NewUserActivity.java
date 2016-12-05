@@ -75,7 +75,7 @@ public class NewUserActivity extends AppCompatActivity {
                 //IsValidInput is false;
             }
         } else{
-            Toast.makeText(getApplicationContext(), "Användar-ID finns redan!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Användar-ID finns redan", Toast.LENGTH_LONG).show();
         }
 
 

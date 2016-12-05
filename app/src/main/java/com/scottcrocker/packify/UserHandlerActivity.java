@@ -198,7 +198,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         user = (User) parent.getItemAtPosition(position);
         // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "You selected: " + user,
+        Toast.makeText(parent.getContext(), "Vald användare: " + user,
                 Toast.LENGTH_LONG).show();
 
         populateInputFields();
@@ -238,7 +238,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
             isValidInput.clear();
         } else {
             refreshView();
-            Toast.makeText(getApplicationContext(), "Du kan inte redigera huvudadminkontot!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Otillåtet att ändra denna användare", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -258,10 +258,10 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         Log.d("DELETEUSER", "" + user);
         if (user.getId() != currentUserId || user.getId() != 0 ) {
             db.deleteUser(user);
-            Toast.makeText(this, user.getName() + " deleted.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, user.getName() + " raderad.", Toast.LENGTH_SHORT).show();
             refreshView();
         } else {
-            Toast.makeText(this, "You cannot delete yourself or the main admin account!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Otillåtet att radera denna användare", Toast.LENGTH_LONG).show();
         }
     }
 
