@@ -66,18 +66,19 @@ public class LoginActivity extends AppCompatActivity {
         inputPasswordEt = (EditText) findViewById(R.id.input_login_password);
         String inputPassword = inputPasswordEt.getText().toString();
         isValidInput.add(validationHelper.validateInputText(inputPassword, "Lösenord" ,this));
-
-
+        userExist = false;
+        int currentUserId;
         if (validationHelper.isAllTrue(isValidInput)){
-            int currentUserId;
+
             for (int i = 0; i < db.getAllUsers().size(); i++) {
                 if (db.getAllUsers().get(i).getId() == Integer.parseInt(inputId)) {
+                    userExist = true;
                     if (db.getAllUsers().get(i).getPassword().equals(inputPassword)) {
                         currentUserId = db.getAllUsers().get(i).getId();
                         editor.putInt("USERID", currentUserId);
                         editor.putBoolean("isLoggedIn", true);
                         editor.apply();
-                        Intent intent = new Intent(this, ActiveOrdersActivity.class);
+                        Intent intent = new Intent(this, MainActivity.class);
                         startActivity(intent);
                         isValidInput.clear();
                     } else {
@@ -88,6 +89,11 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
 
+            }if(!userExist){
+                Toast.makeText(this, "Användarnamnet är felaktigt!", Toast.LENGTH_SHORT).show();
+                editor.putBoolean("isLoggedIn", false);
+                editor.apply();
+                inputPasswordEt.setText("");
             }
 
         }
