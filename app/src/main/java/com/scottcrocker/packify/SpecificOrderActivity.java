@@ -272,8 +272,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
             receivedByTv.setVisibility(View.VISIBLE);
 
             signatureIv = (ImageView) findViewById(R.id.signature_imageview);
-            signature = BitmapFactory.decodeByteArray(specificOrder.getSignature(), 0,
-                    specificOrder.getSignature().length);
+            signature = BitmapFactory.decodeByteArray(specificOrder.getSignature(), 0, specificOrder.getSignature().length);
             signatureIv.setImageBitmap(signature);
         } else {
             deliveryDateTv = (TextView) findViewById(R.id.delivery_date);

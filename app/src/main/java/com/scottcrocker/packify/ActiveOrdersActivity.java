@@ -63,7 +63,6 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         allOrders = MainActivity.db.getAllOrders();
 
         orderAmountToShow();
-        //cleanCurrentOrders();
         refreshOrders();
 
         final OrderViewAdapter adapter = new OrderViewAdapter(this, Order.getCurrentListedOrders(), R.mipmap.package_undelivered);
@@ -109,7 +108,6 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         allOrders = MainActivity.db.getAllOrders();
 
         orderAmountToShow();
-        //cleanCurrentOrders();
         refreshOrders();
 
         final OrderViewAdapter adapter = new OrderViewAdapter(this, Order.getCurrentListedOrders(), R.mipmap.package_undelivered);
@@ -221,25 +219,82 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    public void orderAmountToShow(){
+        Log.d(TAG, "1111");
+        int undeliveredOrderAmount = filterUndeliveredOrders().size();
+        if (amountOfOrders > undeliveredOrderAmount) {
+            amountOfOrdersToDisplay = undeliveredOrderAmount;
+        } else {
+            amountOfOrdersToDisplay = amountOfOrders;
+        }
+        Log.d(TAG, "4444");
+    }
+
+    public List<Order> filterUndeliveredOrders(){
+        Log.d(TAG, "2222");
+        allOrders = MainActivity.db.getAllOrders();
+        Log.d(TAG, "Number of orders in database: " + allOrders.size());
+        for (int i = 0; i < allOrders.size(); i++) {
+            if (!allOrders.get(i).getIsDelivered()) {
+                undeliveredOrders.add(allOrders.get(i));
+            }
+
+            else{
+                deliveredOrders.add(allOrders.get(i));
+            }
+        }
+        Log.d(TAG, "33333");
+        return undeliveredOrders;
+    }
+
     /**
      * Refreshes the view with the right amount of delivered orders.
      */
     public void refreshView() {
-
         clearUndeliveredOrders();
         cleanCurrentOrders();
         refreshOrders();
-
         final OrderViewAdapter adapter = new OrderViewAdapter(this, Order.getCurrentListedOrders(), R.mipmap.package_undelivered);
-
         listView = (ListView) findViewById(R.id.active_orders_listview);
         listView.setAdapter(adapter);
         Log.d(TAG, "ListView refreshed");
     }
 
-    /**
-     * Updates the orderlist so it only contains undelivered orders and sets a value of how many new orders that is needed.
-     */
+    public void clearUndeliveredOrders(){
+        filterUndeliveredOrders();
+        List<Order> tempOrder = new ArrayList<>();
+        boolean deliveredOrder = false;
+        int amountRemoved;
+
+        for(int i =0; i < Order.getCurrentListedOrders().size(); i++){
+            if(deliveredOrders.size() > 0 && Order.getCurrentListedOrders().size() > 0){
+                for(int y = 0; y < deliveredOrders.size(); y++){
+                    if(Order.getCurrentListedOrders().get(i).getOrderNo() == deliveredOrders.get(y).getOrderNo()){
+                        deliveredOrder = true;
+                    }
+                }
+            }
+            if (!deliveredOrder){
+                tempOrder.add(Order.getCurrentListedOrders().get(i));
+            }else{
+                deliveredOrder = false;
+            }
+        }
+        Order.getCurrentListedOrders().clear();
+        for(int i =0; i < tempOrder.size(); i++){
+            Order.getCurrentListedOrders().add(tempOrder.get(i));
+        }
+        amountRemoved = amountOfOrdersToDisplay-tempOrder.size();
+        if(amountRemoved == 1){
+            Toast.makeText(this, amountRemoved + " levererad order togs bort", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, amountRemoved + " levererade ordrar togs bort", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+    }
+
     public void cleanCurrentOrders(){
         List<Order> tempOrders = new ArrayList<>();
         for (int i = 0; i < Order.getCurrentListedOrders().size(); i++){
@@ -254,23 +309,30 @@ public class ActiveOrdersActivity extends AppCompatActivity{
     }
 
     public void refreshOrders(){
-        if (amountOfOrdersToDisplay > Order.getCurrentListedOrders().size()){
-            //utöka med random
-            filterUndeliveredOrders();
-            amountOfNewOrdersNeeded = amountOfOrdersToDisplay - Order.getCurrentListedOrders().size();
-            addRandomOrders();
-        }else if(amountOfOrdersToDisplay < Order.getCurrentListedOrders().size()){
-            //ta bort överflödiga orders.
-            amountOfOrdersToRemove = Order.getCurrentListedOrders().size() - amountOfOrdersToDisplay;
-            removeOrders();
-        }else{
-            //no change.
-        }
+        Log.d(TAG, "5555");
+            if (amountOfOrdersToDisplay > Order.getCurrentListedOrders().size()){
+                //utöka med random
+                Log.d(TAG, "6666");
+                Log.d(TAG, "Enter filterUndeliveredOrders");
+                filterUndeliveredOrders();
+                amountOfNewOrdersNeeded = amountOfOrdersToDisplay - Order.getCurrentListedOrders().size();
+                Log.d(TAG, "7777");
+                Log.d(TAG, "enter addRandomOrders");
+                addRandomOrders();
+            }else if(amountOfOrdersToDisplay < Order.getCurrentListedOrders().size()){
+                //ta bort överflödiga orders.
+                amountOfOrdersToRemove = Order.getCurrentListedOrders().size() - amountOfOrdersToDisplay;
+                removeOrders();
+            }else{
+                //no change.
+            }
 
     }
     public void removeOrders(){
+
         int amountToSave = Order.getCurrentListedOrders().size()-amountOfOrdersToRemove;
         List<Order> tempOrders = new ArrayList<>();
+
 
         for(int i = 0; i < amountToSave; i++){
             tempOrders.add(Order.getCurrentListedOrders().get(i));
@@ -279,6 +341,7 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         for (int i = 0; i < tempOrders.size(); i++){
             Order.getCurrentListedOrders().add(tempOrders.get(i));
         }
+
     }
 
     //
@@ -287,78 +350,28 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         int rndOrder;
         boolean orderDuplicateCheck = false;
         for(int i = 0; i < amountOfNewOrdersNeeded; i++){//kör antalet gånger som behövs
+            Log.d(TAG, "8888 " +  amountOfNewOrdersNeeded);
             rndOrder = rnd.randomNrGenerator(undeliveredOrders.size());//hittar en ny random order
+            Log.d(TAG, "9999");
             for(int y = 0; y < Order.getCurrentListedOrders().size(); y++){//kollar igenom alla Orders och ser om någon redan finns.
-                if(undeliveredOrders.get(rndOrder).getOrderNo() == Order.getCurrentListedOrders().get(y).getOrderNo()){
-                    orderDuplicateCheck = true;
-                }
+                //if(undeliveredOrders.size() > 0 && Order.getCurrentListedOrders().size() > 0){
+                    if(undeliveredOrders.get(rndOrder).getOrderNo() == Order.getCurrentListedOrders().get(y).getOrderNo()){
+                        orderDuplicateCheck = true;
+                    }
+                //}
             }
+            Log.d(TAG, "10");
             if (orderDuplicateCheck){
-                i--;
+                //i--;
                 orderDuplicateCheck = false;
             }else{
                 if (Order.getCurrentListedOrders().size() < amountOfOrdersToDisplay){
                     Order.getCurrentListedOrders().add(undeliveredOrders.get(rndOrder));
                 }
+
             }
+            Log.d(TAG, "11");
         }
-    }
-
-    public void orderAmountToShow(){
-        int undeliveredOrderAmount = filterUndeliveredOrders().size();
-        if (amountOfOrders > undeliveredOrderAmount) {
-            amountOfOrdersToDisplay = undeliveredOrderAmount;
-        } else {
-            amountOfOrdersToDisplay = amountOfOrders;
-        }
-    }
-
-    public List<Order> filterUndeliveredOrders(){
-        allOrders = MainActivity.db.getAllOrders();
-        Log.d(TAG, "Number of orders in database: " + allOrders.size());
-        for (int i = 0; i < allOrders.size(); i++) {
-            if (!allOrders.get(i).getIsDelivered()) {
-                undeliveredOrders.add(allOrders.get(i));
-            }
-            else{
-                deliveredOrders.add(allOrders.get(i));
-            }
-        }
-        return undeliveredOrders;
-    }
-
-    public void clearUndeliveredOrders(){
-        filterUndeliveredOrders();
-        List<Order> tempOrder = new ArrayList<>();
-        boolean deliveredOrder = false;
-        int amountRemoved;
-
-        for(int i =0; i < Order.getCurrentListedOrders().size(); i++){
-            for(int y = 0; y < deliveredOrders.size(); y++){
-                if(Order.getCurrentListedOrders().get(i).getOrderNo() == deliveredOrders.get(y).getOrderNo()){
-                    deliveredOrder = true;
-                }
-            }
-            if (!deliveredOrder){
-                tempOrder.add(Order.getCurrentListedOrders().get(i));
-            }else{
-                deliveredOrder = false;
-            }
-        }
-
-        Order.getCurrentListedOrders().clear();
-        for(int i =0; i < tempOrder.size(); i++){
-            Order.getCurrentListedOrders().add(tempOrder.get(i));
-        }
-        amountRemoved = amountOfOrdersToDisplay-tempOrder.size();
-        if(amountRemoved == 1){
-            Toast.makeText(this, amountRemoved + " levererad order togs bort", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(this, amountRemoved + " levererade ordrar togs bort", Toast.LENGTH_SHORT).show();
-        }
-
-
-
     }
 
 }
