@@ -7,12 +7,12 @@
         android:bottom="100dp">
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/splash_text"/>
+            android:src="@mipmap/splash_text" />
     </item>
     <item
         android:top="50dp">
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/splash_icon"/>
+            android:src="@mipmap/packify_icon"/>
     </item>
 </layer-list>
