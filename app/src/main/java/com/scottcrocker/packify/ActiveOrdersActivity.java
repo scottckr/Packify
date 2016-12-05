@@ -372,10 +372,4 @@ public class ActiveOrdersActivity extends AppCompatActivity{
             }
         }
     }
-
-            }
-            Log.d(TAG, "11");
-        }
-    }
-
 }
