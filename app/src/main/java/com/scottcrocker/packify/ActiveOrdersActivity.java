@@ -62,7 +62,7 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         user = MainActivity.db.getUser(currentUserId);
         allOrders = MainActivity.db.getAllOrders();
 
-        orderAmountToShow();
+        //orderAmountToShow();
         //cleanCurrentOrders();
         refreshOrders();
 
@@ -113,7 +113,7 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         user = MainActivity.db.getUser(currentUserId);
         allOrders = MainActivity.db.getAllOrders();
 
-        orderAmountToShow();
+        //orderAmountToShow();
         //cleanCurrentOrders();
         refreshOrders();
 
