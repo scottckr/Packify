@@ -95,8 +95,6 @@ public class ActiveOrdersActivity extends AppCompatActivity{
 
     }
 
-
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -105,9 +103,6 @@ public class ActiveOrdersActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        setContentView(R.layout.activity_active_orders);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         amountOfOrders = Integer.parseInt(sharedPreferences.getString("seekBarValue", "30"));
         user = MainActivity.db.getUser(currentUserId);
