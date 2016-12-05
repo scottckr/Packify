@@ -261,6 +261,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
             db.deleteUser(user);
             Toast.makeText(this, user.getName() + " raderad.", Toast.LENGTH_SHORT).show();
             refreshView();
+            loadSpinnerData();
         } else {
             Toast.makeText(this, "Otillåtet att radera denna användare", Toast.LENGTH_LONG).show();
         }
