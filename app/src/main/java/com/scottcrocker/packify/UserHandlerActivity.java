@@ -23,8 +23,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.helper.ValidationHelper;
 import com.scottcrocker.packify.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.scottcrocker.packify.MainActivity.currentUserId;
@@ -38,7 +40,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     EditText inputPassword;
     EditText inputPhoneNr;
     TextView inputUserId;
-    boolean isValidInput;
+    List<Boolean> isValidInput = new ArrayList<>();
 
     Switch toggle;
 
@@ -52,6 +54,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     private ActionBarDrawerToggle mDrawerToggle;
     TextView currentUserName;
     NavigationView navigationView;
+    ValidationHelper validationHelper = new ValidationHelper();
 
 
 
@@ -213,13 +216,25 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
     public void saveEditedUser(View view) {
         if (user.getId() != 0) {
-            user.setName(String.valueOf(inputName.getText()));
-            user.setPassword(String.valueOf(inputPassword.getText()));
-            user.setTelephone(String.valueOf(inputPhoneNr.getText()));
-            user.setIsAdmin(toggle.isChecked());
-            db.editUser(user);
-            Toast.makeText(getApplicationContext(), "Användaruppgifter uppdaterade", Toast.LENGTH_SHORT).show();
-            refreshView();
+            String editedName = String.valueOf(inputName.getText());
+            isValidInput.add(validationHelper.validateInputText(editedName, "Namn" ,this));
+
+            String editedPassword = String.valueOf(inputPassword.getText());
+            isValidInput.add(validationHelper.validateInputText(editedPassword, "Lösenord" ,this));
+
+            String editedPhoneNr = String.valueOf(inputPhoneNr.getText());
+            isValidInput.add(validationHelper.validateInputPhoneNr(editedPhoneNr, "Telefonnummer" ,this));
+
+            if(validationHelper.isAllTrue(isValidInput)){
+                user.setName(String.valueOf(inputName.getText()));
+                user.setPassword(String.valueOf(inputPassword.getText()));
+                user.setTelephone(String.valueOf(inputPhoneNr.getText()));
+                user.setIsAdmin(toggle.isChecked());
+                db.editUser(user);
+                Toast.makeText(getApplicationContext(), "Användaruppgifter uppdaterade", Toast.LENGTH_SHORT).show();
+                refreshView();
+            }
+            isValidInput.clear();
         } else {
             refreshView();
             Toast.makeText(getApplicationContext(), "Du kan inte redigera huvudadminkontot!", Toast.LENGTH_LONG).show();
@@ -240,7 +255,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     // TODO: method shall delete user information in database
     public void deleteUser(View view) {
         Log.d("DELETEUSER", "" + user);
-        if (user.getId() != currentUserId || user.getId() != 0) {
+        if (user.getId() != currentUserId || user.getId() != 0 ) {
             db.deleteUser(user);
             Toast.makeText(this, user.getName() + " deleted.", Toast.LENGTH_SHORT).show();
             refreshView();
@@ -249,6 +264,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         }
     }
 
+
     public void refreshView() {
         inputName.setText("");
         inputPassword.setText("");
@@ -256,54 +272,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         inputUserId.setText("");
     }
 
-
-    /**
-     * Validates the input from user. Sends a toast if userinput is not valid.
-     *
-     * @param input     - Users input value.
-     * @param fieldName - The name of current field.
-     */
-    public void validateInput(String input, String fieldName) {
-
-        switch (fieldName) {
-            case "Användar ID":
-                if (input.matches("^\\d{1,9}$")) {
-                    Log.d(TAG, "Input for " + fieldName + " is valid");
-                } else if (input.equals("")) {
-                    isValidInput = false;
-                    Toast.makeText(getApplicationContext(), fieldName + " är tom", Toast.LENGTH_SHORT).show();
-                } else {
-                    isValidInput = false;
-                    Toast.makeText(getApplicationContext(), fieldName + " måste bestå av siffror!", Toast.LENGTH_SHORT).show();
-                }
-                break;
-
-            case "Namn":
-                if (input.equals("")) {
-                    isValidInput = false;
-                    Toast.makeText(getApplicationContext(), fieldName + " är tom", Toast.LENGTH_SHORT).show();
-                } else {
-                    //intended to accept numbers as user input. Maybe a name can be "Kenny212".
-                    Log.d(TAG, "Input for " + fieldName + " is valid");
-                }
-                break;
-
-            case "Lösenord":
-                break;
-
-            case "Telefonnummer":
-                if (input.matches("[0-9]{9,10}")) {
-                    Log.d(TAG, "Input for " + fieldName + " is valid");
-                } else if (input.equals("")) {
-                    isValidInput = false;
-                    Toast.makeText(getApplicationContext(), fieldName + " är tom", Toast.LENGTH_SHORT).show();
-                } else {
-                    isValidInput = false;
-                    Toast.makeText(getApplicationContext(), fieldName + " måste bestå 9-10 av siffror!", Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
-    }
 
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
