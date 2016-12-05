@@ -290,7 +290,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
 
     public void openNavigation(View view) {
         String uri = "geo:" + specificOrder.getLatitude() + "," + specificOrder.getLongitude() +
-                "?q=" + specificOrder.getAddress();
+                "?q=" + specificOrder.getAddress() + ", " + specificOrder.getPostAddress();
 
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         intent.setPackage("com.google.android.apps.maps");

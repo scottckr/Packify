@@ -26,6 +26,7 @@ import com.scottcrocker.packify.model.User;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
+import static com.scottcrocker.packify.MainActivity.gps;
 
 public class OrderHandlerActivity extends AppCompatActivity {
 
@@ -43,7 +44,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     int currentUserId;
     User user;
-    private DrawerLayout mDrawerLayout;
+    DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     TextView currentUserName;
     NavigationView navigationView;
@@ -80,23 +81,23 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (MainActivity.db.doesFieldExist("Orders", "orderNo", editable.toString())) {
+                if (db.doesFieldExist("Orders", "orderNo", editable.toString())) {
                     editOrderBtn.setVisibility(View.VISIBLE);
                     addOrderBtn.setVisibility(View.INVISIBLE);
 
-                    String customerIdStr = String.valueOf(MainActivity.db.getOrder(Integer.parseInt(editable.toString())).getCustomerNo());
+                    String customerIdStr = String.valueOf(db.getOrder(Integer.parseInt(editable.toString())).getCustomerNo());
                     customerIdET.setText(customerIdStr);
 
-                    String customerNameStr = String.valueOf(MainActivity.db.getOrder(Integer.parseInt(editable.toString())).getCustomerName());
+                    String customerNameStr = String.valueOf(db.getOrder(Integer.parseInt(editable.toString())).getCustomerName());
                     customerNameET.setText(customerNameStr);
 
-                    String orderSumStr = String.valueOf(MainActivity.db.getOrder(Integer.parseInt(editable.toString())).getOrderSum());
+                    String orderSumStr = String.valueOf(db.getOrder(Integer.parseInt(editable.toString())).getOrderSum());
                     orderSumET.setText(orderSumStr);
 
-                    String addressStr = String.valueOf(MainActivity.db.getOrder(Integer.parseInt(editable.toString())).getAddress());
+                    String addressStr = String.valueOf(db.getOrder(Integer.parseInt(editable.toString())).getAddress());
                     addressET.setText(addressStr);
 
-                    String postAddressStr = String.valueOf(MainActivity.db.getOrder(Integer.parseInt(editable.toString())).getPostAddress());
+                    String postAddressStr = String.valueOf(db.getOrder(Integer.parseInt(editable.toString())).getPostAddress());
                     postAddressET.setText(postAddressStr);
 
                     if (db.getOrder(Integer.parseInt(orderNoET.getText().toString())).getIsDelivered()) {
@@ -234,15 +235,15 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
         isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
 
-        if(isValidInput && !MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
+        if(isValidInput && !db.doesFieldExist("Orders", "orderNo", orderNo)) {
             Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
                     customerName, address, postAddress, Integer.parseInt(orderSum), "---",
-                    isDeliveredSwitch.isChecked(), MainActivity.db.getUser(currentUserId).getId(),MainActivity.gps.getLongitude(address),
-                    MainActivity.gps.getLatitude(address), null);
+                    isDeliveredSwitch.isChecked(), db.getUser(currentUserId).getId(), gps.getLongitude(address),
+                    gps.getLatitude(address), null);
 
-            MainActivity.db.addOrder(order);
+            db.addOrder(order);
             Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
-        } else if(MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
+        } else if(db.doesFieldExist("Orders", "orderNo", orderNo)) {
             Toast.makeText(getApplicationContext(), "Ordernumret finns redan!", Toast.LENGTH_LONG).show();
         }
         //Log.d("DATABASE", "Order: " + MainActivity.db.getOrder(order.getOrderNo()).getDeliveryDate());
@@ -260,7 +261,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
         Order editedOrder = new Order(order.getOrderNo(), Integer.parseInt(customerIdET.getText().toString()),
                 customerNameET.getText().toString(), addressET.getText().toString(), postAddressET.getText().toString(),
                 Integer.parseInt(orderSumET.getText().toString()), order.getDeliveryDate(), isDeliveredSwitch.isChecked(),
-                order.getDeliveredBy(), order.getLongitude(), order.getLatitude(), order.getSignature());
+                order.getDeliveredBy(), gps.getLongitude(addressET.getText().toString()), gps.getLatitude(addressET.getText().toString()), order.getSignature());
         db.editOrder(editedOrder);
         refreshView();
     }

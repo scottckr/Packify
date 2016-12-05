@@ -14,6 +14,8 @@ import com.scottcrocker.packify.model.Order;
 
 import java.util.List;
 
+import static com.scottcrocker.packify.MainActivity.db;
+
 /**
  * Created by Scott on 2016-11-28.
  */
@@ -52,10 +54,10 @@ public class OrderViewAdapter extends BaseAdapter {
         icon = (ImageView) v.findViewById(R.id.list_item_icon);
         icon.setImageResource(iconId);
         TextView orderLabelTv = (TextView) v.findViewById(R.id.list_item_label);
-        String orderLabelOne = "Order: " + dataSource.get(pos).getOrderNo();
+        String orderLabelOne = "Ordernummer: " + dataSource.get(pos).getOrderNo();
         orderLabelTv.setText(orderLabelOne);
         orderLabelTv = (TextView) v.findViewById(R.id.list_item_label2);
-        String orderLabelTwo = "Adress: " + dataSource.get(pos).getAddress() + ", " + dataSource.get(pos).getPostAddress();
+        String orderLabelTwo = "Adress: " + db.getOrder(dataSource.get(pos).getOrderNo()).getAddress() + ", " + db.getOrder(dataSource.get(pos).getOrderNo()).getPostAddress();
         orderLabelTv.setText(orderLabelTwo);
         return v;
     }
