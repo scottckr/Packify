@@ -64,7 +64,7 @@
         <Button
             android:id="@+id/add_new_user_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:onClick="addNewUser"
             android:text="@string/new_user_add_button"
             android:textColor="@color/colorAccent"
@@ -73,8 +73,7 @@
         <Button
             android:id="@+id/cancel_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="3sp"
+            android:layout_height="40dp"
             android:onClick="cancelBtn"
             android:text="@string/new_user_cancel_button"
             android:textColor="@color/colorAccent"
