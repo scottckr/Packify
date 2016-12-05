@@ -51,29 +51,34 @@ public class NewUserActivity extends AppCompatActivity {
     public void addNewUser(View view) {
 
         String newUserId = inputNewUserId.getText().toString();
-        isValidInput.add(validationHelper.validateInputNumber(newUserId, "Användar id" ,this));
+        if(!MainActivity.db.doesFieldExist("Users", "userId", newUserId)){
 
-        String newUsername = String.valueOf(inputNewUserName.getText());
-        isValidInput.add(validationHelper.validateInputText(newUsername, "Namn" ,this));
+            isValidInput.add(validationHelper.validateInputNumber(newUserId, "Användar id" ,this));
 
-        String newUserPass = String.valueOf(inputNewUserPass.getText());
-        isValidInput.add(validationHelper.validateInputText(newUserPass, "Lösenord" ,this));
+            String newUsername = String.valueOf(inputNewUserName.getText());
+            isValidInput.add(validationHelper.validateInputText(newUsername, "Namn" ,this));
 
-        String newUserPhoneNr = inputNewUserPhoneNr.getText().toString();
-        isValidInput.add(validationHelper.validateInputPhoneNr(newUserPhoneNr, "Telefonnummer" ,this));
+            String newUserPass = String.valueOf(inputNewUserPass.getText());
+            isValidInput.add(validationHelper.validateInputText(newUserPass, "Lösenord" ,this));
 
-        if (ValidationHelper.isAllTrue(isValidInput) && !MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
-            User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, newUserPhoneNr, toggle.isChecked());
-            MainActivity.db.addUser(user);
-            Toast.makeText(getApplicationContext(), "Användare tillagd", Toast.LENGTH_SHORT).show();
-            finish();
-            Intent intent = new Intent(this, UserHandlerActivity.class);
-            startActivity(intent);
-        } else if (MainActivity.db.doesFieldExist("Users", "userId", newUserId)){
+            String newUserPhoneNr = inputNewUserPhoneNr.getText().toString();
+            isValidInput.add(validationHelper.validateInputPhoneNr(newUserPhoneNr, "Telefonnummer" ,this));
+
+            if (ValidationHelper.isAllTrue(isValidInput)) {
+                User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, newUserPhoneNr, toggle.isChecked());
+                MainActivity.db.addUser(user);
+                Toast.makeText(getApplicationContext(), "Användare tillagd", Toast.LENGTH_SHORT).show();
+                finish();
+                Intent intent = new Intent(this, UserHandlerActivity.class);
+                startActivity(intent);
+            } else {
+                //IsValidInput is false;
+            }
+        } else{
             Toast.makeText(getApplicationContext(), "Användar-ID finns redan!", Toast.LENGTH_LONG).show();
-        } else {
-            //IsValidInput is false;
         }
+
+
         isValidInput.clear();
 
     }
