@@ -235,7 +235,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
             cleanAllFields();
         } else if (MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
-            Toast.makeText(getApplicationContext(), "Ordernumret finns redan!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Ordernumret finns redan", Toast.LENGTH_LONG).show();
         }
         isValidInput.clear();
     }

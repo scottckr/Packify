@@ -252,7 +252,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         String sharedPhoneNumber = sharedPreferences.getString("number", "");
         if (sharedPhoneNumber.equals("")) {
-            Toast.makeText(this, "Du måste fylla i ett telefonnummer i inställningar!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Fyll i ett telefonnummer i inställningar", Toast.LENGTH_SHORT).show();
         } else {
             Intent intent = new Intent(this, SignatureActivity.class);
             startActivityForResult(intent, 1);
