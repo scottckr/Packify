@@ -48,7 +48,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     Button deleteUserBtn;
     List<User> users;
     User user;
-    //Variable "currentUser" is only called that because of "user" being used later in code - must be changed
+    //Variable "currentUser" is only called that because of "user" being used later in code - must be changed (NavDrawer)
     User currentUser;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -232,11 +232,11 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
                 user.setIsAdmin(toggle.isChecked());
                 db.editUser(user);
                 Toast.makeText(getApplicationContext(), "Användaruppgifter uppdaterade", Toast.LENGTH_SHORT).show();
-                recreate();
+                refreshView();
             }
             isValidInput.clear();
         } else {
-            recreate();
+            refreshView();
             Toast.makeText(getApplicationContext(), "Du kan inte redigera huvudadminkontot!", Toast.LENGTH_LONG).show();
         }
     }
@@ -258,11 +258,20 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         if (user.getId() != currentUserId || user.getId() != 0 ) {
             db.deleteUser(user);
             Toast.makeText(this, user.getName() + " deleted.", Toast.LENGTH_SHORT).show();
-            recreate();
+            refreshView();
         } else {
             Toast.makeText(this, "You cannot delete yourself or the main admin account!", Toast.LENGTH_LONG).show();
         }
     }
+
+
+    public void refreshView() {
+        inputName.setText("");
+        inputPassword.setText("");
+        inputPhoneNr.setText("");
+        inputUserId.setText("");
+    }
+
 
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
