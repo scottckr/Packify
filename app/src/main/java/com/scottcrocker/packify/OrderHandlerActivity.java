@@ -21,6 +21,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.helper.GPSHelper;
 import com.scottcrocker.packify.helper.ValidationHelper;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
@@ -59,6 +60,8 @@ public class OrderHandlerActivity extends AppCompatActivity {
     String orderSum;
     String address;
     String postAddress;
+
+    GPSHelper gps = new GPSHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,8 +229,8 @@ public class OrderHandlerActivity extends AppCompatActivity {
         if (validationHelper.isAllTrue(isValidInput) && !validationHelper.orderExist(this, orderNo)) {
             Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
                     customerName, address, postAddress, Integer.parseInt(orderSum), "---",
-                    isDeliveredSwitch.isChecked(), MainActivity.db.getUser(currentUserId).getId(), MainActivity.gps.getLongitude(address),
-                    MainActivity.gps.getLatitude(address), null);
+                    isDeliveredSwitch.isChecked(), MainActivity.db.getUser(currentUserId).getId(), MainActivity.gps.getLongitude(address + ", "+ postAddress),
+                    MainActivity.gps.getLatitude(address + ", "+ postAddress), null);
 
             MainActivity.db.addOrder(order);
             Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
@@ -250,7 +253,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
             isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
             Order editedOrder = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
                     customerName, address, postAddress,Integer.parseInt(orderSum), order.getDeliveryDate(), isDeliveredSwitch.isChecked(),
-                    order.getDeliveredBy(), order.getLongitude(), order.getLatitude(), order.getSignature());
+                    order.getDeliveredBy(), gps.getLongitude(address + ", "+ postAddress), gps.getLatitude(address + ", "+ postAddress), order.getSignature());
             db.editOrder(editedOrder);
             Toast.makeText(getApplicationContext(), "Order ändrad", Toast.LENGTH_SHORT).show();
         }
