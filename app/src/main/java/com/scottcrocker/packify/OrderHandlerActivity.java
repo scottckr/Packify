@@ -11,8 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -34,7 +32,6 @@ import java.util.List;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
-import static com.scottcrocker.packify.MainActivity.gps;
 
 public class OrderHandlerActivity extends AppCompatActivity {
 
@@ -190,7 +187,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
         });
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -198,7 +194,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
         }
 
         if (item.getItemId() == R.id.toolbar_update_order) {
-            refreshView();
+            cleanAllFields();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -218,7 +214,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-
     /**
      * Method to create a new order object, or handle an existing order object which will be sent to DB
      * @param view
@@ -237,7 +232,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
             MainActivity.db.addOrder(order);
             Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
-            refreshView();
+            cleanAllFields();
         } else if (MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
             Toast.makeText(getApplicationContext(), "Ordernumret finns redan!", Toast.LENGTH_LONG).show();
         }
@@ -278,12 +273,12 @@ public class OrderHandlerActivity extends AppCompatActivity {
         if(validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)){
             db.deleteOrder(order);
             Toast.makeText(getApplicationContext(), "Order raderad", Toast.LENGTH_SHORT).show();
-            refreshView();
+            cleanAllFields();
         }
         isValidInput.clear();
     }
 
-    public void refreshView() {
+    public void cleanAllFields() {
         orderNoET.setText("");
         customerIdET.setText("");
         customerNameET.setText("");
