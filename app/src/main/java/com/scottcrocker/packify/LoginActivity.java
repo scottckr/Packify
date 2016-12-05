@@ -95,9 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.apply();
                 inputPasswordEt.setText("");
             }
-
         }
         isValidInput.clear();
-
     }
 }
