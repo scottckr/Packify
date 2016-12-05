@@ -14,6 +14,9 @@ import android.widget.Toast;
 import com.scottcrocker.packify.helper.ValidationHelper;
 import com.scottcrocker.packify.model.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NewUserActivity extends AppCompatActivity {
 
     EditText inputNewUserName;
@@ -23,6 +26,7 @@ public class NewUserActivity extends AppCompatActivity {
 
     Switch toggle;
     ValidationHelper validationHelper = new ValidationHelper();
+    List<Boolean> isValidInput = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,24 +50,19 @@ public class NewUserActivity extends AppCompatActivity {
 
     public void addNewUser(View view) {
 
-        //isValidInput = true;
+        String newUserId = inputNewUserId.getText().toString();
+        isValidInput.add(validationHelper.validateInputNumber(newUserId, "Användar id" ,this));
 
         String newUsername = String.valueOf(inputNewUserName.getText());
-        validationHelper.validateInputName(newUsername,this);
-
+        isValidInput.add(validationHelper.validateInputText(newUsername, "Namn" ,this));
 
         String newUserPass = String.valueOf(inputNewUserPass.getText());
-        validationHelper.validateInputPassWord(newUserPass,this);
+        isValidInput.add(validationHelper.validateInputText(newUserPass, "Lösenord" ,this));
 
         String newUserPhoneNr = inputNewUserPhoneNr.getText().toString();
-        validationHelper.validateInputPhoneNr(newUserPhoneNr,this);
+        isValidInput.add(validationHelper.validateInputPhoneNr(newUserPhoneNr, "Telefonnummer" ,this));
 
-        String newUserId = inputNewUserId.getText().toString();
-        validationHelper.validateInputUserId(newUserId,this);
-
-
-
-        if (validationHelper.validateNewUserFields() && !MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
+        if (ValidationHelper.isAllTrue(isValidInput) && !MainActivity.db.doesFieldExist("Users", "userId", newUserId)) {
             User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, newUserPhoneNr, toggle.isChecked());
             MainActivity.db.addUser(user);
             Toast.makeText(getApplicationContext(), "Användare tillagd", Toast.LENGTH_SHORT).show();
@@ -73,7 +72,9 @@ public class NewUserActivity extends AppCompatActivity {
         } else if (MainActivity.db.doesFieldExist("Users", "userId", newUserId)){
             Toast.makeText(getApplicationContext(), "Användar-ID finns redan!", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(getApplicationContext(), "Något fält är felaktigt.", Toast.LENGTH_LONG).show();
+            //IsValidInput is false;
         }
+        isValidInput.clear();
+
     }
-}
+}/////////////////////////////////////////////////////

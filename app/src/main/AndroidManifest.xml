@@ -33,6 +33,7 @@
             android:label="@string/order_history_label"
             android:screenOrientation="portrait"/>
         <activity
+
             android:name=".SpecificOrderActivity"
             android:label="@string/specific_order_label"
             android:screenOrientation="portrait"/>
@@ -41,10 +42,12 @@
             android:label="@string/order_handler_label"
             android:screenOrientation="portrait"/>
         <activity
+
             android:name=".SettingsActivity"
             android:label="@string/settings_label"
             android:screenOrientation="portrait"/>
         <activity
+
             android:name=".UserHandlerActivity"
             android:label="@string/user_handler_label"
             android:screenOrientation="portrait"/>

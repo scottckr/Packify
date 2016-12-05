@@ -14,6 +14,11 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.helper.ValidationHelper;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
 
@@ -23,6 +28,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText inputIdEt;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    ValidationHelper validationHelper = new ValidationHelper();
+    List<Boolean> isValidInput = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,27 +59,37 @@ public class LoginActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
 
         inputIdEt = (EditText) findViewById(R.id.input_login_id);
-        int inputId = Integer.parseInt(inputIdEt.getText().toString());
+        String inputId = inputIdEt.getText().toString();
+        isValidInput.add(validationHelper.validateInputNumber(inputId, "Användar id" ,this));
+
         inputPasswordEt = (EditText) findViewById(R.id.input_login_password);
         String inputPassword = inputPasswordEt.getText().toString();
+        isValidInput.add(validationHelper.validateInputText(inputPassword, "Lösenord" ,this));
 
-        int currentUserId;
 
-        for (int i = 0; i < db.getAllUsers().size(); i++) {
-            if (db.getAllUsers().get(i).getId() == inputId) {
-                if (db.getAllUsers().get(i).getPassword().equals(inputPassword)) {
-                    currentUserId = db.getAllUsers().get(i).getId();
-                    editor.putInt("USERID", currentUserId);
-                    editor.putBoolean("isLoggedIn", true);
-                    editor.apply();
-                } else {
-                    Toast.makeText(this, "Lösenordet är felaktigt!", Toast.LENGTH_SHORT).show();
-                    editor.putBoolean("isLoggedIn", false);
-                    editor.apply();
+        if (validationHelper.isAllTrue(isValidInput)){
+            int currentUserId;
+
+            for (int i = 0; i < db.getAllUsers().size(); i++) {
+                if (db.getAllUsers().get(i).getId() == Integer.parseInt(inputId)) {
+                    if (db.getAllUsers().get(i).getPassword().equals(inputPassword)) {
+                        currentUserId = db.getAllUsers().get(i).getId();
+                        editor.putInt("USERID", currentUserId);
+                        editor.putBoolean("isLoggedIn", true);
+                        editor.apply();
+                        Intent intent = new Intent(this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(this, "Lösenordet är felaktigt!", Toast.LENGTH_SHORT).show();
+                        editor.putBoolean("isLoggedIn", false);
+                        editor.apply();
+                        inputPasswordEt.setText("");
+                    }
                 }
             }
+
         }
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        isValidInput.clear();
+
     }
 }

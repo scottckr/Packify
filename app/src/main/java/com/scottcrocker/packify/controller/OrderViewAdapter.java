@@ -25,7 +25,7 @@ public class OrderViewAdapter extends BaseAdapter {
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.iconId = iconId;
         dataSource = orders;
-    }
+    }g
 
     private int iconId;
     private ImageView icon;
