@@ -56,7 +56,7 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".NewUserActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"
+            android:theme="@style/PackifyDialogTheme"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".SignatureActivity"

@@ -95,7 +95,8 @@ public class SpecificOrderActivity extends AppCompatActivity {
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
         currentUserName = (TextView) header.findViewById(R.id.current_user_name);
-        currentUserName.setText(user.getName());
+        String currentUserNameStr = " " + user.getName();
+        currentUserName.setText(currentUserNameStr);
     }
 
     private void setUpNavigationView() {
@@ -272,8 +273,11 @@ public class SpecificOrderActivity extends AppCompatActivity {
             receivedByTv.setVisibility(View.VISIBLE);
 
             signatureIv = (ImageView) findViewById(R.id.signature_imageview);
-            signature = BitmapFactory.decodeByteArray(specificOrder.getSignature(), 0,
-                    specificOrder.getSignature().length);
+            if (specificOrder.getSignature() != null) {
+                signature = BitmapFactory.decodeByteArray(specificOrder.getSignature(), 0, specificOrder.getSignature().length);
+            } else {
+                signature = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.no_signature);
+            }
             signatureIv.setImageBitmap(signature);
         } else {
             deliveryDateTv = (TextView) findViewById(R.id.delivery_date);

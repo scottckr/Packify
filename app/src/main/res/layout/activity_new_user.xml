@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     android:background="#ffffff"
     android:orientation="vertical"
-    android:padding="10px">
+    android:paddingBottom="20dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -66,7 +66,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="addNewUser"
-            android:text="@string/new_user_add_button" />
+            android:text="@string/new_user_add_button"
+            android:textColor="@color/colorAccent"
+            android:background="@drawable/button_style"/>
 
         <Button
             android:id="@+id/cancel_btn"
@@ -74,6 +76,8 @@
             android:layout_height="wrap_content"
             android:drawablePadding="3sp"
             android:onClick="cancelBtn"
-            android:text="@string/new_user_cancel_button" />
+            android:text="@string/new_user_cancel_button"
+            android:textColor="@color/colorAccent"
+            android:background="@drawable/button_style"/>
     </LinearLayout>
 </LinearLayout>

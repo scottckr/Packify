@@ -26,7 +26,10 @@ import com.scottcrocker.packify.helper.ValidationHelper;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
@@ -248,6 +251,9 @@ public class OrderHandlerActivity extends AppCompatActivity {
     public void editOrder(View view) {
         orderInputValidation();
         Order order = db.getOrder(Integer.parseInt(orderNo));
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        String currentDate = df.format(Calendar.getInstance().getTime());
+        order.setDeliveryDate(currentDate);
         if(validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)){
             isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
             Order editedOrder = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),

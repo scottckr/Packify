@@ -18,8 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:textColor="@color/colorAccent"
-        android:drawableTint="@color/colorAccent"
+        android:textColor="@color/accentColor2"
+        android:drawableTint="@color/accentColor2"
         android:drawableLeft="@mipmap/ic_person_black_24dp"
         android:drawableStart="@mipmap/ic_person_black_24dp"
         android:textSize="20sp"/>

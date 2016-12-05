@@ -113,7 +113,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="deliverOrder"
-                android:text="@string/btn_deliver_order" />
+                android:text="@string/btn_deliver_order"
+                android:textAllCaps="true"
+                style="@style/ButtonStyle"
+                android:background="@drawable/button_style"/>
 
             <Button
                 android:id="@+id/btn_open_map"
@@ -121,7 +124,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="openNavigation"
-                android:text="@string/btn_open_map" />
+                android:text="@string/btn_open_map"
+                android:textColor="@color/colorAccent"
+                android:background="@drawable/button_style"/>
         </LinearLayout>
     </RelativeLayout>
     </LinearLayout>
