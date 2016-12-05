@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -188,10 +187,10 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinner.setPrompt("Välj en användare:");
+        mSpinner.setPrompt("Välj en användare...");
 
         // attaching data adapter to spinner
-        mSpinner.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapter, R.layout.contact_spinner_row_nothing_selected, this));
+        mSpinner.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapter, R.layout.spinner_row_nothing_selected, this));
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int position,

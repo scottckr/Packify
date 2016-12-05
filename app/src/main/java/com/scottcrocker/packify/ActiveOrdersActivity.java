@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
+import static com.scottcrocker.packify.MainActivity.db;
 
 
 public class ActiveOrdersActivity extends AppCompatActivity{
@@ -59,8 +59,8 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
         amountOfOrders = Integer.parseInt(sharedPreferences.getString("seekBarValue", "30"));
-        user = MainActivity.db.getUser(currentUserId);
-        allOrders = MainActivity.db.getAllOrders();
+        user = db.getUser(currentUserId);
+        allOrders = db.getAllOrders();
 
         //orderAmountToShow();
         //cleanCurrentOrders();
@@ -105,8 +105,8 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         super.onResume();
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         amountOfOrders = Integer.parseInt(sharedPreferences.getString("seekBarValue", "30"));
-        user = MainActivity.db.getUser(currentUserId);
-        allOrders = MainActivity.db.getAllOrders();
+        user = db.getUser(currentUserId);
+        allOrders = db.getAllOrders();
 
         //orderAmountToShow();
         //cleanCurrentOrders();
@@ -315,7 +315,7 @@ public class ActiveOrdersActivity extends AppCompatActivity{
     }
 
     public List<Order> filterUndeliveredOrders(){
-        allOrders = MainActivity.db.getAllOrders();
+        allOrders = db.getAllOrders();
         Log.d(TAG, "Number of orders in database: " + allOrders.size());
         for (int i = 0; i < allOrders.size(); i++) {
             if (!allOrders.get(i).getIsDelivered()) {

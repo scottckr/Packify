@@ -45,7 +45,8 @@
             <Spinner
                 android:id="@+id/spinner_user_id"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                style="@style/Base.Widget.AppCompat.Spinner.Underlined"/>
 
             <TextView
                 android:id="@+id/input_user_id"
@@ -53,7 +54,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/input_user_id"
-                android:inputType="number"
                 android:maxLength="9"
                 android:paddingBottom="5dp"
                 android:text="ID:" />
