@@ -18,6 +18,7 @@ local.properties
 # User-specific configurations
 .idea/
 *.iml
+app/src/main/res/values/google_maps_api.xml
 
 # OS-specific files
 .DS_Store

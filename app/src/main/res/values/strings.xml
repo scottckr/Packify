@@ -26,7 +26,7 @@
     <string name="customer_id">Kundnummer:</string>
     <string name="order_sum">Ordersumma:</string>
     <string name="address">Adress:</string>
-    <string name="btn_deliver_order">Leverera</string>
+    <string name="btn_deliver_order">Levererad</string>
     <string name="btn_open_map">Vägbeskrivning</string>
     <string name="delivery_date">Levererad:</string>
     <string name="menu_settings">Inställningar</string>

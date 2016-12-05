@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,6 +22,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.controller.NothingSelectedSpinnerAdapter;
 import com.scottcrocker.packify.helper.ValidationHelper;
 import com.scottcrocker.packify.model.User;
 
@@ -187,9 +187,10 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setPrompt("Välj en användare...");
 
         // attaching data adapter to spinner
-        mSpinner.setAdapter(dataAdapter);
+        mSpinner.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapter, R.layout.spinner_row_nothing_selected, this));
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int position,
@@ -198,11 +199,10 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         user = (User) parent.getItemAtPosition(position);
         // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "Vald användare: " + user,
-                Toast.LENGTH_LONG).show();
-
-        populateInputFields();
-
+        //Toast.makeText(parent.getContext(), "You selected: " + user, Toast.LENGTH_LONG).show();
+        if (position != 0) {
+            populateInputFields();
+        }
     }
 
     private void populateInputFields() {
