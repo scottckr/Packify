@@ -115,11 +115,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <fragment
-                        android:id="@+id/map"
-                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent"
+                        android:background="@drawable/curved_border">
+                        <fragment
+                            android:id="@+id/map"
+                            android:name="com.google.android.gms.maps.SupportMapFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout

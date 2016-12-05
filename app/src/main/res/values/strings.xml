@@ -61,4 +61,5 @@
     <string name="main_activity_label">Packify</string>
     <string name="btn_add_new_user">Lägg till användare</string>
     <string name="menu_update_order">Uppdatera</string>
+    <string name="spinner_choose_user">Välj en användare...</string>
 </resources>
