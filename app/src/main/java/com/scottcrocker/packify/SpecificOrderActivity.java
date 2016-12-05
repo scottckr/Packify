@@ -174,12 +174,6 @@ public class SpecificOrderActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        menu.getItem(2).setVisible(false);
-        // TODO: Delete items from toolbar_menu.xml after implementing the navDrawer on all activities
-        menu.getItem(1).setVisible(false);
-        menu.getItem(3).setVisible(false);
-        menu.getItem(4).setVisible(false);
-        menu.getItem(5).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 

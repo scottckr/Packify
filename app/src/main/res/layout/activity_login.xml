@@ -24,15 +24,6 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-
-        <TextView
-            android:id="@+id/login_activity_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:text="@string/login_activity_title" />
-
         <EditText
             android:id="@+id/input_login_id"
             android:layout_width="wrap_content"
@@ -40,7 +31,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:ems="10"
-            android:hint="@string/input_userid"
+            android:hint="@string/input_user_id"
             android:inputType="number" />
 
         <EditText
