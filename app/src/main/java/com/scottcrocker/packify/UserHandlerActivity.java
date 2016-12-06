@@ -250,7 +250,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
      *
      * @param view
      */
-    // TODO: method shall delete user information in database
     public void deleteUser(View view) {
         Log.d("DELETEUSER", "" + user);
         if (user.getId() != currentUserId || user.getId() != 0 ) {
