@@ -155,6 +155,9 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         }
 
         if (item.getItemId() == R.id.toolbar_update_order) {
+            clearUndeliveredOrders();
+            cleanCurrentOrders();
+            refreshOrders();
             refreshView();
             return true;
         } else {
@@ -181,14 +184,12 @@ public class ActiveOrdersActivity extends AppCompatActivity{
      */
     public void refreshView() {
 
-        clearUndeliveredOrders();
-        cleanCurrentOrders();
-        refreshOrders();
-
         final ArrayAdapter<Order> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.list_item_label, Order.getCurrentListedOrders());
         listView = (ListView) findViewById(R.id.active_orders_listview);
         listView.setAdapter(adapter);
-        Log.d(TAG, "ListView refreshed");
+        Log.d(TAG, "ListView finished");
+
+
     }
 
     /**
@@ -198,7 +199,6 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         List<Order> tempOrders = new ArrayList<>();
         for (int i = 0; i < Order.getCurrentListedOrders().size(); i++){
             if(!Order.getCurrentListedOrders().get(i).getIsDelivered()){
-                boolean x = Order.getCurrentListedOrders().get(i).getIsDelivered();
                 tempOrders.add(Order.getCurrentListedOrders().get(i));
             }
         }
@@ -206,21 +206,21 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         for (int i = 0; i < tempOrders.size(); i++){
             Order.getCurrentListedOrders().add(tempOrders.get(i));
         }
+        Log.d(TAG, "cleanCurrentOrders finished");
     }
 
     public void refreshOrders(){
         if (amountOfOrdersToDisplay > Order.getCurrentListedOrders().size()){
-            //utöka med random
-            filterUndeliveredOrders();
+            filterUndeliveredOrders(); //updaterar så att undelivered och delivered orders är up to date
             amountOfNewOrdersNeeded = amountOfOrdersToDisplay - Order.getCurrentListedOrders().size();
-            addRandomOrders();
+            addRandomOrders();//utöka med random
         }else if(amountOfOrdersToDisplay < Order.getCurrentListedOrders().size()){
-            //ta bort överflödiga orders.
             amountOfOrdersToRemove = Order.getCurrentListedOrders().size() - amountOfOrdersToDisplay;
-            removeOrders();
+            removeOrders();//ta bort överflödiga orders.
         }else{
             //no change.
         }
+        Log.d(TAG, "refreshOrders finished");
 
     }
     public void removeOrders(){
@@ -234,16 +234,20 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         for (int i = 0; i < tempOrders.size(); i++){
             Order.getCurrentListedOrders().add(tempOrders.get(i));
         }
+        Log.d(TAG, "removeOrders finished");
     }
 
     //
     public void addRandomOrders(){
         RandomHelper rnd = new RandomHelper();
+        filterUndeliveredOrders();
+
         int rndOrder;
         boolean orderDuplicateCheck = false;
         for(int i = 0; i < amountOfNewOrdersNeeded; i++){//kör antalet gånger som behövs
             rndOrder = rnd.randomNrGenerator(undeliveredOrders.size());//hittar en ny random order
             for(int y = 0; y < Order.getCurrentListedOrders().size(); y++){//kollar igenom alla Orders och ser om någon redan finns.
+                Log.d(TAG, "Order" + Order.getCurrentListedOrders().get(y).getOrderNo() + " som kollas om den ska läggas till" + undeliveredOrders.get(rndOrder).getOrderNo());
                 if(undeliveredOrders.get(rndOrder).getOrderNo() == Order.getCurrentListedOrders().get(y).getOrderNo()){
                     orderDuplicateCheck = true;
                 }
@@ -257,6 +261,8 @@ public class ActiveOrdersActivity extends AppCompatActivity{
                 }
             }
         }
+        Log.d(TAG, "addRandomOrders finished");
+
     }
 
     public void orderAmountToShow(){
@@ -266,10 +272,12 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         } else {
             amountOfOrdersToDisplay = amountOfOrders;
         }
+        Log.d(TAG, "orderAmountToShow finished orderamount: " + amountOfOrdersToDisplay);
     }
 
     public List<Order> filterUndeliveredOrders(){
         allOrders = MainActivity.db.getAllOrders();
+        deliveredOrders.clear();
         Log.d(TAG, "Number of orders in database: " + allOrders.size());
         for (int i = 0; i < allOrders.size(); i++) {
             if (!allOrders.get(i).getIsDelivered()) {
@@ -279,6 +287,7 @@ public class ActiveOrdersActivity extends AppCompatActivity{
                 deliveredOrders.add(allOrders.get(i));
             }
         }
+        Log.d(TAG, "filterUndeliveredOrders finished");
         return undeliveredOrders;
     }
 
@@ -287,9 +296,8 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         List<Order> tempOrder = new ArrayList<>();
         boolean deliveredOrder = false;
         int amountRemoved;
-
-        for(int i =0; i < Order.getCurrentListedOrders().size(); i++){
-            for(int y = 0; y < deliveredOrders.size(); y++){
+        for(int i =0; i < Order.getCurrentListedOrders().size(); i++){//5 i = 0 4
+            for(int y = 0; y < deliveredOrders.size(); y++){ // 5 i = 0 6
                 if(Order.getCurrentListedOrders().get(i).getOrderNo() == deliveredOrders.get(y).getOrderNo()){
                     deliveredOrder = true;
                 }
@@ -311,6 +319,7 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         }else{
             Toast.makeText(this, amountRemoved + " levererade ordrar togs bort", Toast.LENGTH_SHORT).show();
         }
+        Log.d(TAG, "clearUndeliveredOrders finished");
 
 
 
