@@ -193,6 +193,7 @@ public class SettingsActivity extends AppCompatActivity {
             editor.putString("number", savedPhoneNumber);
             editor.apply();
             Toast.makeText(this, "Inställningar sparade", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 

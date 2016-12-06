@@ -13,6 +13,7 @@ import com.scottcrocker.packify.model.Order;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.scottcrocker.packify.MainActivity.db;
 import static com.scottcrocker.packify.MainActivity.gps;
 import static com.scottcrocker.packify.MainActivity.currentUserId;
 
@@ -42,7 +43,7 @@ public class NewOrderActivity extends AppCompatActivity {
         orderSum = (EditText) findViewById(R.id.input_new_order_sum);
         adress = (EditText) findViewById(R.id.input_new_order_address);
         postAdress = (EditText) findViewById(R.id.input_new_order_post_address);
-        isDelivered = (Switch) findViewById(R.id.is_delivered_switch);
+        isDelivered = (Switch) findViewById(R.id.is_new_order_delivered);
 
 
     }
@@ -67,19 +68,19 @@ public class NewOrderActivity extends AppCompatActivity {
             String newPostAddress = String.valueOf(postAdress.getText());
             isValidInput.add(validationHelper.validateInputText(newPostAddress, "Postadress", this));
 
-            if (validationHelper.isAllTrue(isValidInput)) {
+            if (validationHelper.isAllTrue(isValidInput) && !db.doesFieldExist("Orders", "orderNo", newOrderNr)) {
                 Order order = new Order(Integer.parseInt(newOrderNr), Integer.parseInt(newCustomerNr),
                         newCustomerName, newAdress, newPostAddress, Integer.parseInt(newOrderSum), "---",
                         isDelivered.isChecked(), "---", gps.getLongitude(newAdress + ", " + newPostAddress),
                         gps.getLatitude(newAdress + ", " + newPostAddress), null);
 
-                MainActivity.db.addOrder(order);
+                db.addOrder(order);
+                finish();
                 Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
-            } else if (MainActivity.db.doesFieldExist("Orders", "orderNo", newOrderNr)) {
+            } else if (db.doesFieldExist("Orders", "orderNo", newOrderNr)) {
                 Toast.makeText(getApplicationContext(), "Ordernumret finns redan!", Toast.LENGTH_LONG).show();
             }
             isValidInput.clear();
-
         }
 
     public void cancelBtn(View view) {

@@ -278,13 +278,19 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
      */
     public void deleteUser(View view) {
         Log.d("DELETEUSER", "" + user);
-        if (user.getId() != currentUserId || user.getId() != 0 ) {
-            db.deleteUser(user);
-            Toast.makeText(this, user.getName() + " raderad.", Toast.LENGTH_SHORT).show();
+        if (user != mSpinner.getItemAtPosition(0)) {
+            if (user.getId() == 0 || user.getId() == currentUserId) {
+                refreshView();
+                Toast.makeText(getApplicationContext(), "Otillåtet att radera denna användare", Toast.LENGTH_LONG).show();
+            } else {
+                db.deleteUser(user);
+                Toast.makeText(this, user.getName() + " raderad.", Toast.LENGTH_SHORT).show();
+                refreshView();
+                loadSpinnerData();
+            }
+        } else if (user == mSpinner.getItemAtPosition(0)) {
             refreshView();
-            loadSpinnerData();
-        } else {
-            Toast.makeText(this, "Otillåtet att radera denna användare", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Du måste välja en användare!", Toast.LENGTH_LONG).show();
         }
     }
 

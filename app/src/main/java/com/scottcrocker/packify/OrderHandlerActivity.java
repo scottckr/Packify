@@ -242,23 +242,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
      */
     public void addOrder(View view) {
 
-        //sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
-        //currentUserId = sharedPreferences.getInt("USERID", -1);
-        /*orderInputValidation();
-        if (validationHelper.isAllTrue(isValidInput) && !validationHelper.orderExist(this, orderNo)) {
-            Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
-                    customerName, address, postAddress, Integer.parseInt(orderSum), "---",
-                    isDeliveredSwitch.isChecked(), "---",
-                    gps.getLongitude(address + ", "+ postAddress), gps.getLatitude(address + ", "+ postAddress), null);
-
-            MainActivity.db.addOrder(order);
-            Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
-            cleanAllFields();
-        } else if (MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
-            Toast.makeText(getApplicationContext(), "Ordernumret finns redan", Toast.LENGTH_LONG).show();
-        }
-        isValidInput.clear();*/
-
         Intent intent = new Intent(this, NewOrderActivity.class);
         startActivity(intent);
     }
@@ -293,16 +276,20 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * @param view
      */
     public void deleteOrder(View view) {
-        String orderNo = orderNoET.getText().toString();
-        Order order = db.getOrder(Integer.parseInt(orderNo));
-        isValidInput.add(validationHelper.validateInputNumber(orderNo, "Ordernummer", this));
+        if (!orderNoET.getText().toString().equals("")) {
+            String orderNo = orderNoET.getText().toString();
+            Order order = db.getOrder(Integer.parseInt(orderNo));
+            isValidInput.add(validationHelper.validateInputNumber(orderNo, "Ordernummer", this));
 
-        if(validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)){
-            db.deleteOrder(order);
-            Toast.makeText(getApplicationContext(), "Order raderad", Toast.LENGTH_SHORT).show();
-            cleanAllFields();
+            if(validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)){
+                db.deleteOrder(order);
+                Toast.makeText(getApplicationContext(), "Order raderad", Toast.LENGTH_SHORT).show();
+                cleanAllFields();
+            }
+            isValidInput.clear();
+        } else {
+            Toast.makeText(this, "Du måste fylla i ett ordernummer!", Toast.LENGTH_LONG).show();
         }
-        isValidInput.clear();
     }
 
     public void cleanAllFields() {
