@@ -20,7 +20,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.scottcrocker.packify.controller.OrderViewAdapter;
 import com.scottcrocker.packify.helper.RandomHelper;
 import com.scottcrocker.packify.model.Order;

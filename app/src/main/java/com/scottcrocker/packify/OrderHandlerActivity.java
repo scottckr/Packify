@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
 
 public class OrderHandlerActivity extends AppCompatActivity {
@@ -248,9 +247,9 @@ public class OrderHandlerActivity extends AppCompatActivity {
      */
     public void addOrder(View view) {
 
-        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
-        currentUserId = sharedPreferences.getInt("USERID", -1);
-        orderInputValidation();
+        //sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        //currentUserId = sharedPreferences.getInt("USERID", -1);
+        /*orderInputValidation();
         if (validationHelper.isAllTrue(isValidInput) && !validationHelper.orderExist(this, orderNo)) {
             Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
                     customerName, address, postAddress, Integer.parseInt(orderSum), "---",
@@ -263,7 +262,10 @@ public class OrderHandlerActivity extends AppCompatActivity {
         } else if (MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
             Toast.makeText(getApplicationContext(), "Ordernumret finns redan", Toast.LENGTH_LONG).show();
         }
-        isValidInput.clear();
+        isValidInput.clear();*/
+
+        Intent intent = new Intent(this, NewOrderActivity.class);
+        startActivity(intent);
     }
 
     /**

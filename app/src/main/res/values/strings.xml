@@ -62,4 +62,13 @@
     <string name="btn_add_new_user">Lägg till användare</string>
     <string name="menu_update_order">Uppdatera</string>
     <string name="spinner_choose_user">Välj en användare...</string>
+    <string name="add_new_order">Lägg till en ny order</string>
+    <string name="new_order_nr">Nytt order nr</string>
+    <string name="new_customer_nr">Nytt kund nr</string>
+    <string name="new_order_sum">Order summa</string>
+    <string name="new_order_adress">Adress</string>
+    <string name="new_postadress">Postadress</string>
+    <string name="btn_cancel">Avbryt</string>
+    <string name="switch_is_delivered">Levererad</string>
+    <string name="btn_add_new_order">Lägg till order</string>
 </resources>

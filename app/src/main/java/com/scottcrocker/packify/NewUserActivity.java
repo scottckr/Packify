@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.Toast;
 
