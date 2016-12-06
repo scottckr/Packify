@@ -76,7 +76,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
         addOrderBtn = (Button) findViewById(R.id.btn_submit_order);
         editOrderBtn = (Button) findViewById(R.id.btn_edit_order);
-        editOrderBtn.setVisibility(View.INVISIBLE);
         orderNoET = (EditText) findViewById(R.id.input_order_number);
         customerIdET = (EditText) findViewById(R.id.input_customer_id);
         customerNameET = (EditText) findViewById(R.id.input_customer_name);
@@ -106,8 +105,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (db.doesFieldExist("Orders", "orderNo", editable.toString())) {
-                    editOrderBtn.setVisibility(View.VISIBLE);
-                    addOrderBtn.setVisibility(View.INVISIBLE);
 
                     String customerIdStr = String.valueOf(db.getOrder(Integer.parseInt(editable.toString())).getCustomerNo());
                     customerIdET.setText(customerIdStr);
@@ -143,8 +140,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
                     isDeliveredSwitch.setEnabled(false);
 
                     isDeliveredSwitch.setChecked(false);
-                    editOrderBtn.setVisibility(View.INVISIBLE);
-                    addOrderBtn.setVisibility(View.VISIBLE);
 
                     customerIdET.setText("");
                     customerNameET.setText("");
@@ -273,20 +268,24 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * @param view
      */
     public void editOrder(View view) {
-        orderInputValidation();
-        Order order = db.getOrder(Integer.parseInt(orderNo));
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        String currentDate = df.format(Calendar.getInstance().getTime());
-        order.setDeliveryDate(currentDate);
-        if(validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)){
-            isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
-            Order editedOrder = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
-                    customerName, address, postAddress,Integer.parseInt(orderSum), order.getDeliveryDate(), isDeliveredSwitch.isChecked(),
-                    order.getDeliveredBy(), gps.getLongitude(address + ", "+ postAddress), gps.getLatitude(address + ", "+ postAddress), order.getSignature());
-            db.editOrder(editedOrder);
-            Toast.makeText(getApplicationContext(), "Order ändrad", Toast.LENGTH_SHORT).show();
+        if (!orderNoET.getText().toString().equals("")) {
+            orderInputValidation();
+            Order order = db.getOrder(Integer.parseInt(orderNo));
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            String currentDate = df.format(Calendar.getInstance().getTime());
+            order.setDeliveryDate(currentDate);
+            if(validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)){
+                isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
+                Order editedOrder = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
+                        customerName, address, postAddress,Integer.parseInt(orderSum), order.getDeliveryDate(), isDeliveredSwitch.isChecked(),
+                        order.getDeliveredBy(), gps.getLongitude(address + ", "+ postAddress), gps.getLatitude(address + ", "+ postAddress), order.getSignature());
+                db.editOrder(editedOrder);
+                Toast.makeText(getApplicationContext(), "Order ändrad", Toast.LENGTH_SHORT).show();
+            }
+            isValidInput.clear();
+        } else {
+            Toast.makeText(this, "Du måste fylla i ett ordernummer!", Toast.LENGTH_LONG).show();
         }
-        isValidInput.clear();
     }
 
     /**

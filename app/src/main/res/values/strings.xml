@@ -71,4 +71,5 @@
     <string name="btn_cancel">Avbryt</string>
     <string name="switch_is_delivered">Levererad</string>
     <string name="btn_add_new_order">Lägg till order</string>
+    <string name="btn_add_order">Lägg till order</string>
 </resources>

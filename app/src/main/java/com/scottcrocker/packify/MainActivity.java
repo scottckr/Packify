@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * GPSHelper variable, is used in a few places to get longitude and latitude based on addresses.
      */
-    public GPSHelper gps;
+    public static GPSHelper gps;
     /**
      * SHARED_PREFERENCES constant, is used for SharedPreferences all over the app.
      */

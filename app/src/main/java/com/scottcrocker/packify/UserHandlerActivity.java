@@ -44,6 +44,8 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     TextView inputUserId;
     List<Boolean> isValidInput = new ArrayList<>();
 
+    ArrayAdapter<User> dataAdapter;
+
     Switch toggle;
 
     Button saveEditedUserBtn;
@@ -189,7 +191,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         users = db.getAllUsers();
 
-        ArrayAdapter<User> dataAdapter = new ArrayAdapter<>(this,
+        dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, users);
 
         // Drop down layout style - list view with radio button
@@ -200,6 +202,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         mSpinner.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapter, R.layout.spinner_row_nothing_selected, this));
     }
 
+    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position,
                                long id) {
         // On selecting a spinner item
@@ -224,7 +227,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     private void populateInputFields() {
 
         inputName.setText(user.getName());
-        inputUserId.setText("ID:" + String.valueOf(user.getId()));
+        inputUserId.setText("ID: " + String.valueOf(user.getId()));
         inputPassword.setText(user.getPassword());
         inputPhoneNr.setText(String.valueOf(user.getTelephone()));
         toggle.setChecked(user.getIsAdmin());
@@ -232,29 +235,33 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     }
 
     public void saveEditedUser(View view) {
-        if (user.getId() != 0) {
-            String editedName = String.valueOf(inputName.getText());
-            isValidInput.add(validationHelper.validateInputText(editedName, "Namn" ,this));
-
-            String editedPassword = String.valueOf(inputPassword.getText());
-            isValidInput.add(validationHelper.validateInputText(editedPassword, "Lösenord" ,this));
-
-            String editedPhoneNr = String.valueOf(inputPhoneNr.getText());
-            isValidInput.add(validationHelper.validateInputPhoneNr(editedPhoneNr, "Telefonnummer" ,this));
-
-            if(validationHelper.isAllTrue(isValidInput)){
-                user.setName(String.valueOf(inputName.getText()));
-                user.setPassword(String.valueOf(inputPassword.getText()));
-                user.setTelephone(String.valueOf(inputPhoneNr.getText()));
-                user.setIsAdmin(toggle.isChecked());
-                db.editUser(user);
-                Toast.makeText(getApplicationContext(), "Användaruppgifter uppdaterade", Toast.LENGTH_SHORT).show();
+        if (user != mSpinner.getItemAtPosition(0)) {
+            if (user.getId() == 0) {
                 refreshView();
+                Toast.makeText(getApplicationContext(), "Otillåtet att ändra denna användare", Toast.LENGTH_LONG).show();
+            } else {
+                String editedName = String.valueOf(inputName.getText());
+                isValidInput.add(validationHelper.validateInputText(editedName, "Namn" ,this));
+
+                String editedPassword = String.valueOf(inputPassword.getText());
+                isValidInput.add(validationHelper.validateInputText(editedPassword, "Lösenord" ,this));
+
+                String editedPhoneNr = String.valueOf(inputPhoneNr.getText());
+                isValidInput.add(validationHelper.validateInputPhoneNr(editedPhoneNr, "Telefonnummer" ,this));
+
+                if(validationHelper.isAllTrue(isValidInput)){
+                    user.setName(String.valueOf(inputName.getText()));
+                    user.setPassword(String.valueOf(inputPassword.getText()));
+                    user.setTelephone(String.valueOf(inputPhoneNr.getText()));
+                    user.setIsAdmin(toggle.isChecked());
+                    db.editUser(user);
+                    Toast.makeText(getApplicationContext(), "Användaruppgifter uppdaterade", Toast.LENGTH_SHORT).show();
+                }
+                isValidInput.clear();
             }
-            isValidInput.clear();
-        } else {
+        } else if (user == mSpinner.getItemAtPosition(0)) {
             refreshView();
-            Toast.makeText(getApplicationContext(), "Otillåtet att ändra denna användare", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Du måste välja en användare!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -283,10 +290,12 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
 
     public void refreshView() {
+        mSpinner.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapter, R.layout.spinner_row_nothing_selected, this));
         inputName.setText("");
         inputPassword.setText("");
         inputPhoneNr.setText("");
         inputUserId.setText("");
+        toggle.setChecked(false);
     }
 
 

@@ -7,7 +7,7 @@
                 android:startColor="@color/accentColor2"
                 android:angle="270" />
             <stroke
-                android:width="1dp"
+                android:width="2dp"
                 android:color="@color/darkBackground" />
             <corners
                 android:radius="5dp" />
@@ -26,7 +26,7 @@
                 android:startColor="@color/accentColor2"
                 android:angle="270" />
             <stroke
-                android:width="1dp"
+                android:width="2dp"
                 android:color="@color/darkBackground" />
             <corners
                 android:radius="5dp" />
@@ -45,7 +45,7 @@
                 android:startColor="@color/accentColor2"
                 android:angle="270" />
             <stroke
-                android:width="1dp"
+                android:width="2dp"
                 android:color="@color/darkBackground" />
             <corners
                 android:radius="5dp" />

@@ -13,6 +13,7 @@ import com.scottcrocker.packify.model.Order;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.scottcrocker.packify.MainActivity.gps;
 import static com.scottcrocker.packify.MainActivity.currentUserId;
 
 public class NewOrderActivity extends AppCompatActivity {
@@ -69,8 +70,8 @@ public class NewOrderActivity extends AppCompatActivity {
             if (validationHelper.isAllTrue(isValidInput)) {
                 Order order = new Order(Integer.parseInt(newOrderNr), Integer.parseInt(newCustomerNr),
                         newCustomerName, newAdress, newPostAddress, Integer.parseInt(newOrderSum), "---",
-                        isDelivered.isChecked(), MainActivity.db.getUser(currentUserId).getId(), MainActivity.gps.getLongitude(newAdress + ", " + newPostAddress),
-                        MainActivity.gps.getLatitude(newAdress + ", " + newPostAddress), null);
+                        isDelivered.isChecked(), "---", gps.getLongitude(newAdress + ", " + newPostAddress),
+                        gps.getLatitude(newAdress + ", " + newPostAddress), null);
 
                 MainActivity.db.addOrder(order);
                 Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
