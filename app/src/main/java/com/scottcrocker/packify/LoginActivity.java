@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
 
         inputIdEt = (EditText) findViewById(R.id.input_login_id);
         String inputId = inputIdEt.getText().toString();
-        isValidInput.add(validationHelper.validateInputNumber(inputId, "Användar id" ,this));
+        isValidInput.add(validationHelper.validateInputNumber(inputId, "Användar-ID" ,this));
 
         inputPasswordEt = (EditText) findViewById(R.id.input_login_password);
         String inputPassword = inputPasswordEt.getText().toString();
