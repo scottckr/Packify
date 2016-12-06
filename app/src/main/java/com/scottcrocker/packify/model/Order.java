@@ -20,7 +20,7 @@ public class Order implements Parcelable{
     private double latitude;
     private double longitude;
     private int customerNo;
-    private int deliveredBy;
+    private String deliveredBy;
     private String customerName;
     private byte[] signature;
     List<Order> orderList = new ArrayList<>();
@@ -38,7 +38,7 @@ public class Order implements Parcelable{
     }
 
     public Order(int orderNo, int customerNo, String customerName, String address, String postAddress, int orderSum,
-                 String deliveryDate, boolean isDelivered, int deliveredBy, double longitude, double latitude, byte[] signature) {
+                 String deliveryDate, boolean isDelivered, String deliveredBy, double longitude, double latitude, byte[] signature) {
         this.orderNo = orderNo;
         this.address = address;
         this.postAddress = postAddress;
@@ -63,7 +63,7 @@ public class Order implements Parcelable{
         latitude = in.readDouble();
         longitude = in.readDouble();
         customerNo = in.readInt();
-        deliveredBy = in.readInt();
+        deliveredBy = in.readString();
         customerName = in.readString();
     }
 
@@ -85,7 +85,7 @@ public class Order implements Parcelable{
         out.writeDouble(latitude);
         out.writeDouble(longitude);
         out.writeInt(customerNo);
-        out.writeInt(deliveredBy);
+        out.writeString(deliveredBy);
         out.writeString(customerName);
     }
 
@@ -169,11 +169,11 @@ public class Order implements Parcelable{
         return orderNo;
     }
 
-    public void setDeliveredBy(int deliveredBy) {
+    public void setDeliveredBy(String deliveredBy) {
         this.deliveredBy = deliveredBy;
     }
 
-    public int getDeliveredBy() {
+    public String getDeliveredBy() {
         return deliveredBy;
     }
 

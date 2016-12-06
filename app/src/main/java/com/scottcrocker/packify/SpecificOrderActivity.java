@@ -186,7 +186,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
                 String currentDate = df.format(Calendar.getInstance().getTime());
                 specificOrder.setIsDelivered(true);
                 specificOrder.setDeliveryDate(currentDate);
-                specificOrder.setDeliveredBy(currentUserId);
+                specificOrder.setDeliveredBy("" + db.getUser(currentUserId).getId() + ", " + db.getUser(currentUserId).getName());
                 specificOrder.setSignature(data.getByteArrayExtra("SIGNATURE"));
 
                 db.editOrder(specificOrder);
@@ -305,7 +305,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
             deliveryDateTv.setVisibility(View.VISIBLE);
 
             deliveredByTv = (TextView) findViewById(R.id.delivered_by);
-            deliveredByStr = getString(R.string.delivered_by) + " " + specificOrder.getDeliveredBy() + ", " + db.getUser(specificOrder.getDeliveredBy()).getName();
+            deliveredByStr = getString(R.string.delivered_by) + " " + specificOrder.getDeliveredBy();
             deliveredByTv.setText(deliveredByStr);
             deliveredByTv.setVisibility(View.VISIBLE);
 

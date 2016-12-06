@@ -254,8 +254,8 @@ public class OrderHandlerActivity extends AppCompatActivity {
         if (validationHelper.isAllTrue(isValidInput) && !validationHelper.orderExist(this, orderNo)) {
             Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
                     customerName, address, postAddress, Integer.parseInt(orderSum), "---",
-                    isDeliveredSwitch.isChecked(), MainActivity.db.getUser(currentUserId).getId(), gps.getLongitude(address + ", "+ postAddress),
-                    gps.getLatitude(address + ", "+ postAddress), null);
+                    isDeliveredSwitch.isChecked(), "---",
+                    gps.getLongitude(address + ", "+ postAddress), gps.getLatitude(address + ", "+ postAddress), null);
 
             MainActivity.db.addOrder(order);
             Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();

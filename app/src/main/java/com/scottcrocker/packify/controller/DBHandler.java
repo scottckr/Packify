@@ -27,7 +27,7 @@ public class DBHandler extends SQLiteOpenHelper {
      * @param context Context of the app.
      */
     public DBHandler(Context context) {
-        super(context, "PackifyDB", null, 12);
+        super(context, "PackifyDB", null, 13);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class DBHandler extends SQLiteOpenHelper {
         String orderSql = "CREATE TABLE Orders (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "orderNo INTEGER NOT NULL, customerNo INTEGER NOT NULL, customerName TEXT NOT NULL, " +
                 "address TEXT NOT NULL, postAddress TEXT NOT NULL, orderSum INTEGER NOT NULL, " +
-                "deliveryDate TEXT NOT NULL, isDelivered INTEGER NOT NULL, deliveredBy INTEGER NOT NULL, " +
+                "deliveryDate TEXT NOT NULL, isDelivered INTEGER NOT NULL, deliveredBy TEXT NOT NULL, " +
                 "longitude REAL NOT NULL, latitude REAL NOT NULL, signature BLOB);";
         String userSql = "CREATE TABLE Users (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "userId INTEGER NOT NULL, password TEXT NOT NULL, name TEXT NOT NULL, " +
@@ -195,7 +195,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 isDeliveredBool = false;
             }
             order.setIsDelivered(isDeliveredBool);
-            order.setDeliveredBy(cursor.getInt(9));
+            order.setDeliveredBy(cursor.getString(9));
             order.setLongitude(cursor.getDouble(10));
             order.setLatitude(cursor.getDouble(11));
             order.setSignature(cursor.getBlob(12));
@@ -270,7 +270,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 } else {
                     order.setIsDelivered(false);
                 }
-                order.setDeliveredBy(cursor.getInt(9));
+                order.setDeliveredBy(cursor.getString(9));
                 order.setLongitude(cursor.getDouble(10));
                 order.setLatitude(cursor.getDouble(11));
                 order.setSignature(cursor.getBlob(12));
