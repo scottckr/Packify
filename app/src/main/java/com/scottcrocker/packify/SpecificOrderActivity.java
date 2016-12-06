@@ -268,6 +268,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
     }
 
     public void refreshView() {
+        specificOrder = db.getOrder(orderNumber);
         orderNumTv = (TextView) findViewById(R.id.order_number);
         orderNumStr = getString(R.string.order_number) + " " + specificOrder.getOrderNo();
         orderNumTv.setText(orderNumStr);
