@@ -26,9 +26,8 @@
 
         <EditText
             android:id="@+id/input_login_id"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:ems="10"
             android:hint="@string/input_user_id"
@@ -36,10 +35,8 @@
 
         <EditText
             android:id="@+id/input_login_password"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/input_login_id"
-            android:layout_alignStart="@+id/input_login_id"
             android:layout_below="@+id/input_login_id"
             android:ems="10"
             android:hint="@string/input_password"
@@ -47,13 +44,13 @@
 
         <Button
             android:id="@+id/btn_login_submit"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/input_login_password"
             android:layout_centerHorizontal="true"
             android:background="@drawable/button_style"
             android:onClick="loginValidation"
             android:text="@string/btn_login_submit"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="@color/colorAccent" />
     </RelativeLayout>
 </LinearLayout>
