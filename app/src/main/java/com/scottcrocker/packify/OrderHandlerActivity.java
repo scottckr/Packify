@@ -208,7 +208,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
     }
 
-    //What's this? What's this? Whaaaaaat iiiiiiiis thiiiiiiis?
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -219,7 +218,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * Method to create a new order object, or handle an existing order object which will be sent to DB
      * @param view
      */
-    // TO-DO: create new object containing order information, send to database
     public void addOrder(View view) {
 
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
@@ -265,7 +263,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * Method to delete order from DB
      * @param view
      */
-    // TO-DO: method shall delete order information in database
     public void deleteOrder(View view) {
         String orderNo = orderNoET.getText().toString();
         Order order = db.getOrder(Integer.parseInt(orderNo));
