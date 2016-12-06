@@ -23,6 +23,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.controller.NothingSelectedSpinnerAdapter;
 import com.scottcrocker.packify.helper.ValidationHelper;
 import com.scottcrocker.packify.model.User;
 
@@ -93,7 +94,8 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
         currentUserName = (TextView) header.findViewById(R.id.current_user_name);
-        currentUserName.setText(currentUser.getName());
+        String currentUserNameStr = " " + currentUser.getName();
+        currentUserName.setText(currentUserNameStr);
     }
 
     private void setUpNavigationView() {
@@ -186,9 +188,10 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setPrompt("Välj en användare...");
 
         // attaching data adapter to spinner
-        mSpinner.setAdapter(dataAdapter);
+        mSpinner.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapter, R.layout.spinner_row_nothing_selected, this));
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int position,
@@ -197,11 +200,10 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         user = (User) parent.getItemAtPosition(position);
         // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "You selected: " + user,
-                Toast.LENGTH_LONG).show();
-
-        populateInputFields();
-
+        //Toast.makeText(parent.getContext(), "You selected: " + user, Toast.LENGTH_LONG).show();
+        if (position != 0) {
+            populateInputFields();
+        }
     }
 
     private void populateInputFields() {
@@ -237,7 +239,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
             isValidInput.clear();
         } else {
             refreshView();
-            Toast.makeText(getApplicationContext(), "Du kan inte redigera huvudadminkontot!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Otillåtet att ändra denna användare", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -257,10 +259,10 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         Log.d("DELETEUSER", "" + user);
         if (user.getId() != currentUserId || user.getId() != 0 ) {
             db.deleteUser(user);
-            Toast.makeText(this, user.getName() + " deleted.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, user.getName() + " raderad.", Toast.LENGTH_SHORT).show();
             refreshView();
         } else {
-            Toast.makeText(this, "You cannot delete yourself or the main admin account!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Otillåtet att radera denna användare", Toast.LENGTH_LONG).show();
         }
     }
 

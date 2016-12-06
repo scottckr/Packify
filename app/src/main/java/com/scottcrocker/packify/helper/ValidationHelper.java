@@ -42,7 +42,7 @@ public class ValidationHelper {
         if (input.matches("[0-9]{9,10}")) {
             Log.d(TAG, "Input for phone nr is valid");
 
-        } else if (input.equals("")) {
+        } else if (input.equals(null)) {
             Toast.makeText(context, fieldName + " är tom", Toast.LENGTH_SHORT).show();
             validInput = false;
         } else {
@@ -56,7 +56,7 @@ public class ValidationHelper {
         boolean isValidInput = true;
         if (input.matches("^\\d{1,9}$")){
             Log.d(TAG, "Input for "+fieldName+" is valid");
-        }else if(input.equals("")){
+        }else if(input.equals(null)){
             isValidInput = false;
             Toast.makeText(context, fieldName+" är tom", Toast.LENGTH_SHORT).show();
         }else{

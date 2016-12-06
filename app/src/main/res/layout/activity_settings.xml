@@ -71,9 +71,10 @@
                 android:id="@+id/btn_save_settings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_style"
                 android:onClick="onSaveSettings"
-                android:text="@string/btn_save_settings" />
+                android:text="@string/btn_save_settings"
+                android:textColor="@color/colorAccent"
+                android:background="@drawable/button_style"/>
 
 
         </LinearLayout>
@@ -88,9 +89,10 @@
                 android:id="@+id/btn_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_style"
                 android:onClick="logout"
-                android:text="@string/btn_logout" />
+                android:text="@string/btn_logout"
+                android:textColor="@color/colorAccent"
+                android:background="@drawable/button_style"/>
         </LinearLayout>
 
     </RelativeLayout>

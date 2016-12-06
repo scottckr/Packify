@@ -79,6 +79,13 @@
                     android:hint="@string/new_postadress"
                     android:inputType="text"
                     android:paddingBottom="5dp" />
+        <Switch
+            android:id="@+id/is_new_order_delivered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5sp"
+            android:layout_gravity="end"
+            android:text="@string/switch_is_delivered" />
 
             </LinearLayout>
 
@@ -94,8 +101,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/button_style"
-                    android:onClick="addOrder"
-                    android:text="@string/btn_submit_order" />
+                    android:onClick="addNewOrder"
+                    android:text="@string/btn_add_new_order" />
 
                 <Button
                     android:id="@+id/btn_cancel_order"

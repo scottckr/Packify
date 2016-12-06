@@ -24,7 +24,10 @@ import com.scottcrocker.packify.helper.ValidationHelper;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.scottcrocker.packify.MainActivity.db;
@@ -137,7 +140,8 @@ public class OrderHandlerActivity extends AppCompatActivity {
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
         currentUserName = (TextView) header.findViewById(R.id.current_user_name);
-        currentUserName.setText(user.getName());
+        String currentUserNameStr = " " + user.getName();
+        currentUserName.setText(currentUserNameStr);
     }
 
     private void setUpNavigationView() {
@@ -183,7 +187,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
         });
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -191,7 +194,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
         }
 
         if (item.getItemId() == R.id.toolbar_update_order) {
-            refreshView();
+            cleanAllFields();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -211,7 +214,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-
     /**
      * Method to create a new order object, or handle an existing order object which will be sent to DB
      * @param view
@@ -230,9 +232,9 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
             MainActivity.db.addOrder(order);
             Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
-            refreshView();
+            cleanAllFields();
         } else if (MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
-            Toast.makeText(getApplicationContext(), "Ordernumret finns redan!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Ordernumret finns redan", Toast.LENGTH_LONG).show();
         }
         isValidInput.clear();*/
 
@@ -247,6 +249,9 @@ public class OrderHandlerActivity extends AppCompatActivity {
     public void editOrder(View view) {
         orderInputValidation();
         Order order = db.getOrder(Integer.parseInt(orderNo));
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        String currentDate = df.format(Calendar.getInstance().getTime());
+        order.setDeliveryDate(currentDate);
         if(validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)){
             isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
             Order editedOrder = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
@@ -271,12 +276,12 @@ public class OrderHandlerActivity extends AppCompatActivity {
         if(validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)){
             db.deleteOrder(order);
             Toast.makeText(getApplicationContext(), "Order raderad", Toast.LENGTH_SHORT).show();
-            refreshView();
+            cleanAllFields();
         }
         isValidInput.clear();
     }
 
-    public void refreshView() {
+    public void cleanAllFields() {
         orderNoET.setText("");
         customerIdET.setText("");
         customerNameET.setText("");

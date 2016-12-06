@@ -10,7 +10,6 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -66,32 +65,36 @@ public class LoginActivity extends AppCompatActivity {
         inputPasswordEt = (EditText) findViewById(R.id.input_login_password);
         String inputPassword = inputPasswordEt.getText().toString();
         isValidInput.add(validationHelper.validateInputText(inputPassword, "Lösenord" ,this));
-
-
+        userExist = false;
+        int currentUserId;
         if (validationHelper.isAllTrue(isValidInput)){
-            int currentUserId;
+
             for (int i = 0; i < db.getAllUsers().size(); i++) {
                 if (db.getAllUsers().get(i).getId() == Integer.parseInt(inputId)) {
+                    userExist = true;
                     if (db.getAllUsers().get(i).getPassword().equals(inputPassword)) {
                         currentUserId = db.getAllUsers().get(i).getId();
                         editor.putInt("USERID", currentUserId);
                         editor.putBoolean("isLoggedIn", true);
                         editor.apply();
-                        Intent intent = new Intent(this, ActiveOrdersActivity.class);
+                        Intent intent = new Intent(this, MainActivity.class);
                         startActivity(intent);
                         isValidInput.clear();
                     } else {
-                        Toast.makeText(this, "Lösenordet är felaktigt!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Felaktigt lösenord, försök igen", Toast.LENGTH_SHORT).show();
                         editor.putBoolean("isLoggedIn", false);
                         editor.apply();
                         inputPasswordEt.setText("");
                     }
                 }
 
+            }if(!userExist){
+                Toast.makeText(this, "Felaktigt användarnamn, försök igen", Toast.LENGTH_SHORT).show();
+                editor.putBoolean("isLoggedIn", false);
+                editor.apply();
+                inputPasswordEt.setText("");
             }
-
         }
         isValidInput.clear();
-
     }
 }

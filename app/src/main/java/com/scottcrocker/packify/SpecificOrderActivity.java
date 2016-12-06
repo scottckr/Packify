@@ -22,9 +22,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.SupportMapFragment;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
 
@@ -32,11 +34,18 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
 
 
-public class SpecificOrderActivity extends AppCompatActivity {
+public class SpecificOrderActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     SharedPreferences sharedPreferences;
     private static final String TAG = "SpecificOrderActivity";
@@ -68,6 +77,8 @@ public class SpecificOrderActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     TextView currentUserName;
     NavigationView navigationView;
+    SupportMapFragment mapFragment;
+    GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +95,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
         user = db.getUser(currentUserId);
         orderNumber = getIntent().getIntExtra("ORDERNO", 0);
         specificOrder = db.getOrder(orderNumber);
-        refreshView();
+
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_specific_order);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
@@ -95,7 +106,18 @@ public class SpecificOrderActivity extends AppCompatActivity {
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
         currentUserName = (TextView) header.findViewById(R.id.current_user_name);
-        currentUserName.setText(user.getName());
+        String currentUserNameStr = " " + user.getName();
+        currentUserName.setText(currentUserNameStr);
+
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        if (specificOrder.getIsDelivered()) {
+            mapFragment.getView().setVisibility(View.GONE);
+        }
+
+        refreshView();
     }
 
     private void setUpNavigationView() {
@@ -173,12 +195,6 @@ public class SpecificOrderActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        menu.getItem(2).setVisible(false);
-        // TODO: Delete items from toolbar_menu.xml after implementing the navDrawer on all activities
-        menu.getItem(1).setVisible(false);
-        menu.getItem(3).setVisible(false);
-        menu.getItem(4).setVisible(false);
-        menu.getItem(5).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -208,13 +224,35 @@ public class SpecificOrderActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+            mMap = googleMap;
+            LatLng pos = new LatLng(specificOrder.getLatitude(), specificOrder.getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14));
+            mMap.addMarker(new MarkerOptions().position(pos).title(specificOrder.getAddress()));
+            mMap.getUiSettings().setAllGesturesEnabled(false);
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    openMaps();
+                }
+            });
+    }
 
+    public void openMaps() {
+        String uri = "geo:" + specificOrder.getLatitude() + "," + specificOrder.getLongitude() +
+                "?q=" + specificOrder.getAddress() + ", " + specificOrder.getPostAddress();
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        intent.setPackage("com.google.android.apps.maps");
+        startActivity(intent);
+    }
 
     public void deliverOrder(View view) {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         String sharedPhoneNumber = sharedPreferences.getString("number", "");
         if (sharedPhoneNumber.equals("")) {
-            Toast.makeText(this, "Du måste fylla i ett telefonnummer i inställningar!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Fyll i ett telefonnummer i inställningar", Toast.LENGTH_SHORT).show();
         } else {
             Intent intent = new Intent(this, SignatureActivity.class);
             startActivityForResult(intent, 1);
@@ -272,28 +310,30 @@ public class SpecificOrderActivity extends AppCompatActivity {
             receivedByTv.setVisibility(View.VISIBLE);
 
             signatureIv = (ImageView) findViewById(R.id.signature_imageview);
-            signature = BitmapFactory.decodeByteArray(specificOrder.getSignature(), 0,
-                    specificOrder.getSignature().length);
+            if (specificOrder.getSignature() != null) {
+                signature = BitmapFactory.decodeByteArray(specificOrder.getSignature(), 0, specificOrder.getSignature().length);
+            } else {
+                signature = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.no_signature);
+            }
             signatureIv.setImageBitmap(signature);
+            signatureIv.setVisibility(View.VISIBLE);
         } else {
             deliveryDateTv = (TextView) findViewById(R.id.delivery_date);
-            deliveryDateTv.setVisibility(View.INVISIBLE);
+            deliveryDateTv.setVisibility(View.GONE);
 
             receivedByTv = (TextView) findViewById(R.id.received_by);
-            receivedByTv.setVisibility(View.INVISIBLE);
+            receivedByTv.setVisibility(View.GONE);
 
             deliveredByTv = (TextView) findViewById(R.id.delivered_by);
-            deliveredByTv.setVisibility(View.INVISIBLE);
+            deliveredByTv.setVisibility(View.GONE);
+
+            signatureIv = (ImageView) findViewById(R.id.signature_imageview);
+            signatureIv.setVisibility(View.GONE);
         }
         Log.d(TAG, "View refreshed");
     }
 
     public void openNavigation(View view) {
-        String uri = "geo:" + specificOrder.getLatitude() + "," + specificOrder.getLongitude() +
-                "?q=" + specificOrder.getAddress() + ", " + specificOrder.getPostAddress();
-
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        intent.setPackage("com.google.android.apps.maps");
-        startActivity(intent);
+        openMaps();
     }
 }

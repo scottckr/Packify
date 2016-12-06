@@ -75,7 +75,8 @@ public class SettingsActivity extends AppCompatActivity {
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
         currentUserName = (TextView) header.findViewById(R.id.current_user_name);
-        currentUserName.setText(user.getName());
+        String currentUserNameStr = " " + user.getName();
+        currentUserName.setText(currentUserNameStr);
     }
 
     private void setUpNavigationView() {
@@ -186,7 +187,7 @@ public class SettingsActivity extends AppCompatActivity {
             editor.putString("seekBarValue", savedSeekBarValue);
             editor.putString("number", savedPhoneNumber);
             editor.apply();
-            Toast.makeText(this, "Dina inställningar är sparade", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Inställningar sparade", Toast.LENGTH_SHORT).show();
         }
     }
 
