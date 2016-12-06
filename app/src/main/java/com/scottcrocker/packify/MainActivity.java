@@ -30,9 +30,11 @@ public class MainActivity extends AppCompatActivity {
         if (sharedPreferences.getBoolean("isLoggedIn", false)) {
             Intent intent = new Intent(this, ActiveOrdersActivity.class);
             startActivity(intent);
+            finish();
         } else {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 }

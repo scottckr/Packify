@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -98,21 +99,25 @@ public class SettingsActivity extends AppCompatActivity {
                     case R.id.navDrawer_activeorders:
                         intent = new Intent(SettingsActivity.this, ActiveOrdersActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_userhandler:
                         intent = new Intent(SettingsActivity.this, UserHandlerActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_orderhandler:
                         intent = new Intent(SettingsActivity.this, OrderHandlerActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_orderhistory:
                         intent = new Intent(SettingsActivity.this, OrderHistoryActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
 

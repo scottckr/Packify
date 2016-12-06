@@ -10,6 +10,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -138,26 +139,31 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
                     case R.id.navDrawer_settings:
                         intent = new Intent(SpecificOrderActivity.this, SettingsActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_userhandler:
                         intent = new Intent(SpecificOrderActivity.this, UserHandlerActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_orderhandler:
                         intent = new Intent(SpecificOrderActivity.this, OrderHandlerActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_activeorders:
                         intent = new Intent(SpecificOrderActivity.this, ActiveOrdersActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_orderhistory:
                         intent = new Intent(SpecificOrderActivity.this, OrderHistoryActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
 

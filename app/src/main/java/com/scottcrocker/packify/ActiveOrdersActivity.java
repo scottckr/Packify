@@ -5,11 +5,13 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -157,21 +159,25 @@ public class ActiveOrdersActivity extends AppCompatActivity{
                     case R.id.navDrawer_settings:
                         intent = new Intent(ActiveOrdersActivity.this, SettingsActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_userhandler:
                         intent = new Intent(ActiveOrdersActivity.this, UserHandlerActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_orderhandler:
                         intent = new Intent(ActiveOrdersActivity.this, OrderHandlerActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_orderhistory:
                         intent = new Intent(ActiveOrdersActivity.this, OrderHistoryActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
                 }
                 return false;

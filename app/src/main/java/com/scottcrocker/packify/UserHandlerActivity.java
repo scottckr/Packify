@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -118,21 +119,25 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
                     case R.id.navDrawer_settings:
                         intent = new Intent(UserHandlerActivity.this, SettingsActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_orderhandler:
                         intent = new Intent(UserHandlerActivity.this, OrderHandlerActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_activeorders:
                         intent = new Intent(UserHandlerActivity.this, ActiveOrdersActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_orderhistory:
                         intent = new Intent(UserHandlerActivity.this, OrderHistoryActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
 
