@@ -34,7 +34,7 @@
     <string name="menu_admin_userhandler">Användarhantering</string>
     <string name="menu_admin_orderhandler">Orderhantering</string>
     <string name="is_admin">Admin</string>
-    <string name="input_user_id">Användar-ID</string>
+    <string name="input_user_id">Användar-ID:</string>
     <string name="menu_orderhistory">Orderhistorik</string>
     <string name="menu_activeorders">Aktiva ordrar</string>
     <string name="delivered_by">Levererad av:</string>
