@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.scottcrocker.packify.controller.OrderViewAdapter;
 import com.scottcrocker.packify.helper.RandomHelper;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
+import static com.scottcrocker.packify.MainActivity.db;
 
 
 public class ActiveOrdersActivity extends AppCompatActivity{
@@ -59,7 +62,7 @@ public class ActiveOrdersActivity extends AppCompatActivity{
         currentUserId = sharedPreferences.getInt("USERID", -1);
         amountOfOrders = Integer.parseInt(sharedPreferences.getString("seekBarValue", "30"));
         user = MainActivity.db.getUser(currentUserId);
-        allOrders = MainActivity.db.getAllOrders();
+        allOrders = db.getAllOrders();
 
         orderAmountToShow();
         cleanCurrentOrders();
