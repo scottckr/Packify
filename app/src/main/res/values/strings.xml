@@ -68,4 +68,11 @@
     <string name="signature_cancel_button">Avbryt</string>
     <string name="received_by">Mottagen av:</string>
     <string name="main_activity_label">Packify</string>
+    <string name="add_new_order">Lägg till en ny order</string>
+    <string name="new_order_nr">Nytt order nr</string>
+    <string name="new_customer_nr">Nytt kund nr</string>
+    <string name="new_order_sum">Order summa</string>
+    <string name="new_order_adress">Adress</string>
+    <string name="new_postadress">Postadress</string>
+    <string name="btn_cancel">Avbryt</string>
 </resources>

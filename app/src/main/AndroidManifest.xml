@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.scottcrocker.packify">
+<manifest package="com.scottcrocker.packify"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -15,9 +15,9 @@
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
@@ -33,7 +33,6 @@
             android:label="@string/order_history_label"
             android:screenOrientation="portrait"/>
         <activity
-
             android:name=".SpecificOrderActivity"
             android:label="@string/specific_order_label"
             android:screenOrientation="portrait"/>
@@ -42,12 +41,10 @@
             android:label="@string/order_handler_label"
             android:screenOrientation="portrait"/>
         <activity
-
             android:name=".SettingsActivity"
             android:label="@string/settings_label"
             android:screenOrientation="portrait"/>
         <activity
-
             android:name=".UserHandlerActivity"
             android:label="@string/user_handler_label"
             android:screenOrientation="portrait"/>
@@ -55,14 +52,19 @@
             android:name=".LoginActivity"
             android:fitsSystemWindows="true"
             android:label="@string/login_label"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".NewUserActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
         <activity
             android:name=".SignatureActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".NewOrderActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/Theme.AppCompat.Light.Dialog">
+        </activity>
     </application>
+
 </manifest>

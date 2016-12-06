@@ -11,8 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -29,9 +27,7 @@ import com.scottcrocker.packify.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
-import static com.scottcrocker.packify.MainActivity.gps;
 
 public class OrderHandlerActivity extends AppCompatActivity {
 
@@ -223,9 +219,9 @@ public class OrderHandlerActivity extends AppCompatActivity {
     // TO-DO: create new object containing order information, send to database
     public void addOrder(View view) {
 
-        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
-        currentUserId = sharedPreferences.getInt("USERID", -1);
-        orderInputValidation();
+        //sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        //currentUserId = sharedPreferences.getInt("USERID", -1);
+        /*orderInputValidation();
         if (validationHelper.isAllTrue(isValidInput) && !validationHelper.orderExist(this, orderNo)) {
             Order order = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
                     customerName, address, postAddress, Integer.parseInt(orderSum), "---",
@@ -238,7 +234,10 @@ public class OrderHandlerActivity extends AppCompatActivity {
         } else if (MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
             Toast.makeText(getApplicationContext(), "Ordernumret finns redan!", Toast.LENGTH_LONG).show();
         }
-        isValidInput.clear();
+        isValidInput.clear();*/
+
+        Intent intent = new Intent(this, NewOrderActivity.class);
+        startActivity(intent);
     }
 
     /**
