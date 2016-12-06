@@ -83,6 +83,14 @@ public class OrderHandlerActivity extends AppCompatActivity {
         addressET = (EditText) findViewById(R.id.input_order_address);
         postAddressET = (EditText) findViewById(R.id.input_order_post_address);
         isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
+
+        customerIdET.setEnabled(false);
+        customerNameET.setEnabled(false);
+        orderSumET.setEnabled(false);
+        addressET.setEnabled(false);
+        postAddressET.setEnabled(false);
+        isDeliveredSwitch.setEnabled(false);
+
         orderNoET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -102,23 +110,37 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
                     String customerIdStr = String.valueOf(db.getOrder(Integer.parseInt(editable.toString())).getCustomerNo());
                     customerIdET.setText(customerIdStr);
+                    customerIdET.setEnabled(true);
 
                     String customerNameStr = String.valueOf(db.getOrder(Integer.parseInt(editable.toString())).getCustomerName());
                     customerNameET.setText(customerNameStr);
+                    customerNameET.setEnabled(true);
 
                     String orderSumStr = String.valueOf(db.getOrder(Integer.parseInt(editable.toString())).getOrderSum());
                     orderSumET.setText(orderSumStr);
+                    orderSumET.setEnabled(true);
 
                     String addressStr = String.valueOf(db.getOrder(Integer.parseInt(editable.toString())).getAddress());
                     addressET.setText(addressStr);
+                    addressET.setEnabled(true);
 
                     String postAddressStr = String.valueOf(db.getOrder(Integer.parseInt(editable.toString())).getPostAddress());
                     postAddressET.setText(postAddressStr);
+                    postAddressET.setEnabled(true);
+
+                    isDeliveredSwitch.setEnabled(true);
 
                     if (db.getOrder(Integer.parseInt(orderNoET.getText().toString())).getIsDelivered()) {
                         isDeliveredSwitch.setChecked(true);
                     }
                 } else {
+                    customerIdET.setEnabled(false);
+                    customerNameET.setEnabled(false);
+                    orderSumET.setEnabled(false);
+                    addressET.setEnabled(false);
+                    postAddressET.setEnabled(false);
+                    isDeliveredSwitch.setEnabled(false);
+
                     isDeliveredSwitch.setChecked(false);
                     editOrderBtn.setVisibility(View.INVISIBLE);
                     addOrderBtn.setVisibility(View.VISIBLE);

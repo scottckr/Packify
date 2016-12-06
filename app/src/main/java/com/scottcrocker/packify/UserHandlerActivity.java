@@ -78,6 +78,11 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         saveEditedUserBtn = (Button) findViewById(R.id.btn_save_existing_user);
         deleteUserBtn = (Button) findViewById(R.id.btn_delete_user);
 
+        inputName.setEnabled(false);
+        inputPassword.setEnabled(false);
+        inputPhoneNr.setEnabled(false);
+        toggle.setEnabled(false);
+
         mSpinner = (Spinner) findViewById(R.id.spinner_user_id);
         mSpinner.setOnItemSelectedListener(this);
         loadSpinnerData();
@@ -198,7 +203,16 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         // Showing selected spinner item
         //Toast.makeText(parent.getContext(), "You selected: " + user, Toast.LENGTH_LONG).show();
         if (position != 0) {
+            inputName.setEnabled(true);
+            inputPassword.setEnabled(true);
+            inputPhoneNr.setEnabled(true);
+            toggle.setEnabled(true);
             populateInputFields();
+        } else {
+            inputName.setEnabled(false);
+            inputPassword.setEnabled(false);
+            inputPhoneNr.setEnabled(false);
+            toggle.setEnabled(false);
         }
     }
 
