@@ -80,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                         Intent intent = new Intent(this, MainActivity.class);
                         startActivity(intent);
                         isValidInput.clear();
+                        finish();
                     } else {
                         Toast.makeText(this, "Felaktigt lösenord, försök igen", Toast.LENGTH_SHORT).show();
                         editor.putBoolean("isLoggedIn", false);
