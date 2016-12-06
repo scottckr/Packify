@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.scottcrocker.packify.MainActivity;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
 
@@ -15,13 +14,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by tobiashillen on 2016-11-11.
+ * Database class for handling all SQLite queries.
  */
 
 public class DBHandler extends SQLiteOpenHelper {
 
     private static final String TAG = "DATABASE";
 
+    /**
+     * Constructor for DBHandler, creates a database called PackifyDB.
+     *
+     * @param context Context of the app.
+     */
     public DBHandler(Context context) {
         super(context, "PackifyDB", null, 12);
     }
@@ -52,6 +56,12 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.d(TAG, "Database updated!");
     }
 
+    /**
+     * Adds an order to the database.
+     * Takes an Order object and extracts its variables and puts them into the Orders table.
+     *
+     * @param order Order object to add to the database.
+     */
     public void addOrder(Order order) {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -80,6 +90,12 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.d(TAG, "Added order: " + id);
     }
 
+    /**
+     * Adds a User to the database.
+     * Takes a User object and extracts its variables and puts them into the Users table.
+     *
+     * @param user User object to add to the database.
+     */
     public void addUser(User user) {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -101,7 +117,13 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.d(TAG, "Added user: " + id);
     }
 
-    public int editOrder(Order order) {
+    /**
+     * Edits an Order already in the database.
+     * Takes an Order object, extracts its variables and updates the Order object which corresponds to the 'orderNo' variable.
+     *
+     * @param order Takes an Order object to edit.
+     */
+    public void editOrder(Order order) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues cvs = new ContentValues();
@@ -120,10 +142,16 @@ public class DBHandler extends SQLiteOpenHelper {
 
         Log.d(TAG, "Order updated: " + cvs);
 
-        return db.update("Orders", cvs, "orderNo" + " = ?", new String[]{String.valueOf(order.getOrderNo())});
+        db.update("Orders", cvs, "orderNo" + " = ?", new String[]{String.valueOf(order.getOrderNo())});
     }
 
-    public int editUser(User user) {
+    /**
+     * Edits a User already in the database.
+     * Takes a User object, extracts its variables and updates the User object which corresponds to the 'userId' variable.
+     *
+     * @param user Takes a User object to edit.
+     */
+    public void editUser(User user) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues cvs = new ContentValues();
@@ -133,9 +161,16 @@ public class DBHandler extends SQLiteOpenHelper {
         cvs.put("telephone", user.getTelephone());
         cvs.put("isAdmin", user.getIsAdmin());
 
-        return db.update("Users", cvs, "userId" + " = ?", new String[]{String.valueOf(user.getId())});
+        db.update("Users", cvs, "userId" + " = ?", new String[]{String.valueOf(user.getId())});
     }
 
+    /**
+     * Gets an Order object from the database.
+     * Queries the Orders table for a row where the 'orderNo' is equal to the 'orderNo' input.
+     *
+     * @param orderNo Selects which 'orderNo' to use when querying the database.
+     * @return Returns the Order which has an 'orderNo' equal to the 'orderNo' input.
+     */
     public Order getOrder(int orderNo) {
         String query = "SELECT * FROM " + "Orders" + " WHERE " + "orderNo" + " = \"" + orderNo + "\"";
 
@@ -172,8 +207,15 @@ public class DBHandler extends SQLiteOpenHelper {
         return order;
     }
 
-    public User getUser(int id) {
-        String query = "SELECT * FROM " + "Users" + " WHERE " + "userId" + " = \"" + id + "\"";
+    /**
+     * Gets a User object from the database.
+     * Queries the Users table for a row where the 'userId' is equal to the 'userId' input.
+     *
+     * @param userId Selects which 'userId' to use when querying the database.
+     * @return Returns the User which has a 'userId' equal to the 'userId' input.
+     */
+    public User getUser(int userId) {
+        String query = "SELECT * FROM " + "Users" + " WHERE " + "userId" + " = \"" + userId + "\"";
 
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -201,6 +243,11 @@ public class DBHandler extends SQLiteOpenHelper {
         return user;
     }
 
+    /**
+     * Gets all orders from the Orders table in the database.
+     *
+     * @return Returns a List of all Order objects in the Orders table.
+     */
     public List<Order> getAllOrders() {
         SQLiteDatabase db = getReadableDatabase();
         List<Order> allOrders = new ArrayList<>();
@@ -239,6 +286,11 @@ public class DBHandler extends SQLiteOpenHelper {
         return allOrders;
     }
 
+    /**
+     * Gets all users from the Users table in the database.
+     *
+     * @return Returns a List of all User objects in the Users table.
+     */
     public List<User> getAllUsers() {
         List<User> allUsers = new ArrayList<>();
 
@@ -269,30 +321,45 @@ public class DBHandler extends SQLiteOpenHelper {
         return allUsers;
     }
 
+    /**
+     * Deletes an Order from the database.
+     *
+     * @param order Takes an Order object and deletes the row in the Orders table which has an 'orderNo' equal to the 'orderNo' of the Order input.
+     */
     public void deleteOrder(Order order) {
         SQLiteDatabase db = getWritableDatabase();
         db.delete("Orders", "orderNo = ?", new String[]{String.valueOf(order.getOrderNo())});
         db.close();
     }
 
+    /**
+     * Deletes a User from the database.
+     *
+     * @param user Takes a User object and deletes the row in the Users table which has a 'userId' equal to the 'userId' of the User input.
+     */
     public void deleteUser(User user) {
         SQLiteDatabase db = getWritableDatabase();
         db.delete("Users", "userId = ?", new String[]{String.valueOf(user.getId())});
         db.close();
     }
 
+    /**
+     * Checks if someone is trying to add something to the database which already exists.
+     *
+     * @param tableName Which table to add to the query.
+     * @param fieldName Which column to look at in the query.
+     * @param input     What value to look for in the 'fieldName'.
+     * @return Returns true if 'input' already exists in 'fieldName'.
+     */
     public boolean doesFieldExist(String tableName, String fieldName, String input) {
         SQLiteDatabase db = getReadableDatabase();
-
         if (!input.equals("")) {
             String query = "SELECT * FROM " + tableName + " WHERE " + fieldName + " = " + input;
             Cursor cursor = db.rawQuery(query, null);
-
             if (cursor.getCount() <= 0) {
                 cursor.close();
                 return false;
             }
-
             cursor.close();
             return true;
         } else {

@@ -17,33 +17,46 @@ import java.util.List;
 import static com.scottcrocker.packify.MainActivity.db;
 
 /**
- * Created by Scott on 2016-11-28.
+ * Custom adapter for displaying Orders in ListViews.
+ *
+ * @author Scott Crocker
  */
 
 public class OrderViewAdapter extends BaseAdapter {
+    /**
+     * Constructor for OrderViewAdapter.
+     *
+     * @param activity Which activity the adapter is used.
+     * @param orders   What items to use in the adapter.
+     * @param iconId   What icon to display on the items.
+     */
     public OrderViewAdapter(Activity activity, List<Order> orders, int iconId) {
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.iconId = iconId;
         dataSource = orders;
     }
 
-    private int iconId;
-    private ImageView icon;
-    private List<Order> dataSource;
-    private LayoutInflater inflater;
+    int iconId;
+    ImageView icon;
+    List<Order> dataSource;
+    LayoutInflater inflater;
 
+    @Override
     public int getCount() {
         return dataSource.size();
     }
 
+    @Override
     public Order getItem(int position) {
         return dataSource.get(position);
     }
 
+    @Override
     public long getItemId(int position) {
         return position;
     }
 
+    @Override
     public View getView(int pos, View convertView, ViewGroup parent) {
         View v;
         if (convertView == null) {
