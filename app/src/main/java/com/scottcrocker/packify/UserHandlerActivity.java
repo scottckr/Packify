@@ -49,8 +49,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     Button deleteUserBtn;
     List<User> users;
     User user;
-    //Variable "currentUser" is only called that because of "user" being used later in code - must be changed (NavDrawer)
-    User currentUser;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     TextView currentUserName;
@@ -66,8 +64,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         setContentView(R.layout.activity_user_handler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        currentUser = db.getUser(currentUserId);
+        user = db.getUser(currentUserId);
 
         inputName = (EditText) findViewById(R.id.input_user_name);
         inputPassword = (EditText) findViewById(R.id.input_user_password);
@@ -94,7 +91,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
         currentUserName = (TextView) header.findViewById(R.id.current_user_name);
-        String currentUserNameStr = " " + currentUser.getName();
+        String currentUserNameStr = " " + user.getName();
         currentUserName.setText(currentUserNameStr);
     }
 
@@ -103,7 +100,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         // Disabling menu-item for this activity and admin options for non-admin users
         navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
-        if (!currentUser.getIsAdmin()) {
+        if (!user.getIsAdmin()) {
             navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
             navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
         }
@@ -161,7 +158,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         mDrawerToggle.syncState();
     }
 
-    //What's this? What's this? Whaaaaaat iiiiiiiis thiiiiiiis?
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
