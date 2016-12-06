@@ -213,7 +213,6 @@ public class ActiveOrdersActivity extends AppCompatActivity{
     }
 
 
-    //What's this? What's this? Whaaaaaat iiiiiiiis thiiiiiiis? QUE?
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

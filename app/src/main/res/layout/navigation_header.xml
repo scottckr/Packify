@@ -19,9 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:textColor="@color/accentColor2"
-        android:drawableTint="@color/accentColor2"
-        android:drawableLeft="@mipmap/ic_person_black_24dp"
-        android:drawableStart="@mipmap/ic_person_black_24dp"
+        android:drawableLeft="@drawable/ic_person_yellow"
+        android:drawableStart="@drawable/ic_person_yellow"
         android:textSize="20sp"/>
 
 </RelativeLayout>

@@ -50,8 +50,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     Button deleteUserBtn;
     List<User> users;
     User user;
-    //Variable "currentUser" is only called that because of "user" being used later in code - must be changed (NavDrawer)
-    User currentUser;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     TextView currentUserName;
@@ -67,8 +65,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         setContentView(R.layout.activity_user_handler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        currentUser = db.getUser(currentUserId);
+        user = db.getUser(currentUserId);
 
         inputName = (EditText) findViewById(R.id.input_user_name);
         inputPassword = (EditText) findViewById(R.id.input_user_password);
@@ -81,6 +78,11 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         saveEditedUserBtn = (Button) findViewById(R.id.btn_save_existing_user);
         deleteUserBtn = (Button) findViewById(R.id.btn_delete_user);
+
+        inputName.setEnabled(false);
+        inputPassword.setEnabled(false);
+        inputPhoneNr.setEnabled(false);
+        toggle.setEnabled(false);
 
         mSpinner = (Spinner) findViewById(R.id.spinner_user_id);
         mSpinner.setOnItemSelectedListener(this);
@@ -95,7 +97,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
         currentUserName = (TextView) header.findViewById(R.id.current_user_name);
-        String currentUserNameStr = " " + currentUser.getName();
+        String currentUserNameStr = " " + user.getName();
         currentUserName.setText(currentUserNameStr);
     }
 
@@ -104,7 +106,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         // Disabling menu-item for this activity and admin options for non-admin users
         navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
-        if (!currentUser.getIsAdmin()) {
+        if (!user.getIsAdmin()) {
             navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
             navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
         }
@@ -166,7 +168,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         mDrawerToggle.syncState();
     }
 
-    //What's this? What's this? Whaaaaaat iiiiiiiis thiiiiiiis?
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -207,7 +208,16 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         // Showing selected spinner item
         //Toast.makeText(parent.getContext(), "You selected: " + user, Toast.LENGTH_LONG).show();
         if (position != 0) {
+            inputName.setEnabled(true);
+            inputPassword.setEnabled(true);
+            inputPhoneNr.setEnabled(true);
+            toggle.setEnabled(true);
             populateInputFields();
+        } else {
+            inputName.setEnabled(false);
+            inputPassword.setEnabled(false);
+            inputPhoneNr.setEnabled(false);
+            toggle.setEnabled(false);
         }
     }
 
@@ -259,13 +269,13 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
      *
      * @param view
      */
-    // TODO: method shall delete user information in database
     public void deleteUser(View view) {
         Log.d("DELETEUSER", "" + user);
         if (user.getId() != currentUserId || user.getId() != 0 ) {
             db.deleteUser(user);
             Toast.makeText(this, user.getName() + " raderad.", Toast.LENGTH_SHORT).show();
             refreshView();
+            loadSpinnerData();
         } else {
             Toast.makeText(this, "Otillåtet att radera denna användare", Toast.LENGTH_LONG).show();
         }

@@ -224,7 +224,6 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         mDrawerToggle.syncState();
     }
 
-    //What's this? What's this? Whaaaaaat iiiiiiiis thiiiiiiis?
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
