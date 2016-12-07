@@ -251,13 +251,18 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * @param view
      */
     public void editOrder(View view) {
-        if (!orderNoET.getText().toString().equals("")) {
+
+        orderNo = orderNoET.getText().toString();
+        if (!validationHelper.validateInputText(orderNo, "Ordernummer", this)) {
+            return;
+        }
+        if (validationHelper.orderExist(this, orderNo)) {
             orderInputValidation();
             Order order = db.getOrder(Integer.parseInt(orderNo));
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             String currentDate = df.format(Calendar.getInstance().getTime());
             order.setDeliveryDate(currentDate);
-            if(validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)){
+            if(validationHelper.isAllTrue(isValidInput)){
                 isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
                 Order editedOrder = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
                         customerName, address, postAddress,Integer.parseInt(orderSum), order.getDeliveryDate(), isDeliveredSwitch.isChecked(),
@@ -266,8 +271,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Order ändrad", Toast.LENGTH_SHORT).show();
             }
             isValidInput.clear();
-        } else {
-            Toast.makeText(this, "Du måste fylla i ett ordernummer!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -277,7 +280,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
      */
     public void deleteOrder(View view) {
         if (!orderNoET.getText().toString().equals("")) {
-            String orderNo = orderNoET.getText().toString();
+            orderNo = orderNoET.getText().toString();
             Order order = db.getOrder(Integer.parseInt(orderNo));
             isValidInput.add(validationHelper.validateInputNumber(orderNo, "Ordernummer", this));
 
