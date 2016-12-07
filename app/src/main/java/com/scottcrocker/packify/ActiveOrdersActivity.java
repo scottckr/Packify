@@ -5,13 +5,13 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +50,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     TextView currentUserName;
     NavigationView navigationView;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +93,18 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
         currentUserName = (TextView) header.findViewById(R.id.current_user_name);
-        currentUserName.setText(user.getName());
-
+        try {
+            currentUserName.setText(user.getName());
+        } catch (Exception e) {
+            sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+            editor = sharedPreferences.edit();
+            editor.putBoolean("isLoggedIn", false);
+            editor.apply();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(ActiveOrdersActivity.this);
+            startActivity(intent);
+        }
     }
 
     private void setUpNavigationView() {
@@ -101,10 +112,22 @@ public class ActiveOrdersActivity extends AppCompatActivity {
 
         // Disabling menu-item for this activity and admin options for non-admin users
         navigationView.getMenu().findItem(R.id.navDrawer_activeorders).setVisible(false);
-        if (!user.getIsAdmin()) {
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+        try {
+            if (!user.getIsAdmin()) {
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+            }
+        } catch (Exception e) {
+            sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+            editor = sharedPreferences.edit();
+            editor.putBoolean("isLoggedIn", false);
+            editor.apply();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(ActiveOrdersActivity.this);
+            startActivity(intent);
         }
+
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
