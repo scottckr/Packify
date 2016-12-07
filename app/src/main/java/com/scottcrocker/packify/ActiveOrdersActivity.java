@@ -73,6 +73,11 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.active_orders_listview);
         listView.setAdapter(adapter);
 
+        TextView emptyText = (TextView)findViewById(R.id.active_orders_empty);
+        listView.setEmptyView(emptyText);
+
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {

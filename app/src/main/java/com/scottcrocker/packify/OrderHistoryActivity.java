@@ -63,6 +63,9 @@ public class OrderHistoryActivity extends AppCompatActivity {
         historyListView = (ListView) findViewById(R.id.order_history_listview);
         historyListView.setAdapter(adapter);
 
+        TextView emptyText = (TextView)findViewById(R.id.order_history_empty);
+        historyListView.setEmptyView(emptyText);
+
         historyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {

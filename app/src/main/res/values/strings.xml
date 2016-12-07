@@ -72,4 +72,6 @@
     <string name="switch_is_delivered">Levererad</string>
     <string name="btn_add_new_order">Lägg till order</string>
     <string name="btn_add_order">Lägg till order</string>
+    <string name="active_orders_empty">Det finns inga aktiva ordrar.</string>
+    <string name="order_history_empty">Det finns inga levererade ordrar.</string>
 </resources>
