@@ -193,7 +193,7 @@ public class SettingsActivity extends AppCompatActivity {
             editor.putString("seekBarValue", savedSeekBarValue);
             editor.putString("number", savedPhoneNumber);
             editor.apply();
-            Toast.makeText(this, "Inställningar sparade", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.toast_settings_saved), Toast.LENGTH_SHORT).show();
             finish();
         }
     }

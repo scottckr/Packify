@@ -342,9 +342,9 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         }
         amountRemoved = amountOfOrdersToDisplay - tempOrder.size();
         if (amountRemoved == 1) {
-            Toast.makeText(this, amountRemoved + " levererad order togs bort", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, amountRemoved + " " + getResources().getString(R.string.toast_active_orders_one), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, amountRemoved + " levererade ordrar togs bort", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, amountRemoved + " " + getResources().getString(R.string.toast_active_orders_several), Toast.LENGTH_SHORT).show();
         }
         Log.d(TAG, "clearUndeliveredOrders finished");
 
