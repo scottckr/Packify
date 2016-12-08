@@ -57,6 +57,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
         final OrderViewAdapter adapter = refreshView();
 
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_order_history);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         if (getSupportActionBar() != null) {
@@ -67,7 +68,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
         View header = navigationView.getHeaderView(0);
 
         TextView emptyTextTV = (TextView) findViewById(R.id.order_history_empty);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_order_history);
         TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
 
         historyListView.setEmptyView(emptyTextTV);

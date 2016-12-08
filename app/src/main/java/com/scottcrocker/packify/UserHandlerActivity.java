@@ -65,8 +65,10 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         int currentUserId = sharedPreferences.getInt("USERID", -1);
         user = db.getUser(currentUserId);
 
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_user_handler);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -83,7 +85,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         inputPasswordET.setTransformationMethod(new PasswordTransformationMethod());
         isAdminSwitch = (Switch) findViewById(R.id.admin_switch);
         mSpinner = (Spinner) findViewById(R.id.spinner_user_id);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_user_handler);
 
         inputNameET.setEnabled(false);
         inputPasswordET.setEnabled(false);

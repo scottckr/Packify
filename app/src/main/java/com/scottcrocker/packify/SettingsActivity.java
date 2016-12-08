@@ -43,6 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ValidationHelper validationHelper = new ValidationHelper();
     private List<Boolean> isValidInput = new ArrayList<>();
+    private OrderHandlerHelper orderHandlerHelper = new OrderHandlerHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
