@@ -36,7 +36,7 @@ import static com.scottcrocker.packify.MainActivity.currentUserId;
 import static com.scottcrocker.packify.MainActivity.db;
 
 /**
- * UserHandlerActivity, shows a spinner of User objects in the database and lets the user choose a User.
+ * UserHandlerActivity, shows a spinner of User objects and some input fields in the database and lets the user choose a User.
  */
 public class UserHandlerActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 

@@ -13,7 +13,7 @@ public class RandomHelper {
      * @param max Max value for the random number.
      * @return Returns a random number from 0 to 'max'.
      */
-    public int randomNrGenerator(int max) {
+    int randomNrGenerator(int max) {
         Random rand = new Random();
         return rand.nextInt(max);
     }
