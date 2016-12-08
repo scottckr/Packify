@@ -9,7 +9,7 @@ import android.widget.ListAdapter;
 import android.widget.SpinnerAdapter;
 
 /**
- * Custom adapter for showing an empty item at the top of Spinner.
+ * Custom adapter for displaying an empty item at the top of Spinner.
  */
 public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapter {
 

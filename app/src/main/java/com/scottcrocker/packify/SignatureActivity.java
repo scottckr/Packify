@@ -15,8 +15,6 @@ import java.io.ByteArrayOutputStream;
 
 /**
  * Activity for writing a signature to be attached to an order when it is delivered.
- *
- * @author Scott Crocker
  */
 public class SignatureActivity extends AppCompatActivity {
 

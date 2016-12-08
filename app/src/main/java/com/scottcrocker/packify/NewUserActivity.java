@@ -16,6 +16,9 @@ import com.scottcrocker.packify.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * NewUserActivity lets the user add new user to the database
+ */
 public class NewUserActivity extends AppCompatActivity {
 
     EditText inputNewUserName;
@@ -53,7 +56,7 @@ public class NewUserActivity extends AppCompatActivity {
         String newUserId = inputNewUserId.getText().toString();
         if(!MainActivity.db.doesFieldExist("Users", "userId", newUserId)){
 
-            isValidInput.add(validationHelper.validateInputNumber(newUserId, "Användar id" ,this));
+            isValidInput.add(validationHelper.validateInputNumber(newUserId, "Användar-ID" ,this));
 
             String newUsername = String.valueOf(inputNewUserName.getText());
             isValidInput.add(validationHelper.validateInputText(newUsername, "Namn" ,this));
