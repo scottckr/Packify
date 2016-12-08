@@ -238,7 +238,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         if (user != mSpinner.getItemAtPosition(0)) {
             if (user.getId() == 0) {
                 refreshView();
-                Toast.makeText(getApplicationContext(), "Otillåtet att ändra denna användare", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_userhandler_admin_change), Toast.LENGTH_LONG).show();
             } else {
                 String editedName = String.valueOf(inputName.getText());
                 isValidInput.add(validationHelper.validateInputText(editedName, "Namn" ,this));
@@ -255,13 +255,13 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
                     user.setTelephone(String.valueOf(inputPhoneNr.getText()));
                     user.setIsAdmin(toggle.isChecked());
                     db.editUser(user);
-                    Toast.makeText(getApplicationContext(), "Användaruppgifter uppdaterade", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_userhandler_updated), Toast.LENGTH_SHORT).show();
                 }
                 isValidInput.clear();
             }
         } else if (user == mSpinner.getItemAtPosition(0)) {
             refreshView();
-            Toast.makeText(getApplicationContext(), "Du måste välja en användare!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_userhandler_user), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -281,16 +281,16 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         if (user != mSpinner.getItemAtPosition(0)) {
             if (user.getId() == 0 || user.getId() == currentUserId) {
                 refreshView();
-                Toast.makeText(getApplicationContext(), "Otillåtet att radera denna användare", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_userhandler_admin_delete), Toast.LENGTH_LONG).show();
             } else {
                 db.deleteUser(user);
-                Toast.makeText(this, user.getName() + " raderad.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, user.getName() + " " + getResources().getString(R.string.toast_userhandler_deleted), Toast.LENGTH_SHORT).show();
                 refreshView();
                 loadSpinnerData();
             }
         } else if (user == mSpinner.getItemAtPosition(0)) {
             refreshView();
-            Toast.makeText(getApplicationContext(), "Du måste välja en användare!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_userhandler_user), Toast.LENGTH_LONG).show();
         }
     }
 

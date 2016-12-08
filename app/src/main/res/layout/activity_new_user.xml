@@ -22,28 +22,28 @@
             android:id="@+id/input_new_user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/new_user_name"
+            android:hint="@string/input_new_user_name"
             android:inputType="text" />
 
         <EditText
             android:id="@+id/input_new_user_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/new_user_id"
+            android:hint="@string/input_new_user_id"
             android:inputType="number" />
 
         <EditText
             android:id="@+id/input_new_user_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/new_user_password"
+            android:hint="@string/input_new_user_password"
             android:inputType="textPassword" />
 
         <EditText
             android:id="@+id/input_new_user_phonenr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/new_user_phonenumber"
+            android:hint="@string/input_new_user_phonenumber"
             android:inputType="phone" />
 
         <Switch
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10sp"
             android:layout_gravity="end"
-            android:text="@string/new_user_is_admin" />
+            android:text="@string/switch_is_admin" />
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -68,7 +68,7 @@
             android:onClick="addNewUser"
             android:layout_marginRight="5sp"
             android:layout_marginEnd="5sp"
-            android:text="@string/new_user_add_button"
+            android:text="@string/btn_new_user_add"
             android:textColor="@color/colorAccent"
             android:background="@drawable/button_style"/>
 
@@ -77,7 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40sp"
             android:onClick="cancelBtn"
-            android:text="@string/new_user_cancel_button"
+            android:text="@string/btn_cancel"
             android:textColor="@color/colorAccent"
             android:background="@drawable/button_style"/>
     </LinearLayout>

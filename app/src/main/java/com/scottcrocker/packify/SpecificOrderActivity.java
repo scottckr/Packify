@@ -259,7 +259,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         if (sharedPhoneNumber.equals("")) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
-            Toast.makeText(this, "Fyll i ett telefonnummer i inställningar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.toast_specificorder_phoneno), Toast.LENGTH_SHORT).show();
         } else {
             Intent intent = new Intent(this, SignatureActivity.class);
             startActivityForResult(intent, 1);

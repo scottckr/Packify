@@ -83,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="@string/is_admin" />
+                android:text="@string/switch_is_admin" />
 
 
         </LinearLayout>

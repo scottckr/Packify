@@ -22,39 +22,39 @@
         </activity>
         <activity
             android:name=".ActiveOrdersActivity"
-            android:label="@string/active_orders_label"
+            android:label="@string/label_active_orders"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
-            android:label="@string/main_activity_label"
+            android:label="@string/label_main_activity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".OrderHistoryActivity"
-            android:label="@string/order_history_label"
+            android:label="@string/label_order_history"
             android:screenOrientation="portrait"/>
         <activity
 
             android:name=".SpecificOrderActivity"
-            android:label="@string/specific_order_label"
+            android:label="@string/label_specific_order"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".OrderHandlerActivity"
-            android:label="@string/order_handler_label"
+            android:label="@string/label_order_handler"
             android:screenOrientation="portrait"/>
         <activity
 
             android:name=".SettingsActivity"
-            android:label="@string/settings_label"
+            android:label="@string/label_settings"
             android:screenOrientation="portrait"/>
         <activity
 
             android:name=".UserHandlerActivity"
-            android:label="@string/user_handler_label"
+            android:label="@string/label_user_handler"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".LoginActivity"
             android:fitsSystemWindows="true"
-            android:label="@string/login_label"
+            android:label="@string/label_login"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait"/>
         <activity

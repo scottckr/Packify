@@ -15,7 +15,6 @@ import java.util.List;
 
 import static com.scottcrocker.packify.MainActivity.db;
 import static com.scottcrocker.packify.MainActivity.gps;
-import static com.scottcrocker.packify.MainActivity.currentUserId;
 
 public class NewOrderActivity extends AppCompatActivity {
 
@@ -23,8 +22,8 @@ public class NewOrderActivity extends AppCompatActivity {
     EditText customerName;
     EditText customerNr;
     EditText orderSum;
-    EditText adress;
-    EditText postAdress;
+    EditText address;
+    EditText postAddress;
     Switch isDelivered;
 
     String orderNo;
@@ -41,8 +40,8 @@ public class NewOrderActivity extends AppCompatActivity {
         customerName = (EditText) findViewById(R.id.input_new_customer_name);
         customerNr = (EditText) findViewById(R.id.input_new_customer_id);
         orderSum = (EditText) findViewById(R.id.input_new_order_sum);
-        adress = (EditText) findViewById(R.id.input_new_order_address);
-        postAdress = (EditText) findViewById(R.id.input_new_order_post_address);
+        address = (EditText) findViewById(R.id.input_new_order_address);
+        postAddress = (EditText) findViewById(R.id.input_new_order_post_address);
         isDelivered = (Switch) findViewById(R.id.is_new_order_delivered);
 
 
@@ -62,10 +61,10 @@ public class NewOrderActivity extends AppCompatActivity {
             String newOrderSum = String.valueOf(orderSum.getText());
             isValidInput.add(validationHelper.validateInputNumber(String.valueOf(newOrderSum), "Ordersumma", this));
 
-            String newAdress = String.valueOf(adress.getText());
+            String newAdress = String.valueOf(address.getText());
             isValidInput.add(validationHelper.validateInputText(newAdress, "Address", this));
 
-            String newPostAddress = String.valueOf(postAdress.getText());
+            String newPostAddress = String.valueOf(postAddress.getText());
             isValidInput.add(validationHelper.validateInputText(newPostAddress, "Postadress", this));
 
             if (validationHelper.isAllTrue(isValidInput) && !db.doesFieldExist("Orders", "orderNo", newOrderNr)) {
@@ -76,9 +75,9 @@ public class NewOrderActivity extends AppCompatActivity {
 
                 db.addOrder(order);
                 finish();
-                Toast.makeText(getApplicationContext(), "Order sparad", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_neworder_saved), Toast.LENGTH_SHORT).show();
             } else if (db.doesFieldExist("Orders", "orderNo", newOrderNr)) {
-                Toast.makeText(getApplicationContext(), "Ordernumret finns redan!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_neworder_orderno), Toast.LENGTH_LONG).show();
             }
             isValidInput.clear();
         }

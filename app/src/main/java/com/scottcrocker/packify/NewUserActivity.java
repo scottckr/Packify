@@ -66,7 +66,7 @@ public class NewUserActivity extends AppCompatActivity {
             if (ValidationHelper.isAllTrue(isValidInput)) {
                 User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, newUserPhoneNr, toggle.isChecked());
                 MainActivity.db.addUser(user);
-                Toast.makeText(getApplicationContext(), "Användare tillagd", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_newuser_saved), Toast.LENGTH_SHORT).show();
                 finish();
                 Intent intent = new Intent(this, UserHandlerActivity.class);
                 startActivity(intent);
@@ -74,7 +74,7 @@ public class NewUserActivity extends AppCompatActivity {
                 //IsValidInput is false;
             }
         } else{
-            Toast.makeText(getApplicationContext(), "Användar-ID finns redan", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_newuser_userid), Toast.LENGTH_LONG).show();
         }
 
 
