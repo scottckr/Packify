@@ -76,13 +76,21 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }        getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
         TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
-        String currentUserNameStr = " " + user.getName();
-        currentUserNameTV.setText(currentUserNameStr);
+        try {
+            String currentUserNameStr = " " + user.getName();
+            currentUserNameTV.setText(currentUserNameStr);
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(SpecificOrderActivity.this);
+            startActivity(intent);
+        }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -99,9 +107,16 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         navigationView = (NavigationView) findViewById(R.id.navList);
 
         // Disabling menu-item for this activity and admin options for non-admin users
-        if (!user.getIsAdmin()) {
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+        try {
+            if (!user.getIsAdmin()) {
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+            }
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(SpecificOrderActivity.this);
+            startActivity(intent);
         }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
