@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.scottcrocker.packify.MainActivity;
+import com.scottcrocker.packify.OrderHandlerActivity;
 
 import java.util.List;
 
@@ -20,9 +21,8 @@ public class ValidationHelper {
     public static boolean orderExist(Context context, String orderNo){
         boolean validAction = true;
 
-
         if (!MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)){
-            Toast.makeText(context, "Order " + orderNo + " does not exist", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Order " + orderNo + " finns inte!", Toast.LENGTH_SHORT).show();
             validAction = false;
         }
         return validAction;

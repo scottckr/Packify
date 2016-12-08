@@ -256,7 +256,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             String currentDate = df.format(Calendar.getInstance().getTime());
             order.setDeliveryDate(currentDate);
-            if(validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)){
+            if(validationHelper.isAllTrue(isValidInput)){
                 isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
                 Order editedOrder = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
                         customerName, address, postAddress,Integer.parseInt(orderSum), order.getDeliveryDate(), isDeliveredSwitch.isChecked(),
@@ -278,7 +278,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
      */
     public void deleteOrder(View view) {
         if (!orderNoET.getText().toString().equals("")) {
-            String orderNo = orderNoET.getText().toString();
+            orderNo = orderNoET.getText().toString();
             Order order = db.getOrder(Integer.parseInt(orderNo));
             isValidInput.add(validationHelper.validateInputNumber(orderNo, "Ordernummer", this));
 
