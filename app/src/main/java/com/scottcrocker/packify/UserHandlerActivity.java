@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -66,7 +67,9 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
@@ -103,7 +106,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         }
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 Intent intent;
                 int id = menuItem.getItemId();
                 switch (id) {
@@ -138,15 +141,8 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        if (item.getItemId() == R.id.toolbar_update_order) {
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
+        return mDrawerToggle.onOptionsItemSelected(item) || item.getItemId() == R.id.toolbar_update_order
+                || super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -198,7 +194,8 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
     private void populateInputFields() {
         inputNameET.setText(user.getName());
-        inputUserIdTV.setText("ID: " + String.valueOf(user.getId()));
+        String inputUserIdStr = "ID: " + String.valueOf(user.getId());
+        inputUserIdTV.setText(inputUserIdStr);
         inputPasswordET.setText(user.getPassword());
         inputPhoneNrET.setText(String.valueOf(user.getTelephone()));
         isAdminSwitch.setChecked(user.getIsAdmin());
@@ -224,7 +221,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
                 String editedPhoneNr = String.valueOf(inputPhoneNrET.getText());
                 isValidInput.add(validationHelper.validateInputPhoneNr(editedPhoneNr, "Telefonnummer", this));
 
-                if (validationHelper.isAllTrue(isValidInput)) {
+                if (ValidationHelper.isAllTrue(isValidInput)) {
                     user.setName(String.valueOf(inputNameET.getText()));
                     user.setPassword(String.valueOf(inputPasswordET.getText()));
                     user.setTelephone(String.valueOf(inputPhoneNrET.getText()));
@@ -287,7 +284,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {
-        // TODO Auto-generated method stub
         // Method has to exist for some reason.
     }
 }

@@ -237,6 +237,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
     /**
      * Method to create a new order object, or handle an existing order object which will be sent to DB
+     *
      * @param view
      */
     public void addOrder(View view) {
@@ -247,6 +248,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
     /**
      * Method to edit order from DB
+     *
      * @param view
      */
     public void editOrder(View view) {
@@ -256,11 +258,11 @@ public class OrderHandlerActivity extends AppCompatActivity {
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             String currentDate = df.format(Calendar.getInstance().getTime());
             order.setDeliveryDate(currentDate);
-            if(validationHelper.isAllTrue(isValidInput)){
+            if (validationHelper.isAllTrue(isValidInput)) {
                 isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
                 Order editedOrder = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
-                        customerName, address, postAddress,Integer.parseInt(orderSum), order.getDeliveryDate(), isDeliveredSwitch.isChecked(),
-                        order.getDeliveredBy(), gps.getLongitude(address + ", "+ postAddress), gps.getLatitude(address + ", "+ postAddress), order.getSignature());
+                        customerName, address, postAddress, Integer.parseInt(orderSum), order.getDeliveryDate(), isDeliveredSwitch.isChecked(),
+                        order.getDeliveredBy(), gps.getLongitude(address + ", " + postAddress), gps.getLatitude(address + ", " + postAddress), order.getSignature());
                 db.editOrder(editedOrder);
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_orderhandler_updated), Toast.LENGTH_SHORT).show();
             }
@@ -274,6 +276,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
     /**
      * Method to delete order from DB
+     *
      * @param view
      */
     public void deleteOrder(View view) {
@@ -282,7 +285,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
             Order order = db.getOrder(Integer.parseInt(orderNo));
             isValidInput.add(validationHelper.validateInputNumber(orderNo, "Ordernummer", this));
 
-            if(validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)){
+            if (validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)) {
                 db.deleteOrder(order);
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_orderhandler_deleted), Toast.LENGTH_SHORT).show();
                 cleanAllFields();
@@ -302,7 +305,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
         postAddressET.setText("");
     }
 
-    public void orderInputValidation(){
+    public void orderInputValidation() {
         orderNoET = (EditText) findViewById(R.id.input_order_number);
         orderNo = orderNoET.getText().toString();
         isValidInput.add(validationHelper.validateInputNumber(orderNo, "Ordernummer", this));

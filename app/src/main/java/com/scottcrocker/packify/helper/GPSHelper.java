@@ -29,8 +29,8 @@ public class GPSHelper extends AppCompatActivity {
     /**
      * This method takes an address and returns a double with the longitude coordinate of the address.
      *
-     * @param address
-     * @return longitude
+     * @param address A String to get a longitude from.
+     * @return longitude Returns the longitude from the address.
      */
     public double getLongitude(String address) {
         Geocoder gc = new Geocoder(context);
@@ -53,8 +53,8 @@ public class GPSHelper extends AppCompatActivity {
     /**
      * This method takes an address and returns a double with the latitude coordinate of the address.
      *
-     * @param address
-     * @return latitude
+     * @param address A String to get a latitude from.
+     * @return latitude Returns the latitude from the address.
      */
     public double getLatitude(String address) {
         Geocoder gc = new Geocoder(context);

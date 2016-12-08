@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -58,12 +59,14 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
 
-        TextView emptyTextTV = (TextView)findViewById(R.id.order_history_empty);
+        TextView emptyTextTV = (TextView) findViewById(R.id.order_history_empty);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_order_history);
         TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
 
@@ -94,7 +97,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 Intent intent;
                 int id = menuItem.getItemId();
                 switch (id) {
