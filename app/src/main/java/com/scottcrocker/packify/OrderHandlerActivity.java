@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,7 +15,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -31,38 +31,32 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
 
 public class OrderHandlerActivity extends AppCompatActivity {
 
-    private static final String TAG = "OrderHandlerActivity";
-    EditText orderNoET;
-    EditText customerIdET;
-    EditText customerNameET;
-    EditText orderSumET;
-    EditText addressET;
-    EditText postAddressET;
-    Switch isDeliveredSwitch;
-    Button addOrderBtn;
-    Button editOrderBtn;
-    List<Boolean> isValidInput = new ArrayList<>();
-    SharedPreferences sharedPreferences;
-    int currentUserId;
-    User user;
-    DrawerLayout mDrawerLayout;
+    private EditText orderNoET;
+    private EditText customerIdET;
+    private EditText customerNameET;
+    private EditText orderSumET;
+    private EditText addressET;
+    private EditText postAddressET;
+    private Switch isDeliveredSwitch;
+    private List<Boolean> isValidInput = new ArrayList<>();
+    private User user;
+    private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    TextView currentUserName;
-    NavigationView navigationView;
-    ValidationHelper validationHelper = new ValidationHelper();
+    private NavigationView navigationView;
+    private ValidationHelper validationHelper = new ValidationHelper();
+    private GPSHelper gps;
 
-    String orderNo;
-    String customerId;
-    String customerName;
-    String orderSum;
-    String address;
-    String postAddress;
-
-    GPSHelper gps = new GPSHelper(this);
+    private String orderNo;
+    private String customerId;
+    private String customerName;
+    private String orderSum;
+    private String address;
+    private String postAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,10 +65,11 @@ public class OrderHandlerActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        int currentUserId = sharedPreferences.getInt("USERID", -1);
+        gps = new GPSHelper(this);
         user = db.getUser(currentUserId);
 
-        addOrderBtn = (Button) findViewById(R.id.btn_submit_order);
-        editOrderBtn = (Button) findViewById(R.id.btn_edit_order);
         orderNoET = (EditText) findViewById(R.id.input_order_number);
         customerIdET = (EditText) findViewById(R.id.input_customer_id);
         customerNameET = (EditText) findViewById(R.id.input_customer_name);
@@ -153,23 +148,39 @@ public class OrderHandlerActivity extends AppCompatActivity {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
-        currentUserName = (TextView) header.findViewById(R.id.current_user_name);
-        String currentUserNameStr = " " + user.getName();
-        currentUserName.setText(currentUserNameStr);
+        TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
+        try {
+            String currentUserNameStr = " " + user.getName();
+            currentUserNameTV.setText(currentUserNameStr);
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(OrderHandlerActivity.this);
+            startActivity(intent);
+        }
+
     }
 
     private void setUpNavigationView() {
         navigationView = (NavigationView) findViewById(R.id.navList);
-
         // Disabling menu-item for this activity and admin options for non-admin users
         navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
-        if (!user.getIsAdmin()) {
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+        try {
+            if (!user.getIsAdmin()) {
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+            }
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(OrderHandlerActivity.this);
+            startActivity(intent);
         }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -236,9 +247,8 @@ public class OrderHandlerActivity extends AppCompatActivity {
     }
 
     /**
-     * Method to create a new order object, or handle an existing order object which will be sent to DB
-     *
-     * @param view
+     * This method opens NewOrderActivity where the user can add new orders.
+     * @param view The view component that is executed by click handler.
      */
     public void addOrder(View view) {
 
@@ -247,9 +257,8 @@ public class OrderHandlerActivity extends AppCompatActivity {
     }
 
     /**
-     * Method to edit order from DB
-     *
-     * @param view
+     * This method edits an order in the database from according to user input.
+     * @param view The view component that is executed by click handler.
      */
     public void editOrder(View view) {
         if (!orderNoET.getText().toString().equals("") && db.doesFieldExist("Orders", "orderNo", orderNoET.getText().toString())) {
@@ -275,9 +284,8 @@ public class OrderHandlerActivity extends AppCompatActivity {
     }
 
     /**
-     * Method to delete order from DB
-     *
-     * @param view
+     * This method deletes an order from database selected by user input.
+     * @param view The view component that is executed by click handler.
      */
     public void deleteOrder(View view) {
         if (!orderNoET.getText().toString().equals("")) {
@@ -296,7 +304,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
         }
     }
 
-    public void cleanAllFields() {
+    private void cleanAllFields() {
         orderNoET.setText("");
         customerIdET.setText("");
         customerNameET.setText("");
@@ -305,7 +313,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
         postAddressET.setText("");
     }
 
-    public void orderInputValidation() {
+    private void orderInputValidation(){
         orderNoET = (EditText) findViewById(R.id.input_order_number);
         orderNo = orderNoET.getText().toString();
         isValidInput.add(validationHelper.validateInputNumber(orderNo, "Ordernummer", this));
