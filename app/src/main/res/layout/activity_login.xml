@@ -6,10 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/login_logo"
-    android:paddingBottom="@dimen/activity_vertical_outer_margin"
-    android:paddingLeft="@dimen/activity_horizontal_outer_margin"
-    android:paddingRight="@dimen/activity_horizontal_outer_margin"
-    android:paddingTop="@dimen/activity_vertical_outer_margin"
     tools:context="com.scottcrocker.packify.LoginActivity">
 
     <include
@@ -31,7 +27,6 @@
             android:id="@+id/input_login_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:hint="@string/input_user_id"
             android:inputType="number"
             android:textAlignment="center"
@@ -42,7 +37,6 @@
             android:id="@+id/input_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:hint="@string/input_password"
             android:inputType="textPassword"
             android:textAlignment="center"

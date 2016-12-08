@@ -1,14 +1,32 @@
 package com.scottcrocker.packify.model;
 
 /**
- * Created by mavve on 2016-11-11.
+ * User model class.
  */
-
 public class User {
+
+    private int id;
+    private String password;
+    private String name;
+    private String telephone;
+    private boolean isAdmin;
+
+    /**
+     * Empty constructor for User class.
+     */
     public User() {
 
     }
 
+    /**
+     * Constructor for User class which takes a few arguments.
+     *
+     * @param id        An id to put into the id variable.
+     * @param password  A password to put into the password variable.
+     * @param name      A name to put into the name variable.
+     * @param telephone A telephone number to put into the telephone variable.
+     * @param isAdmin   A boolean to determine if a User is an admin or not, put into the isAdmin variable.
+     */
     public User(int id, String password, String name, String telephone, boolean isAdmin) {
         this.id = id;
         this.password = password;
@@ -17,6 +35,7 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
+    @Override
     public String toString() {
         String admin = "";
         if (isAdmin) {
@@ -24,12 +43,6 @@ public class User {
         }
         return "ID: " + getId() + ", namn: " + getName() + admin;
     }
-
-    private int id;
-    private String password;
-    private String name;
-    private String telephone;
-    private boolean isAdmin;
 
     public int getId() {
         return id;

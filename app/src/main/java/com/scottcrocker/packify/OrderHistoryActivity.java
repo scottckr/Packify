@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -28,17 +30,18 @@ import java.util.List;
 import static com.scottcrocker.packify.MainActivity.db;
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 
+/**
+ * OrderHistoryActivity, shows a ListView of delivered Order objects.
+ */
 public class OrderHistoryActivity extends AppCompatActivity {
 
-    SharedPreferences sharedPreferences;
     private static final String TAG = "OrderHistoryActivity";
-    ListView historyListView;
-    User user;
-    int currentUserId;
+    private ListView historyListView;
+    private User user;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    TextView currentUserName;
-    NavigationView navigationView;
+    private NavigationView navigationView;
+    private List<Order> allOrders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,26 +49,29 @@ public class OrderHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_history);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
-        currentUserId = sharedPreferences.getInt("USERID", -1);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        int currentUserId = sharedPreferences.getInt("USERID", -1);
         user = db.getUser(currentUserId);
 
-        List<Order> deliveredOrders = new ArrayList<>();
+        allOrders = db.getAllOrders();
 
-        for (int i = 0; i < db.getAllOrders().size(); i++) {
-            if (db.getAllOrders().get(i).getIsDelivered()) {
-                deliveredOrders.add(db.getAllOrders().get(i));
-            }
+        final OrderViewAdapter adapter = refreshView();
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_order_history);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        getSupportActionBar().setHomeButtonEnabled(true);
+        setUpNavigationView();
+        View header = navigationView.getHeaderView(0);
 
-        final OrderViewAdapter adapter = new OrderViewAdapter(this, deliveredOrders, R.mipmap.package_delivered);
+        TextView emptyTextTV = (TextView) findViewById(R.id.order_history_empty);
+        TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
 
-        historyListView = (ListView) findViewById(R.id.order_history_listview);
-        historyListView.setAdapter(adapter);
-
-        TextView emptyText = (TextView)findViewById(R.id.order_history_empty);
-        historyListView.setEmptyView(emptyText);
-
+        historyListView.setEmptyView(emptyTextTV);
         historyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -76,35 +82,47 @@ public class OrderHistoryActivity extends AppCompatActivity {
             }
         });
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_order_history);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.string.drawer_open, R.string.drawer_close);
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        setUpNavigationView();
-        View header = navigationView.getHeaderView(0);
-        currentUserName = (TextView) header.findViewById(R.id.current_user_name);
-        String currentUserNameStr = " " + user.getName();
-        currentUserName.setText(currentUserNameStr);
+        try {
+            String currentUserNameStr = " " + user.getName();
+            currentUserNameTV.setText(currentUserNameStr);
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(OrderHistoryActivity.this);
+            startActivity(intent);
+        }
+    }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        refreshView();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     private void setUpNavigationView() {
         navigationView = (NavigationView) findViewById(R.id.navList);
-
-
         // Disabling menu-item for this activity and admin options for non-admin users
         navigationView.getMenu().findItem(R.id.navDrawer_orderhistory).setVisible(false);
-        if (!user.getIsAdmin()) {
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+        try {
+            if (!user.getIsAdmin()) {
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+            }
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(OrderHistoryActivity.this);
+            startActivity(intent);
         }
-
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 Intent intent;
                 int id = menuItem.getItemId();
                 switch (id) {
@@ -114,13 +132,11 @@ public class OrderHistoryActivity extends AppCompatActivity {
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
-
                     case R.id.navDrawer_admin_userhandler:
                         intent = new Intent(OrderHistoryActivity.this, UserHandlerActivity.class);
                         startActivity(intent);
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
-
 
                     case R.id.navDrawer_admin_orderhandler:
                         intent = new Intent(OrderHistoryActivity.this, OrderHandlerActivity.class);
@@ -128,27 +144,22 @@ public class OrderHistoryActivity extends AppCompatActivity {
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
-
                     case R.id.navDrawer_activeorders:
                         intent = new Intent(OrderHistoryActivity.this, ActiveOrdersActivity.class);
                         startActivity(intent);
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
-
-
                 }
                 return false;
             }
         });
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -176,13 +187,15 @@ public class OrderHistoryActivity extends AppCompatActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    //TODO Check if method works
-    public void refreshView() {
+    /**
+     * Refreshes the ListView by looking for delivered Order objects and sets the adapter once again.
+     */
+    public OrderViewAdapter refreshView() {
         List<Order> deliveredOrders = new ArrayList<>();
 
-        for (int i = 0; i < db.getAllOrders().size(); i++) {
-            if (db.getAllOrders().get(i).getIsDelivered()) {
-                deliveredOrders.add(db.getAllOrders().get(i));
+        for (int i = 0; i < allOrders.size(); i++) {
+            if (allOrders.get(i).getIsDelivered()) {
+                deliveredOrders.add(allOrders.get(i));
             }
         }
 
@@ -191,5 +204,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
         historyListView = (ListView) findViewById(R.id.order_history_listview);
         historyListView.setAdapter(adapter);
         Log.d(TAG, "ListView refreshed");
+        return adapter;
     }
 }

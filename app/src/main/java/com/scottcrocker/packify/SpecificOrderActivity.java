@@ -23,7 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +37,6 @@ import java.util.Calendar;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -48,38 +46,15 @@ import static com.scottcrocker.packify.MainActivity.db;
 
 public class SpecificOrderActivity extends AppCompatActivity implements OnMapReadyCallback{
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
     private static final String TAG = "SpecificOrderActivity";
-    Order specificOrder;
-    int orderNumber;
-    TextView orderNumTv;
-    String orderNumStr;
-    TextView customerIdTv;
-    String customerIdStr;
-    TextView customerNameTv;
-    String customerNameStr;
-    TextView orderSumTv;
-    String orderSumStr;
-    TextView addressTv;
-    String addressStr;
-    TextView deliveryDateTv;
-    String deliveryDateStr;
-    Button btnDeliverOrder;
-    TextView deliveredByTv;
-    String deliveredByStr;
-    TextView postAddressTv;
-    String postAddressStr;
-    TextView receivedByTv;
-    User user;
-    int currentUserId;
-    ImageView signatureIv;
-    Bitmap signature;
+    private Order specificOrder;
+    private int orderNumber;
+    private User user;
+    private int currentUserId;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    TextView currentUserName;
-    NavigationView navigationView;
-    SupportMapFragment mapFragment;
-    GoogleMap mMap;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,20 +72,27 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         orderNumber = getIntent().getIntExtra("ORDERNO", 0);
         specificOrder = db.getOrder(orderNumber);
 
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_specific_order);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }        getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
-        currentUserName = (TextView) header.findViewById(R.id.current_user_name);
-        String currentUserNameStr = " " + user.getName();
-        currentUserName.setText(currentUserNameStr);
+        TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
+        try {
+            String currentUserNameStr = " " + user.getName();
+            currentUserNameTV.setText(currentUserNameStr);
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(SpecificOrderActivity.this);
+            startActivity(intent);
+        }
 
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -125,9 +107,16 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         navigationView = (NavigationView) findViewById(R.id.navList);
 
         // Disabling menu-item for this activity and admin options for non-admin users
-        if (!user.getIsAdmin()) {
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+        try {
+            if (!user.getIsAdmin()) {
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+            }
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(SpecificOrderActivity.this);
+            startActivity(intent);
         }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -165,8 +154,6 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
                         startActivity(intent);
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
-
-
                 }
                 return false;
             }
@@ -177,10 +164,6 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK) {
-                /*signature = BitmapFactory.decodeByteArray(data.getByteArrayExtra("SIGNATURE"), 0,
-                        data.getByteArrayExtra("SIGNATURE").length);
-                signatureIv = (ImageView) findViewById(R.id.signature_imageview);
-                signatureIv.setImageBitmap(signature);*/
 
                 DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
                 String currentDate = df.format(Calendar.getInstance().getTime());
@@ -192,7 +175,6 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
                 db.editOrder(specificOrder);
 
                 sendSms();
-
                 refreshView();
             }
         }
@@ -231,7 +213,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
-            mMap = googleMap;
+        GoogleMap mMap = googleMap;
             LatLng pos = new LatLng(specificOrder.getLatitude(), specificOrder.getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14));
             mMap.addMarker(new MarkerOptions().position(pos).title(specificOrder.getAddress()));
@@ -244,7 +226,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
             });
     }
 
-    public void openMaps() {
+    private void openMaps() {
         String uri = "geo:" + specificOrder.getLatitude() + "," + specificOrder.getLongitude() +
                 "?q=" + specificOrder.getAddress() + ", " + specificOrder.getPostAddress();
 
@@ -253,6 +235,10 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         startActivity(intent);
     }
 
+    /**
+     * deliverOrder checks if a phone number has been saved in shared preferences. If not user is sent to SettingsActivity, otherwise user is sent to SignatureActivity
+     * @param view The view component that is executed by click handler.
+     */
     public void deliverOrder(View view) {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         String sharedPhoneNumber = sharedPreferences.getString("number", "");
@@ -266,6 +252,9 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         }
     }
 
+    /**
+     * sendSms sends a confirmation that a order has been delivered to the phone number which has been saved in shared preferences
+     */
     public void sendSms() {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         String sharedPhoneNumber = sharedPreferences.getString("number", "");
@@ -274,73 +263,82 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         sms.sendTextMessage(sharedPhoneNumber, null, messageSms, null, null);
     }
 
-    public void refreshView() {
+    private void refreshView() {
         specificOrder = db.getOrder(orderNumber);
-        orderNumTv = (TextView) findViewById(R.id.order_number);
-        orderNumStr = getString(R.string.order_number) + " " + specificOrder.getOrderNo();
-        orderNumTv.setText(orderNumStr);
+        TextView orderNumTV = (TextView) findViewById(R.id.order_number);
+        String orderNumStr = getString(R.string.order_number) + " " + specificOrder.getOrderNo();
+        orderNumTV.setText(orderNumStr);
 
-        customerIdTv = (TextView) findViewById(R.id.customer_id);
-        customerIdStr = getString(R.string.customer_id) + " " + specificOrder.getCustomerNo();
-        customerIdTv.setText(customerIdStr);
+        TextView customerIdTV = (TextView) findViewById(R.id.customer_id);
+        String customerIdStr = getString(R.string.customer_id) + " " + specificOrder.getCustomerNo();
+        customerIdTV.setText(customerIdStr);
 
-        customerNameTv = (TextView) findViewById(R.id.customer_name);
-        customerNameStr = getString(R.string.customer_name) + " " + specificOrder.getCustomerName();
-        customerNameTv.setText(customerNameStr);
+        TextView customerNameTV = (TextView) findViewById(R.id.customer_name);
+        String customerNameStr = getString(R.string.customer_name) + " " + specificOrder.getCustomerName();
+        customerNameTV.setText(customerNameStr);
 
-        orderSumTv = (TextView) findViewById(R.id.order_sum);
-        orderSumStr = getString(R.string.order_sum) + " " + specificOrder.getOrderSum() + " SEK";
-        orderSumTv.setText(orderSumStr);
+        TextView orderSumTV = (TextView) findViewById(R.id.order_sum);
+        String orderSumStr = getString(R.string.order_sum) + " " + specificOrder.getOrderSum() + " SEK";
+        orderSumTV.setText(orderSumStr);
 
-        addressTv = (TextView) findViewById(R.id.address);
-        addressStr = getString(R.string.address) + " " + specificOrder.getAddress();
-        addressTv.setText(addressStr);
+        TextView addressTV = (TextView) findViewById(R.id.address);
+        String addressStr = getString(R.string.address) + " " + specificOrder.getAddress();
+        addressTV.setText(addressStr);
 
-        postAddressTv = (TextView) findViewById(R.id.post_address);
-        postAddressStr = getString(R.string.post_address) + " " + specificOrder.getPostAddress();
-        postAddressTv.setText(postAddressStr);
+        TextView postAddressTV = (TextView) findViewById(R.id.post_address);
+        String postAddressStr = getString(R.string.post_address) + " " + specificOrder.getPostAddress();
+        postAddressTV.setText(postAddressStr);
 
+        TextView deliveryDateTV;
+        TextView deliveredByTV;
+        TextView receivedByTV;
+        ImageView signatureIV;
         if (specificOrder.getIsDelivered()) {
-            deliveryDateTv = (TextView) findViewById(R.id.delivery_date);
-            deliveryDateStr = getString(R.string.delivery_date) + " " + specificOrder.getDeliveryDate();
-            deliveryDateTv.setText(deliveryDateStr);
-            deliveryDateTv.setVisibility(View.VISIBLE);
+            deliveryDateTV = (TextView) findViewById(R.id.delivery_date);
+            String deliveryDateStr = getString(R.string.delivery_date) + " " + specificOrder.getDeliveryDate();
+            deliveryDateTV.setText(deliveryDateStr);
+            deliveryDateTV.setVisibility(View.VISIBLE);
 
-            deliveredByTv = (TextView) findViewById(R.id.delivered_by);
-            deliveredByStr = getString(R.string.delivered_by) + " " + specificOrder.getDeliveredBy();
-            deliveredByTv.setText(deliveredByStr);
-            deliveredByTv.setVisibility(View.VISIBLE);
+            deliveredByTV = (TextView) findViewById(R.id.delivered_by);
+            String deliveredByStr = getString(R.string.delivered_by) + " " + specificOrder.getDeliveredBy();
+            deliveredByTV.setText(deliveredByStr);
+            deliveredByTV.setVisibility(View.VISIBLE);
 
-            btnDeliverOrder = (Button) findViewById(R.id.btn_deliver_order);
+            Button btnDeliverOrder = (Button) findViewById(R.id.btn_deliver_order);
             btnDeliverOrder.setEnabled(false);
 
-            receivedByTv = (TextView) findViewById(R.id.received_by);
-            receivedByTv.setVisibility(View.VISIBLE);
+            receivedByTV = (TextView) findViewById(R.id.received_by);
+            receivedByTV.setVisibility(View.VISIBLE);
 
-            signatureIv = (ImageView) findViewById(R.id.signature_imageview);
+            signatureIV = (ImageView) findViewById(R.id.signature_imageview);
+            Bitmap signature;
             if (specificOrder.getSignature() != null) {
                 signature = BitmapFactory.decodeByteArray(specificOrder.getSignature(), 0, specificOrder.getSignature().length);
             } else {
                 signature = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.no_signature);
             }
-            signatureIv.setImageBitmap(signature);
-            signatureIv.setVisibility(View.VISIBLE);
+            signatureIV.setImageBitmap(signature);
+            signatureIV.setVisibility(View.VISIBLE);
         } else {
-            deliveryDateTv = (TextView) findViewById(R.id.delivery_date);
-            deliveryDateTv.setVisibility(View.GONE);
+            deliveryDateTV = (TextView) findViewById(R.id.delivery_date);
+            deliveryDateTV.setVisibility(View.GONE);
 
-            receivedByTv = (TextView) findViewById(R.id.received_by);
-            receivedByTv.setVisibility(View.GONE);
+            receivedByTV = (TextView) findViewById(R.id.received_by);
+            receivedByTV.setVisibility(View.GONE);
 
-            deliveredByTv = (TextView) findViewById(R.id.delivered_by);
-            deliveredByTv.setVisibility(View.GONE);
+            deliveredByTV = (TextView) findViewById(R.id.delivered_by);
+            deliveredByTV.setVisibility(View.GONE);
 
-            signatureIv = (ImageView) findViewById(R.id.signature_imageview);
-            signatureIv.setVisibility(View.GONE);
+            signatureIV = (ImageView) findViewById(R.id.signature_imageview);
+            signatureIV.setVisibility(View.GONE);
         }
         Log.d(TAG, "View refreshed");
     }
 
+    /**
+     * openNavigation opens up Google Maps through the openMaps method
+     * @param view The view component that is executed by click handler.
+     */
     public void openNavigation(View view) {
         openMaps();
     }

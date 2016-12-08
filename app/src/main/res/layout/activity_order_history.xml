@@ -23,8 +23,7 @@
             android:id="@+id/order_history_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:dividerHeight="1px" />
 
         <TextView
             android:id="@+id/order_history_empty"
@@ -37,7 +36,7 @@
 
     <include
         layout="@layout/navigation_drawer"
-        android:layout_width="240dp"
+        android:layout_width="240sp"
         android:layout_height="match_parent"
         android:layout_gravity="start" />
 

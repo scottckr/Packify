@@ -11,8 +11,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +18,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.helper.OrderHandlerHelper;
 import com.scottcrocker.packify.helper.ValidationHelper;
 import com.scottcrocker.packify.model.User;
 
@@ -31,23 +30,20 @@ import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private static final String TAG = "SettingsActivity";
-    SeekBar seekBar;
-    private int seekBarMax = 30;
+    private SeekBar seekBar;
     private int seekBarMin = 5;
     private int seekBarStep = 1;
-    TextView valueOfSeekBar;
-    EditText phoneNumber;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-    User user;
-    int currentUserId;
+    private TextView valueOfSeekBarTV;
+    private EditText phoneNumberET;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private User user;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    TextView currentUserName;
-    NavigationView navigationView;
-    ValidationHelper validationHelper = new ValidationHelper();
-    List<Boolean> isValidInput = new ArrayList<>();
+    private NavigationView navigationView;
+    private ValidationHelper validationHelper = new ValidationHelper();
+    private List<Boolean> isValidInput = new ArrayList<>();
+    private OrderHandlerHelper orderHandlerHelper = new OrderHandlerHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +53,15 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
-        currentUserId = sharedPreferences.getInt("USERID", -1);
+        int currentUserId = sharedPreferences.getInt("USERID", -1);
         user = db.getUser(currentUserId);
 
         seekBar = (SeekBar) findViewById(R.id.seek_bar);
-        valueOfSeekBar = (TextView) findViewById(R.id.number_of_orders);
-        phoneNumber = (EditText) findViewById(R.id.sms_number);
+        valueOfSeekBarTV = (TextView) findViewById(R.id.number_of_orders);
+        phoneNumberET = (EditText) findViewById(R.id.sms_number);
 
         loadSavedSettings();
+        int seekBarMax = 30;
         seekBar.setMax((seekBarMax - seekBarMin) / seekBarStep);
         onSeekBarChanges();
 
@@ -72,13 +69,21 @@ public class SettingsActivity extends AppCompatActivity {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }        getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
-        currentUserName = (TextView) header.findViewById(R.id.current_user_name);
-        String currentUserNameStr = " " + user.getName();
-        currentUserName.setText(currentUserNameStr);
+        TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
+        try {
+            String currentUserNameStr = " " + user.getName();
+            currentUserNameTV.setText(currentUserNameStr);
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(SettingsActivity.this);
+            startActivity(intent);
+        }
     }
 
     private void setUpNavigationView() {
@@ -86,9 +91,16 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Disabling menu-item for this activity and admin options for non-admin users
         navigationView.getMenu().findItem(R.id.navDrawer_settings).setVisible(false);
-        if (!user.getIsAdmin()) {
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+        try {
+            if (!user.getIsAdmin()) {
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+            }
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(SettingsActivity.this);
+            startActivity(intent);
         }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -120,14 +132,11 @@ public class SettingsActivity extends AppCompatActivity {
                         startActivity(intent);
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
-
-
                 }
                 return false;
             }
         });
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -148,22 +157,18 @@ public class SettingsActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
     }
 
-    //What's this? What's this? Whaaaaaat iiiiiiiis thiiiiiiis?
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    /**
-     * onSeekBarChanges senses when you change the value and displays it in textview field above the bar.
-     */
     private void onSeekBarChanges() {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int value = seekBarMin + (progress * seekBarStep);
-                valueOfSeekBar.setText(String.valueOf(value));
+                valueOfSeekBarTV.setText(String.valueOf(value));
             }
 
             @Override
@@ -178,15 +183,15 @@ public class SettingsActivity extends AppCompatActivity {
 
     /**
      * onSaveSettings saves the settings made by the user in shared preferences called PackifySharedPreferences.
-     * If the user input is valid it shows a confirm message. Else it shows or a warning message.
+     * If the user input is valid a confirm message is displayed.
      *
-     * @param view
+     * @param view The view component that is executed by click handler.
      */
     public void onSaveSettings(View view) {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        String savedPhoneNumber = phoneNumber.getText().toString();
-        String savedSeekBarValue = valueOfSeekBar.getText().toString();
+        String savedPhoneNumber = phoneNumberET.getText().toString();
+        String savedSeekBarValue = valueOfSeekBarTV.getText().toString();
         isValidInput.add(validationHelper.validateInputPhoneNr(savedPhoneNumber, "Telefonnummer" ,this));
 
         if (validationHelper.isAllTrue(isValidInput)) {
@@ -194,28 +199,31 @@ public class SettingsActivity extends AppCompatActivity {
             editor.putString("number", savedPhoneNumber);
             editor.apply();
             Toast.makeText(this, getResources().getString(R.string.toast_settings_saved), Toast.LENGTH_SHORT).show();
+            orderHandlerHelper.setSeekBarValue(Integer.parseInt(savedSeekBarValue));
+            orderHandlerHelper.updateOrdersDisplayed();
+            Toast.makeText(this, "Inställningar sparade", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
 
     /**
-     * loadSavedSettings gather the users most recent settings and updates the fields.
+     * loadSavedSettings gathers the users most recent settings and updates the fields.
      */
     public void loadSavedSettings() {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         String sharedSeekBarValue = sharedPreferences.getString("seekBarValue", "10");
         String sharedPhoneNumber = sharedPreferences.getString("number", "");
 
-        phoneNumber.setText(sharedPhoneNumber);
+        phoneNumberET.setText(sharedPhoneNumber);
         seekBar.setProgress((Integer.parseInt(sharedSeekBarValue) - seekBarMin));
-        valueOfSeekBar.setText((sharedSeekBarValue).toString());
+        valueOfSeekBarTV.setText((sharedSeekBarValue).toString());
     }
 
     /**
      * logout sends the user back to the loginActivity.
      * It also clears the username and password saved in shared preferences.
      *
-     * @param view
+     * @param view The view component that is executed by click handler.
      */
     public void logout(View view) {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);

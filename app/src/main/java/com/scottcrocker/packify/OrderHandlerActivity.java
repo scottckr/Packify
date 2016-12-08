@@ -261,28 +261,25 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * @param view The view component that is executed by click handler.
      */
     public void editOrder(View view) {
-
-        orderNo = orderNoET.getText().toString();
-        if (!validationHelper.validateInputText(orderNo, "Ordernummer", this)) {
-            return;
-        }
-        if (validationHelper.orderExist(this, orderNo)) {
+        if (!orderNoET.getText().toString().equals("") && db.doesFieldExist("Orders", "orderNo", orderNoET.getText().toString())) {
             orderInputValidation();
             Order order = db.getOrder(Integer.parseInt(orderNo));
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             String currentDate = df.format(Calendar.getInstance().getTime());
             order.setDeliveryDate(currentDate);
-            if(validationHelper.isAllTrue(isValidInput)){
+            if (validationHelper.isAllTrue(isValidInput)) {
                 isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
                 Order editedOrder = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
-                        customerName, address, postAddress,Integer.parseInt(orderSum), order.getDeliveryDate(), isDeliveredSwitch.isChecked(),
-                        order.getDeliveredBy(), gps.getLongitude(address + ", "+ postAddress), gps.getLatitude(address + ", "+ postAddress), order.getSignature());
+                        customerName, address, postAddress, Integer.parseInt(orderSum), order.getDeliveryDate(), isDeliveredSwitch.isChecked(),
+                        order.getDeliveredBy(), gps.getLongitude(address + ", " + postAddress), gps.getLatitude(address + ", " + postAddress), order.getSignature());
                 db.editOrder(editedOrder);
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_orderhandler_updated), Toast.LENGTH_SHORT).show();
             }
             isValidInput.clear();
-        } else {
-            Toast.makeText(this, getResources().getString(R.string.toast_orderhandler_orderno), Toast.LENGTH_LONG).show();
+        } else if (orderNoET.getText().toString().equals("")) {
+            Toast.makeText(this, "Ordernummer är tomt!", Toast.LENGTH_LONG).show();
+        } else if (!db.doesFieldExist("Orders", "orderNo", orderNoET.getText().toString()) && !orderNoET.getText().toString().equals("")) {
+            Toast.makeText(this, "Ordernumret finns inte!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -296,7 +293,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
             Order order = db.getOrder(Integer.parseInt(orderNo));
             isValidInput.add(validationHelper.validateInputNumber(orderNo, "Ordernummer", this));
 
-            if(validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)){
+            if (validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)) {
                 db.deleteOrder(order);
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_orderhandler_deleted), Toast.LENGTH_SHORT).show();
                 cleanAllFields();

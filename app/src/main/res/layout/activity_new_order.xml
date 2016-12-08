@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:paddingBottom="5dp"
-            android:text="Registrera ny order" />
+            android:text="@string/new_order_add" />
 
         <EditText
             android:id="@+id/input_new_order_number"

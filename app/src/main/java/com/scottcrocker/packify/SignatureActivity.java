@@ -3,7 +3,6 @@ package com.scottcrocker.packify;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.Toast;
 import com.scottcrocker.packify.helper.DrawingView;
 
 import java.io.ByteArrayOutputStream;
-import java.util.UUID;
 
 /**
  * Activity for writing a signature to be attached to an order when it is delivered.
@@ -22,14 +20,12 @@ import java.util.UUID;
  */
 public class SignatureActivity extends AppCompatActivity {
 
-    Button saveButton;
-    DrawingView dv;
+    private DrawingView dv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signature);
-        saveButton = (Button) findViewById(R.id.save_signature_button);
         dv = (DrawingView) findViewById(R.id.signature_drawingview);
     }
 
@@ -47,7 +43,7 @@ public class SignatureActivity extends AppCompatActivity {
     /**
      * Gets a bitmap from the DrawingView and converts and compresses it to a byte array.
      * Sends the byte array as an extra back to the calling activity.
-     * Also sends back RESULT_OK.
+     * Also sends back RESULT_OK to the calling activity..
      *
      * @param view The view component that is executed by click handler.
      */

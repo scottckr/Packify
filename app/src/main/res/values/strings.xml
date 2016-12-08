@@ -8,9 +8,11 @@
     <string name="label_user_handler">Användarhantering</string>
     <string name="label_login">Inloggning</string>
     <string name="label_main_activity">Packify</string>
+
     <string name="settings_seekbar_label">Antal visade ordrar:</string>
     <string name="settings_seekbar_display_orders">0</string>
     <string name="settings_number_label">Telefonnummer:</string>
+
     <string name="input_order_number">Ordernummer:</string>
     <string name="input_customer_id">Kundnummer:</string>
     <string name="input_order_sum">Ordersumma:</string>
@@ -31,6 +33,7 @@
     <string name="input_new_order_sum">Ordersumma:</string>
     <string name="input_new_order_address">Adress:</string>
     <string name="input_new_postaddress">Postadress:</string>
+
     <string name="btn_submit">Spara</string>
     <string name="btn_delete">Radera</string>
     <string name="btn_login_submit">Logga in</string>
@@ -45,6 +48,8 @@
     <string name="btn_save_settings">Spara</string>
     <string name="btn_logout">Logga ut</string>
     <string name="btn_new_user_add">Lägg till</string>
+
+
     <string name="order_number">Ordernummer:</string>
     <string name="customer_id">Kundnummer:</string>
     <string name="customer_name">Kundnamn:</string>
@@ -55,8 +60,10 @@
     <string name="delivered_by">Levererad av:</string>
     <string name="received_by">Mottagen av:</string>
     <string name="please_sign_below"><u>Signera nedan, tack!</u></string>
+
     <string name="active_orders_empty">Det finns inga aktiva ordrar.</string>
     <string name="order_history_empty">Det finns inga levererade ordrar.</string>
+
     <string name="drawer_open">Öppna sidomeny</string>
     <string name="drawer_close">Stäng sidomeny</string>
     <string name="menu_settings">Inställningar</string>
@@ -64,22 +71,15 @@
     <string name="menu_admin_orderhandler">Orderhantering</string>
     <string name="menu_orderhistory">Orderhistorik</string>
     <string name="menu_activeorders">Aktiva ordrar</string>
-    <string name="new_user_add">Lägg till ny användare:</string>
-    <string name="new_user_name">Användarnamn:</string>
-    <string name="new_user_id">Användar-ID:</string>
-    <string name="new_user_password">Lösenord:</string>
-    <string name="new_user_phonenumber">Telefonnummer</string>
-    <string name="new_user_is_admin">Admin</string>
-    <string name="new_user_add_button">Lägg till</string>
-    <string name="new_user_cancel_button">Avbryt</string>
-    <string name="order_delivered_switch">Levererad</string>
-    <string name="save_signature_button">Spara signatur</string>
-    <string name="signature_cancel_button">Avbryt</string>
-    <string name="main_activity_label">Packify</string>
     <string name="menu_update_order">Uppdatera</string>
+
     <string name="spinner_choose_user">Välj en användare...</string>
     <string name="switch_is_admin">Admin</string>
     <string name="switch_is_delivered">Levererad</string>
+
+    <string name="new_user_add">Lägg till ny användare</string>
+    <string name="new_order_add">Registrera ny order</string>
+
     <string name="toast_active_orders_one">levererad order togs bort</string>
     <string name="toast_active_orders_several">levererade ordrar togs bort</string>
     <string name="toast_login_password">Felaktigt lösenord, försök igen</string>

@@ -16,7 +16,6 @@ import java.util.List;
 /**
  * Database class for handling all SQLite queries.
  */
-
 public class DBHandler extends SQLiteOpenHelper {
 
     private static final String TAG = "DATABASE";
@@ -189,11 +188,7 @@ public class DBHandler extends SQLiteOpenHelper {
             order.setPostAddress(cursor.getString(5));
             order.setOrderSum(cursor.getInt(6));
             order.setDeliveryDate(cursor.getString(7));
-            if (cursor.getInt(8) == 1) {
-                isDeliveredBool = true;
-            } else {
-                isDeliveredBool = false;
-            }
+            isDeliveredBool = cursor.getInt(8) == 1;
             order.setIsDelivered(isDeliveredBool);
             order.setDeliveredBy(cursor.getString(9));
             order.setLongitude(cursor.getDouble(10));
@@ -229,11 +224,7 @@ public class DBHandler extends SQLiteOpenHelper {
             user.setPassword(cursor.getString(2));
             user.setName(cursor.getString(3));
             user.setTelephone(cursor.getString(4));
-            if (cursor.getInt(5) == 1) {
-                isAdminBool = true;
-            } else {
-                isAdminBool = false;
-            }
+            isAdminBool = cursor.getInt(5) == 1;
             user.setIsAdmin(isAdminBool);
             cursor.close();
         } else {
