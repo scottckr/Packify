@@ -6,13 +6,13 @@
 
     <ImageView
         android:id="@+id/list_item_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_marginEnd="4sp"
+        android:layout_marginLeft="4sp"
+        android:layout_marginRight="4sp"
+        android:layout_marginStart="4sp"
+        android:layout_marginTop="4sp"
         android:src="@drawable/button_style" />
 
     <TextView
