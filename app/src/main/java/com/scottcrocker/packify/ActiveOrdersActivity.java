@@ -18,15 +18,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.scottcrocker.packify.controller.OrderViewAdapter;
-import com.scottcrocker.packify.helper.OrderHandlerHelper;
-import com.scottcrocker.packify.helper.RandomHelper;
+import com.scottcrocker.packify.helper.ActiveOrdersHelper;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
@@ -47,7 +44,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     TextView currentUserName;
     NavigationView navigationView;
-    OrderHandlerHelper orderHandlerHelper = new OrderHandlerHelper();
+    ActiveOrdersHelper activeOrdersHelper = new ActiveOrdersHelper();
 
 
     @Override
@@ -178,7 +175,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         }
 
         if (item.getItemId() == R.id.toolbar_update_order) {
-            orderHandlerHelper.updateOrdersDisplayedAndDelivered();
+            activeOrdersHelper.updateOrdersDisplayedAndDelivered();
             refreshView();
             return true;
         } else {
