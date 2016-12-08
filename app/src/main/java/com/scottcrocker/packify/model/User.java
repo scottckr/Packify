@@ -3,8 +3,14 @@ package com.scottcrocker.packify.model;
 /**
  * User model class.
  */
-
 public class User {
+
+    private int id;
+    private String password;
+    private String name;
+    private String telephone;
+    private boolean isAdmin;
+
     /**
      * Empty constructor for User class.
      */
@@ -37,12 +43,6 @@ public class User {
         }
         return "ID: " + getId() + ", namn: " + getName() + admin;
     }
-
-    private int id;
-    private String password;
-    private String name;
-    private String telephone;
-    private boolean isAdmin;
 
     public int getId() {
         return id;

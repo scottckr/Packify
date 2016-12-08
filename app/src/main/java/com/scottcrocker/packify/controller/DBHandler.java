@@ -16,7 +16,6 @@ import java.util.List;
 /**
  * Database class for handling all SQLite queries.
  */
-
 public class DBHandler extends SQLiteOpenHelper {
 
     private static final String TAG = "DATABASE";

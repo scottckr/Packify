@@ -13,8 +13,13 @@ import android.view.View;
 /**
  * DrawingView class, is used in SignatureActivity to be able to write a signature using the touch screen.
  */
-
 public class DrawingView extends View {
+
+    private Path drawPath;
+    private Paint drawPaint, canvasPaint;
+    private Canvas drawCanvas;
+    private Bitmap canvasBitmap;
+
     /**
      * Constructor for DrawingView class.
      *
@@ -26,15 +31,10 @@ public class DrawingView extends View {
         setupDrawing();
     }
 
-    private Path drawPath;
-    private Paint drawPaint, canvasPaint;
-    int paintColor = Color.BLACK;
-    private Canvas drawCanvas;
-    private Bitmap canvasBitmap;
-
     private void setupDrawing() {
         drawPath = new Path();
         drawPaint = new Paint();
+        int paintColor = Color.BLACK;
         drawPaint.setColor(paintColor);
         drawPaint.setAntiAlias(true);
         drawPaint.setStrokeWidth(5);

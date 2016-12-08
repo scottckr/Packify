@@ -6,8 +6,8 @@ import java.util.List;
 /**
  * Order model class.
  */
-
 public class Order {
+
     private String address;
     private String postAddress;
     private int orderSum;

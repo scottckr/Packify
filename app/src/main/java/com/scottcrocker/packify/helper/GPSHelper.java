@@ -12,9 +12,10 @@ import java.util.List;
 /**
  * GPSHelper class, has methods for getting longitude and latitude from an address.
  */
-
 public class GPSHelper extends AppCompatActivity {
-    Context context;
+
+    private static final String TAG = "GPSHelper";
+    private Context context;
 
     /**
      * Constructor for GPSHelper class.
@@ -24,8 +25,6 @@ public class GPSHelper extends AppCompatActivity {
     public GPSHelper(Context context) {
         this.context = context;
     }
-
-    private static final String TAG = "GPSHelper";
 
     /**
      * This method takes an address and returns a double with the longitude coordinate of the address.

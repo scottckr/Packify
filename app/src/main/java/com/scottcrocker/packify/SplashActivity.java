@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
  * Activity for showing the startup splash screen.
  * Redirects to MainActivity when it's finished loading.
  */
-
 public class SplashActivity extends AppCompatActivity {
 
     @Override
