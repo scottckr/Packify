@@ -47,16 +47,27 @@ public class OrderHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_history);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         int currentUserId = sharedPreferences.getInt("USERID", -1);
         user = db.getUser(currentUserId);
+
         allOrders = db.getAllOrders();
 
         final OrderViewAdapter adapter = refreshView();
 
-        TextView emptyText = (TextView)findViewById(R.id.order_history_empty);
-        historyListView.setEmptyView(emptyText);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        setUpNavigationView();
+        View header = navigationView.getHeaderView(0);
 
+        TextView emptyTextTV = (TextView)findViewById(R.id.order_history_empty);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_order_history);
+        TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
+
+        historyListView.setEmptyView(emptyTextTV);
         historyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -67,18 +78,8 @@ public class OrderHistoryActivity extends AppCompatActivity {
             }
         });
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_order_history);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.string.drawer_open, R.string.drawer_close);
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        setUpNavigationView();
-        View header = navigationView.getHeaderView(0);
-        TextView currentUserName = (TextView) header.findViewById(R.id.current_user_name);
         String currentUserNameStr = " " + user.getName();
-        currentUserName.setText(currentUserNameStr);
-
+        currentUserNameTV.setText(currentUserNameStr);
     }
 
     private void setUpNavigationView() {

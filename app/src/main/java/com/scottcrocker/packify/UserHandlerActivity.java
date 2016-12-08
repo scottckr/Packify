@@ -1,6 +1,7 @@
 package com.scottcrocker.packify;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.scottcrocker.packify.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.currentUserId;
 import static com.scottcrocker.packify.MainActivity.db;
 
@@ -58,15 +60,18 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        int currentUserId = sharedPreferences.getInt("USERID", -1);
         user = db.getUser(currentUserId);
+
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
-        TextView currentUserName = (TextView) header.findViewById(R.id.current_user_name);
 
+        TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
         inputNameET = (EditText) findViewById(R.id.input_user_name);
         inputPasswordET = (EditText) findViewById(R.id.input_user_password);
         inputPhoneNrET = (EditText) findViewById(R.id.input_user_phone);
@@ -85,7 +90,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         loadSpinnerData();
 
         String currentUserNameStr = " " + user.getName();
-        currentUserName.setText(currentUserNameStr);
+        currentUserNameTV.setText(currentUserNameStr);
     }
 
     private void setUpNavigationView() {
