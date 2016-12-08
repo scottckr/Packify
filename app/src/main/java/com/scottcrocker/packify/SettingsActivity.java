@@ -91,9 +91,16 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Disabling menu-item for this activity and admin options for non-admin users
         navigationView.getMenu().findItem(R.id.navDrawer_settings).setVisible(false);
-        if (!user.getIsAdmin()) {
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+        try {
+            if (!user.getIsAdmin()) {
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+            }
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(SettingsActivity.this);
+            startActivity(intent);
         }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
