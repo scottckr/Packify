@@ -9,7 +9,6 @@ import java.util.List;
 import static com.scottcrocker.packify.MainActivity.db;
 
 /**
- * Created by niklasbolwede on 2016-12-07.
  * ActiveOrderHelper updates the displayed list of orders in ActiveOrders.
  */
 public class ActiveOrdersHelper {
@@ -31,7 +30,7 @@ public class ActiveOrdersHelper {
     }
 
     /**
-     * Filter all orders into delivered and undelivered lists
+     * Filters all orders into delivered and undelivered lists
      */
     private void filterOrders() {
         allOrders = db.getAllOrders();
@@ -46,7 +45,7 @@ public class ActiveOrdersHelper {
     }
 
     /**
-     * Check if more or less orders are needed to meet the orderAmountToShow value.
+     * Checks if more or less orders are needed to meet the orderAmountToShow value.
      * If less orders are needed it removes the last one till currentListedOrders amount is right.
      * If more orders are needed it adds a random order from undeliveredOrders till currentListedOrders amount is right.
      * @param orderAmountToShow - is the right amount of orders to be displayed

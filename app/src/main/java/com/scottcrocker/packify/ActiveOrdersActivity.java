@@ -31,7 +31,7 @@ import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
 
 /**
- * ActiveOrdersActivity, shows a ListView of undelivered Order objects.
+ * ActiveOrdersActivity, displays a ListView of undelivered Order objects.
  */
 public class ActiveOrdersActivity extends AppCompatActivity {
 
@@ -189,7 +189,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     }
 
     /**
-     * Refreshes the ListView by looking for undelivered Order objects and sets the adapter once again.
+     * Refreshes the ListView by checking for undelivered Order objects and sets the adapter once again.
      */
     public OrderViewAdapter refreshView() {
         final OrderViewAdapter adapter = new OrderViewAdapter(this, Order.getCurrentListedOrders(), R.mipmap.package_undelivered);

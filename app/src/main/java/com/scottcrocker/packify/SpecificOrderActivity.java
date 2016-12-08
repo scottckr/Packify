@@ -43,7 +43,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
 
-
+/**
+ * SpecificOrderActivity displays information on a specific order
+ */
 public class SpecificOrderActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     private SharedPreferences sharedPreferences;
@@ -236,7 +238,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
     }
 
     /**
-     * deliverOrder checks if a phone number has been saved in shared preferences. If not user is sent to SettingsActivity, otherwise user is sent to SignatureActivity
+     * Checks if a phone number has been saved in shared preferences. If not user is sent to SettingsActivity, otherwise user is sent to SignatureActivity
      * @param view The view component that is executed by click handler.
      */
     public void deliverOrder(View view) {
@@ -253,7 +255,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
     }
 
     /**
-     * sendSms sends a confirmation that a order has been delivered to the phone number which has been saved in shared preferences
+     * Sends a confirmation that a order has been delivered to the phone number which has been saved in shared preferences
      */
     public void sendSms() {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
@@ -336,7 +338,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
     }
 
     /**
-     * openNavigation opens up Google Maps through the openMaps method
+     * Opens up Google Maps through the openMaps method
      * @param view The view component that is executed by click handler.
      */
     public void openNavigation(View view) {

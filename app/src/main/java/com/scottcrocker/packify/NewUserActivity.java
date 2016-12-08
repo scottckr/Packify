@@ -16,6 +16,9 @@ import com.scottcrocker.packify.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * NewUserActivity lets the user add new user to the database
+ */
 public class NewUserActivity extends AppCompatActivity {
 
     EditText inputNewUserName;

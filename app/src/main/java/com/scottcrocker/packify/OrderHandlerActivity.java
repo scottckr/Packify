@@ -34,6 +34,9 @@ import java.util.List;
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
 
+/**
+ * OrderHandlerActivity lets the user edit and delete orders from the database
+ */
 public class OrderHandlerActivity extends AppCompatActivity {
 
     private EditText orderNoET;

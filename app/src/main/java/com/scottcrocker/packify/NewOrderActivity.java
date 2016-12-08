@@ -16,6 +16,9 @@ import java.util.List;
 
 import static com.scottcrocker.packify.MainActivity.db;
 
+/**
+ * NewOrderActivity lets the user add new orders to the database
+ */
 public class NewOrderActivity extends AppCompatActivity {
 
     private EditText orderNr;
