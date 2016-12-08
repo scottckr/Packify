@@ -62,6 +62,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         }
         getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
+        orderHandlerHelper.updateOrdersDisplayed();
         View header = navigationView.getHeaderView(0);
 
         TextView emptyTextTV = (TextView)findViewById(R.id.active_orders_empty);
@@ -90,8 +91,9 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
+    protected void onResume() {
+        super.onResume();
+        orderHandlerHelper.updateOrdersDisplayed();
         refreshView();
     }
 

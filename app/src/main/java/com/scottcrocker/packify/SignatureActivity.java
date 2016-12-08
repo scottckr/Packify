@@ -43,7 +43,7 @@ public class SignatureActivity extends AppCompatActivity {
     /**
      * Gets a bitmap from the DrawingView and converts and compresses it to a byte array.
      * Sends the byte array as an extra back to the calling activity.
-     * Also sends back RESULT_OK to the calling activity..
+     * Also sends back RESULT_OK to the calling activity.
      *
      * @param view The view component that is executed by click handler.
      */

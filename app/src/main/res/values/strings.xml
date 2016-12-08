@@ -93,7 +93,7 @@
     <string name="toast_orderhandler_deleted">Order raderad</string>
     <string name="toast_settings_saved">Inställningar sparade</string>
     <string name="toast_signature_saved">Signatur sparad!</string>
-    <string name="toast_signature_wrong">Ett fel har inträffat, försök igen</string>
+    <string name="toast_signature_wrong">Skriv in en signatur!</string>
     <string name="toast_specificorder_phoneno">Fyll i ett telefonnummer i inställningar</string>
     <string name="toast_userhandler_admin_change">Otillåtet att ändra denna användare</string>
     <string name="toast_userhandler_updated">Användaruppgifter uppdaterade</string>
