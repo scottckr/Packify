@@ -50,6 +50,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     private ArrayAdapter<User> dataAdapter;
     private Switch isAdminSwitch;
     private User user;
+    private User selectedUser;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView navigationView;
@@ -111,14 +112,17 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         // Disabling menu-item for this activity and admin options for non-admin users
         navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
         try {
-            String currentUserNameStr = " " + user.getName();
-            currentUserNameTV.setText(currentUserNameStr);
+            if (!user.getIsAdmin()) {
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+            }
         } catch (Exception e) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             ActivityCompat.finishAffinity(UserHandlerActivity.this);
             startActivity(intent);
         }
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -192,7 +196,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        user = (User) parent.getItemAtPosition(position);
+        selectedUser = (User) parent.getItemAtPosition(position);
         if (position != 0) {
             inputNameET.setEnabled(true);
             inputPasswordET.setEnabled(true);
@@ -208,12 +212,12 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     }
 
     private void populateInputFields() {
-        inputNameET.setText(user.getName());
-        String inputUserIdStr = "ID: " + String.valueOf(user.getId());
+        inputNameET.setText(selectedUser.getName());
+        String inputUserIdStr = "ID: " + String.valueOf(selectedUser.getId());
         inputUserIdTV.setText(inputUserIdStr);
-        inputPasswordET.setText(user.getPassword());
-        inputPhoneNrET.setText(String.valueOf(user.getTelephone()));
-        isAdminSwitch.setChecked(user.getIsAdmin());
+        inputPasswordET.setText(selectedUser.getPassword());
+        inputPhoneNrET.setText(String.valueOf(selectedUser.getTelephone()));
+        isAdminSwitch.setChecked(selectedUser.getIsAdmin());
     }
 
     /**
@@ -222,8 +226,8 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
      * @param view The view component that is executed by click handler.
      */
     public void saveEditedUser(View view) {
-        if (user != mSpinner.getItemAtPosition(0)) {
-            if (user.getId() == 0) {
+        if (selectedUser != mSpinner.getItemAtPosition(0)) {
+            if (selectedUser.getId() == 0) {
                 refreshView();
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_userhandler_admin_change), Toast.LENGTH_LONG).show();
             } else {
@@ -237,16 +241,16 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
                 isValidInput.add(validationHelper.validateInputPhoneNr(editedPhoneNr, "Telefonnummer", this));
 
                 if (ValidationHelper.isAllTrue(isValidInput)) {
-                    user.setName(String.valueOf(inputNameET.getText()));
-                    user.setPassword(String.valueOf(inputPasswordET.getText()));
-                    user.setTelephone(String.valueOf(inputPhoneNrET.getText()));
-                    user.setIsAdmin(isAdminSwitch.isChecked());
-                    db.editUser(user);
+                    selectedUser.setName(String.valueOf(inputNameET.getText()));
+                    selectedUser.setPassword(String.valueOf(inputPasswordET.getText()));
+                    selectedUser.setTelephone(String.valueOf(inputPhoneNrET.getText()));
+                    selectedUser.setIsAdmin(isAdminSwitch.isChecked());
+                    db.editUser(selectedUser);
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_userhandler_updated), Toast.LENGTH_SHORT).show();
                 }
                 isValidInput.clear();
             }
-        } else if (user == mSpinner.getItemAtPosition(0)) {
+        } else if (selectedUser == mSpinner.getItemAtPosition(0)) {
             refreshView();
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_userhandler_user), Toast.LENGTH_LONG).show();
         }
@@ -268,18 +272,18 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
      * @param view The view component that is executed by click handler.
      */
     public void deleteUser(View view) {
-        Log.d("DELETEUSER", "" + user);
-        if (user != mSpinner.getItemAtPosition(0)) {
-            if (user.getId() == 0 || user.getId() == currentUserId) {
+        Log.d("DELETEUSER", "" + selectedUser);
+        if (selectedUser != mSpinner.getItemAtPosition(0)) {
+            if (selectedUser.getId() == 0 || selectedUser.getId() == currentUserId) {
                 refreshView();
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_userhandler_admin_delete), Toast.LENGTH_LONG).show();
             } else {
-                db.deleteUser(user);
-                Toast.makeText(this, user.getName() + " " + getResources().getString(R.string.toast_userhandler_deleted), Toast.LENGTH_SHORT).show();
+                db.deleteUser(selectedUser);
+                Toast.makeText(this, selectedUser.getName() + " " + getResources().getString(R.string.toast_userhandler_deleted), Toast.LENGTH_SHORT).show();
                 refreshView();
                 loadSpinnerData();
             }
-        } else if (user == mSpinner.getItemAtPosition(0)) {
+        } else if (selectedUser == mSpinner.getItemAtPosition(0)) {
             refreshView();
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_userhandler_user), Toast.LENGTH_LONG).show();
         }
