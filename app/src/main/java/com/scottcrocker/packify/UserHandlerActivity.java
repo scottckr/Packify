@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -53,6 +54,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView navigationView;
     private ValidationHelper validationHelper = new ValidationHelper();
+    private TextView currentUserNameTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
 
-        TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
+        currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
         inputNameET = (EditText) findViewById(R.id.input_user_name);
         inputPasswordET = (EditText) findViewById(R.id.input_user_password);
         inputPhoneNrET = (EditText) findViewById(R.id.input_user_phone);
@@ -93,17 +95,29 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         mSpinner.setOnItemSelectedListener(this);
         loadSpinnerData();
 
-        String currentUserNameStr = " " + user.getName();
-        currentUserNameTV.setText(currentUserNameStr);
+        try {
+            String currentUserNameStr = " " + user.getName();
+            currentUserNameTV.setText(currentUserNameStr);
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(UserHandlerActivity.this);
+            startActivity(intent);
+        }
     }
 
     private void setUpNavigationView() {
         navigationView = (NavigationView) findViewById(R.id.navList);
         // Disabling menu-item for this activity and admin options for non-admin users
         navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
-        if (!user.getIsAdmin()) {
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+        try {
+            String currentUserNameStr = " " + user.getName();
+            currentUserNameTV.setText(currentUserNameStr);
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(UserHandlerActivity.this);
+            startActivity(intent);
         }
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override

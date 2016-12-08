@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -30,7 +31,7 @@ import static com.scottcrocker.packify.MainActivity.db;
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 
 /**
- * OrderHistoryActivity, shows a ListView of undelivered Order objects.
+ * OrderHistoryActivity, shows a ListView of delivered Order objects.
  */
 public class OrderHistoryActivity extends AppCompatActivity {
 
@@ -81,18 +82,42 @@ public class OrderHistoryActivity extends AppCompatActivity {
             }
         });
 
-        String currentUserNameStr = " " + user.getName();
-        currentUserNameTV.setText(currentUserNameStr);
+        try {
+            String currentUserNameStr = " " + user.getName();
+            currentUserNameTV.setText(currentUserNameStr);
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(OrderHistoryActivity.this);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        refreshView();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     private void setUpNavigationView() {
         navigationView = (NavigationView) findViewById(R.id.navList);
         // Disabling menu-item for this activity and admin options for non-admin users
         navigationView.getMenu().findItem(R.id.navDrawer_orderhistory).setVisible(false);
-
-        if (!user.getIsAdmin()) {
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
-            navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+        try {
+            if (!user.getIsAdmin()) {
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
+                navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
+            }
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(OrderHistoryActivity.this);
+            startActivity(intent);
         }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -107,20 +132,17 @@ public class OrderHistoryActivity extends AppCompatActivity {
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
-
                     case R.id.navDrawer_admin_userhandler:
                         intent = new Intent(OrderHistoryActivity.this, UserHandlerActivity.class);
                         startActivity(intent);
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
-
                     case R.id.navDrawer_admin_orderhandler:
                         intent = new Intent(OrderHistoryActivity.this, OrderHandlerActivity.class);
                         startActivity(intent);
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
-
 
                     case R.id.navDrawer_activeorders:
                         intent = new Intent(OrderHistoryActivity.this, ActiveOrdersActivity.class);

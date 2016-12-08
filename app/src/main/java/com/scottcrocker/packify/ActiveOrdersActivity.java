@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
@@ -18,37 +19,27 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.scottcrocker.packify.controller.OrderViewAdapter;
 import com.scottcrocker.packify.helper.OrderHandlerHelper;
-import com.scottcrocker.packify.helper.RandomHelper;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
 
-
+/**
+ * ActiveOrdersActivity, shows a ListView of undelivered Order objects.
+ */
 public class ActiveOrdersActivity extends AppCompatActivity {
 
-    SharedPreferences sharedPreferences;
     private static final String TAG = "ActiveOrdersActivity";
-    ListView listView;
-    User user;
-    int currentUserId;
-    int amountOfOrdersToDisplay;
-    int amountOfOrders;
-    List<Order> allOrders;
+    private ListView listView;
+    private User user;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    TextView currentUserName;
-    NavigationView navigationView;
-    OrderHandlerHelper orderHandlerHelper = new OrderHandlerHelper();
-
+    private NavigationView navigationView;
+    private OrderHandlerHelper orderHandlerHelper = new OrderHandlerHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,19 +47,27 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_active_orders);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
-        currentUserId = sharedPreferences.getInt("USERID", -1);
-        amountOfOrders = Integer.parseInt(sharedPreferences.getString("seekBarValue", "30"));
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        int currentUserId = sharedPreferences.getInt("USERID", -1);
         user = db.getUser(currentUserId);
-        allOrders = db.getAllOrders();
 
         final OrderViewAdapter adapter = refreshView();
 
-        TextView emptyText = (TextView)findViewById(R.id.active_orders_empty);
-        listView.setEmptyView(emptyText);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_active_orders);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        getSupportActionBar().setHomeButtonEnabled(true);
+        setUpNavigationView();
+        View header = navigationView.getHeaderView(0);
 
+        TextView emptyTextTV = (TextView)findViewById(R.id.active_orders_empty);
+        TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
 
-
+        listView.setEmptyView(emptyTextTV);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -79,20 +78,10 @@ public class ActiveOrdersActivity extends AppCompatActivity {
             }
         });
 
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_active_orders);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.string.drawer_open, R.string.drawer_close);
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        setUpNavigationView();
-        View header = navigationView.getHeaderView(0);
-        currentUserName = (TextView) header.findViewById(R.id.current_user_name);
         try {
-            currentUserName.setText(user.getName());
+            String currentUserNameStr = " " + user.getName();
+            currentUserNameTV.setText(currentUserNameStr);
         } catch (Exception e) {
-            sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             ActivityCompat.finishAffinity(ActiveOrdersActivity.this);
@@ -113,7 +102,6 @@ public class ActiveOrdersActivity extends AppCompatActivity {
 
     private void setUpNavigationView() {
         navigationView = (NavigationView) findViewById(R.id.navList);
-
         // Disabling menu-item for this activity and admin options for non-admin users
         navigationView.getMenu().findItem(R.id.navDrawer_activeorders).setVisible(false);
         try {
@@ -122,7 +110,6 @@ public class ActiveOrdersActivity extends AppCompatActivity {
                 navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
             }
         } catch (Exception e) {
-            sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             ActivityCompat.finishAffinity(ActiveOrdersActivity.this);
@@ -131,7 +118,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 Intent intent;
                 int id = menuItem.getItemId();
                 switch (id) {
@@ -164,7 +151,6 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         });
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
@@ -192,7 +178,6 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
     }
 
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -200,7 +185,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     }
 
     /**
-     * Refreshes the view with the right amount of delivered orders.
+     * Refreshes the ListView by looking for undelivered Order objects and sets the adapter once again.
      */
     public OrderViewAdapter refreshView() {
         final OrderViewAdapter adapter = new OrderViewAdapter(this, Order.getCurrentListedOrders(), R.mipmap.package_undelivered);
@@ -209,21 +194,4 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         Log.d(TAG, "ListView finished");
         return adapter;
     }
-
-    /*
-                    for (int y = 0; y < Order.getCurrentListedOrders().size(); y++) {//kollar igenom alla Orders och ser om någon redan finns.
-                    if (undeliveredOrders.get(rndOrder).getOrderNo() == Order.getCurrentListedOrders().get(y).getOrderNo()) {
-                        orderDuplicateCheck = true;
-                    }
-                }
-                if (orderDuplicateCheck) {
-                    i--;
-                    orderDuplicateCheck = false;
-                } else {
-                    if (Order.getCurrentListedOrders().size() < amountOfOrdersToDisplay) {
-                        Order.getCurrentListedOrders().add(undeliveredOrders.get(rndOrder));
-                    }
-                }
-     */
-
 }
