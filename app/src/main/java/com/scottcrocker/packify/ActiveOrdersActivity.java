@@ -16,11 +16,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.scottcrocker.packify.controller.OrderViewAdapter;
+
 import com.scottcrocker.packify.helper.RandomHelper;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
@@ -72,6 +74,11 @@ public class ActiveOrdersActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.active_orders_listview);
         listView.setAdapter(adapter);
+
+        TextView emptyText = (TextView)findViewById(R.id.active_orders_empty);
+        listView.setEmptyView(emptyText);
+
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -337,9 +344,9 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         }
         amountRemoved = amountOfOrdersToDisplay - tempOrder.size();
         if (amountRemoved == 1) {
-            Toast.makeText(this, amountRemoved + " levererad order togs bort", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, amountRemoved + " " + getResources().getString(R.string.toast_active_orders_one), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, amountRemoved + " levererade ordrar togs bort", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, amountRemoved + " " + getResources().getString(R.string.toast_active_orders_several), Toast.LENGTH_SHORT).show();
         }
         Log.d(TAG, "clearUndeliveredOrders finished");
 

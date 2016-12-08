@@ -37,14 +37,14 @@
                 android:id="@+id/settings_order_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/settings_order_label" />
+                android:text="@string/settings_seekbar_label" />
 
             <TextView
                 android:id="@+id/number_of_orders"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="@string/number_of_orders" />
+                android:text="@string/settings_seekbar_display_orders" />
 
             <SeekBar
                 android:id="@+id/seek_bar"

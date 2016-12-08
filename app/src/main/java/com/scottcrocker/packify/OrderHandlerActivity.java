@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -268,9 +267,11 @@ public class OrderHandlerActivity extends AppCompatActivity {
                         customerName, address, postAddress,Integer.parseInt(orderSum), order.getDeliveryDate(), isDeliveredSwitch.isChecked(),
                         order.getDeliveredBy(), gps.getLongitude(address + ", "+ postAddress), gps.getLatitude(address + ", "+ postAddress), order.getSignature());
                 db.editOrder(editedOrder);
-                Toast.makeText(getApplicationContext(), "Order ändrad", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_orderhandler_updated), Toast.LENGTH_SHORT).show();
             }
             isValidInput.clear();
+        } else {
+            Toast.makeText(this, getResources().getString(R.string.toast_orderhandler_orderno), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -286,12 +287,12 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
             if(validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)){
                 db.deleteOrder(order);
-                Toast.makeText(getApplicationContext(), "Order raderad", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_orderhandler_deleted), Toast.LENGTH_SHORT).show();
                 cleanAllFields();
             }
             isValidInput.clear();
         } else {
-            Toast.makeText(this, "Du måste fylla i ett ordernummer!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.toast_orderhandler_orderno), Toast.LENGTH_LONG).show();
         }
     }
 
