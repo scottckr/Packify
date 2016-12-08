@@ -41,56 +41,56 @@
                         android:id="@+id/order_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="5dp"
+                        android:paddingBottom="5sp"
                         android:text="@string/order_number" />
 
                     <TextView
                         android:id="@+id/customer_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="5dp"
+                        android:paddingBottom="5sp"
                         android:text="@string/customer_id" />
 
                     <TextView
                         android:id="@+id/customer_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="5dp"
+                        android:paddingBottom="5sp"
                         android:text="@string/customer_name" />
 
                     <TextView
                         android:id="@+id/order_sum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="5dp"
+                        android:paddingBottom="5sp"
                         android:text="@string/order_sum" />
 
                     <TextView
                         android:id="@+id/address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="5dp"
+                        android:paddingBottom="5sp"
                         android:text="@string/address" />
 
                     <TextView
                         android:id="@+id/post_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="5dp"
+                        android:paddingBottom="5sp"
                         android:text="@string/post_address" />
 
                     <TextView
                         android:id="@+id/delivery_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="5dp"
+                        android:paddingBottom="5sp"
                         android:text="@string/delivery_date" />
 
                     <TextView
                         android:id="@+id/delivered_by"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="5dp"
+                        android:paddingBottom="5sp"
                         android:text="@string/delivered_by" />
 
                     <TextView
@@ -105,9 +105,9 @@
                 <LinearLayout
                     android:id="@+id/map_signature_linear"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="0sp"
                     android:layout_weight="1"
-                    android:paddingBottom="5dp"
+                    android:paddingBottom="5sp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -124,7 +124,7 @@
                             android:name="com.google.android.gms.maps.SupportMapFragment"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="1dp" />
+                            android:layout_margin="1sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -138,7 +138,7 @@
                     <Button
                         android:id="@+id/btn_deliver_order"
                         style="@style/ButtonStyle"
-                        android:layout_width="0dp"
+                        android:layout_width="0sp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_marginEnd="5sp"
@@ -150,7 +150,7 @@
 
                     <Button
                         android:id="@+id/btn_open_map"
-                        android:layout_width="0dp"
+                        android:layout_width="0sp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/button_style"
@@ -164,7 +164,7 @@
 
     <include
         layout="@layout/navigation_drawer"
-        android:layout_width="240dp"
+        android:layout_width="240sp"
         android:layout_height="match_parent"
         android:layout_gravity="start" />
 

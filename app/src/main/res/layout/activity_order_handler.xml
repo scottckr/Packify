@@ -42,7 +42,7 @@
                 android:hint="@string/input_order_number"
                 android:inputType="number"
                 android:maxLength="9"
-                android:paddingBottom="5dp" />
+                android:paddingBottom="5sp" />
 
             <EditText
                 android:id="@+id/input_customer_name"
@@ -51,7 +51,7 @@
                 android:layout_weight="1"
                 android:hint="@string/input_customer_name"
                 android:inputType="text"
-                android:paddingBottom="5dp" />
+                android:paddingBottom="5sp" />
 
             <EditText
                 android:id="@+id/input_customer_id"
@@ -61,7 +61,7 @@
                 android:hint="@string/input_customer_id"
                 android:inputType="number"
                 android:maxLength="9"
-                android:paddingBottom="5dp" />
+                android:paddingBottom="5sp" />
 
             <EditText
                 android:id="@+id/input_order_sum"
@@ -71,7 +71,7 @@
                 android:hint="@string/input_order_sum"
                 android:inputType="number"
                 android:maxLength="9"
-                android:paddingBottom="5dp" />
+                android:paddingBottom="5sp" />
 
             <EditText
                 android:id="@+id/input_order_address"
@@ -80,7 +80,7 @@
                 android:layout_weight="1"
                 android:hint="@string/input_order_address"
                 android:inputType="text"
-                android:paddingBottom="5dp" />
+                android:paddingBottom="5sp" />
 
             <EditText
                 android:id="@+id/input_order_post_address"
@@ -89,7 +89,7 @@
                 android:layout_weight="1"
                 android:hint="@string/input_order_post_address"
                 android:inputType="text"
-                android:paddingBottom="5dp" />
+                android:paddingBottom="5sp" />
 
             <Switch
                 android:id="@+id/is_delivered_switch"
@@ -145,7 +145,7 @@
 
     <include
         layout="@layout/navigation_drawer"
-        android:layout_width="240dp"
+        android:layout_width="240sp"
         android:layout_height="match_parent"
         android:layout_gravity="start" />
 

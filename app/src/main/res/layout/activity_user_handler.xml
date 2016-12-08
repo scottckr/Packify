@@ -58,7 +58,7 @@
                 android:layout_weight="1"
                 android:hint="@string/input_user_name"
                 android:inputType="textPersonName"
-                android:paddingBottom="5dp" />
+                android:paddingBottom="5sp" />
 
             <EditText
                 android:id="@+id/input_user_password"
@@ -67,7 +67,7 @@
                 android:layout_weight="1"
                 android:hint="@string/input_user_password"
                 android:inputType="textPassword"
-                android:paddingBottom="5dp" />
+                android:paddingBottom="5sp" />
 
             <EditText
                 android:id="@+id/input_user_phone"
@@ -76,7 +76,7 @@
                 android:layout_weight="1"
                 android:hint="@string/input_user_phone"
                 android:inputType="phone"
-                android:paddingBottom="5dp" />
+                android:paddingBottom="5sp" />
 
             <Switch
                 android:id="@+id/admin_switch"
@@ -134,7 +134,7 @@
 
     <include
         layout="@layout/navigation_drawer"
-        android:layout_width="240dp"
+        android:layout_width="240sp"
         android:layout_height="match_parent"
         android:layout_gravity="start" />
 

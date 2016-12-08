@@ -50,13 +50,13 @@
                 android:id="@+id/seek_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="20" />
+                android:max="30" />
 
             <TextView
                 android:id="@+id/settings_number_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="50sp"
                 android:text="@string/settings_number_label" />
 
             <EditText
@@ -64,11 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:inputType="phone"
-                android:text="0700123456" />
-
-
-
+                android:inputType="phone" />
 
         </LinearLayout>
 
@@ -104,7 +100,7 @@
 
     <include
         layout="@layout/navigation_drawer"
-        android:layout_width="240dp"
+        android:layout_width="240sp"
         android:layout_height="match_parent"
         android:layout_gravity="start" />
 

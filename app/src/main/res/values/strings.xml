@@ -78,6 +78,7 @@
     <string name="switch_is_delivered">Levererad</string>
 
     <string name="new_user_add">Lägg till ny användare</string>
+    <string name="new_order_add">Registrera ny order</string>
 
     <string name="toast_active_orders_one">levererad order togs bort</string>
     <string name="toast_active_orders_several">levererade ordrar togs bort</string>
