@@ -41,13 +41,8 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     ListView listView;
     User user;
     int currentUserId;
-    int amountOfOrdersToDisplay;
     int amountOfOrders;
-    int amountOfNewOrdersNeeded;
-    int amountOfOrdersToRemove;
-    List<Order> allOrders = new ArrayList<>();
-    List<Order> undeliveredOrders = new ArrayList<>();
-    List<Order> deliveredOrders = new ArrayList<>();
+    List<Order> allOrders;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     TextView currentUserName;
@@ -67,10 +62,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         user = db.getUser(currentUserId);
         allOrders = db.getAllOrders();
 
-        final OrderViewAdapter adapter = new OrderViewAdapter(this, Order.getCurrentListedOrders(), R.mipmap.package_undelivered);
-
-        listView = (ListView) findViewById(R.id.active_orders_listview);
-        listView.setAdapter(adapter);
+        final OrderViewAdapter adapter = refreshView();
 
         TextView emptyText = (TextView)findViewById(R.id.active_orders_empty);
         listView.setEmptyView(emptyText);
@@ -210,12 +202,12 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     /**
      * Refreshes the view with the right amount of delivered orders.
      */
-    public void refreshView() {
-
+    public OrderViewAdapter refreshView() {
         final OrderViewAdapter adapter = new OrderViewAdapter(this, Order.getCurrentListedOrders(), R.mipmap.package_undelivered);
         listView = (ListView) findViewById(R.id.active_orders_listview);
         listView.setAdapter(adapter);
         Log.d(TAG, "ListView finished");
+        return adapter;
     }
 
     /*
