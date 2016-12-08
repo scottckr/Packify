@@ -23,7 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +37,6 @@ import java.util.Calendar;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -52,31 +50,31 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
     private static final String TAG = "SpecificOrderActivity";
     Order specificOrder;
     int orderNumber;
-    TextView orderNumTv;
+    TextView orderNumTV;
     String orderNumStr;
-    TextView customerIdTv;
+    TextView customerIdTV;
     String customerIdStr;
-    TextView customerNameTv;
+    TextView customerNameTV;
     String customerNameStr;
-    TextView orderSumTv;
+    TextView orderSumTV;
     String orderSumStr;
-    TextView addressTv;
+    TextView addressTV;
     String addressStr;
-    TextView deliveryDateTv;
+    TextView deliveryDateTV;
     String deliveryDateStr;
     Button btnDeliverOrder;
-    TextView deliveredByTv;
+    TextView deliveredByTV;
     String deliveredByStr;
-    TextView postAddressTv;
+    TextView postAddressTV;
     String postAddressStr;
-    TextView receivedByTv;
+    TextView receivedByTV;
     User user;
     int currentUserId;
-    ImageView signatureIv;
+    ImageView signatureIV;
     Bitmap signature;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    TextView currentUserName;
+    TextView currentUserNameTV;
     NavigationView navigationView;
     SupportMapFragment mapFragment;
     GoogleMap mMap;
@@ -97,7 +95,6 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         orderNumber = getIntent().getIntExtra("ORDERNO", 0);
         specificOrder = db.getOrder(orderNumber);
 
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_specific_order);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.drawer_open, R.string.drawer_close);
@@ -106,9 +103,9 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
-        currentUserName = (TextView) header.findViewById(R.id.current_user_name);
+        currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
         String currentUserNameStr = " " + user.getName();
-        currentUserName.setText(currentUserNameStr);
+        currentUserNameTV.setText(currentUserNameStr);
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -165,8 +162,6 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
                         startActivity(intent);
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
-
-
                 }
                 return false;
             }
@@ -177,10 +172,6 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK) {
-                /*signature = BitmapFactory.decodeByteArray(data.getByteArrayExtra("SIGNATURE"), 0,
-                        data.getByteArrayExtra("SIGNATURE").length);
-                signatureIv = (ImageView) findViewById(R.id.signature_imageview);
-                signatureIv.setImageBitmap(signature);*/
 
                 DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
                 String currentDate = df.format(Calendar.getInstance().getTime());
@@ -192,7 +183,6 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
                 db.editOrder(specificOrder);
 
                 sendSms();
-
                 refreshView();
             }
         }
@@ -244,7 +234,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
             });
     }
 
-    public void openMaps() {
+    private void openMaps() {
         String uri = "geo:" + specificOrder.getLatitude() + "," + specificOrder.getLongitude() +
                 "?q=" + specificOrder.getAddress() + ", " + specificOrder.getPostAddress();
 
@@ -253,6 +243,10 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         startActivity(intent);
     }
 
+    /**
+     * deliverOrder checks if a phone number has been saved in shared preferences. If not user is sent to SettingsActivity, otherwise user is sent to SignatureActivity
+     * @param view The view component that is executed by click handler.
+     */
     public void deliverOrder(View view) {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         String sharedPhoneNumber = sharedPreferences.getString("number", "");
@@ -266,6 +260,9 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         }
     }
 
+    /**
+     * sendSms sends a confirmation that a order has been delivered to the phone number which has been saved in shared preferences
+     */
     public void sendSms() {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         String sharedPhoneNumber = sharedPreferences.getString("number", "");
@@ -274,73 +271,77 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         sms.sendTextMessage(sharedPhoneNumber, null, messageSms, null, null);
     }
 
-    public void refreshView() {
+    private void refreshView() {
         specificOrder = db.getOrder(orderNumber);
-        orderNumTv = (TextView) findViewById(R.id.order_number);
+        orderNumTV = (TextView) findViewById(R.id.order_number);
         orderNumStr = getString(R.string.order_number) + " " + specificOrder.getOrderNo();
-        orderNumTv.setText(orderNumStr);
+        orderNumTV.setText(orderNumStr);
 
-        customerIdTv = (TextView) findViewById(R.id.customer_id);
+        customerIdTV = (TextView) findViewById(R.id.customer_id);
         customerIdStr = getString(R.string.customer_id) + " " + specificOrder.getCustomerNo();
-        customerIdTv.setText(customerIdStr);
+        customerIdTV.setText(customerIdStr);
 
-        customerNameTv = (TextView) findViewById(R.id.customer_name);
+        customerNameTV = (TextView) findViewById(R.id.customer_name);
         customerNameStr = getString(R.string.customer_name) + " " + specificOrder.getCustomerName();
-        customerNameTv.setText(customerNameStr);
+        customerNameTV.setText(customerNameStr);
 
-        orderSumTv = (TextView) findViewById(R.id.order_sum);
+        orderSumTV = (TextView) findViewById(R.id.order_sum);
         orderSumStr = getString(R.string.order_sum) + " " + specificOrder.getOrderSum() + " SEK";
-        orderSumTv.setText(orderSumStr);
+        orderSumTV.setText(orderSumStr);
 
-        addressTv = (TextView) findViewById(R.id.address);
+        addressTV = (TextView) findViewById(R.id.address);
         addressStr = getString(R.string.address) + " " + specificOrder.getAddress();
-        addressTv.setText(addressStr);
+        addressTV.setText(addressStr);
 
-        postAddressTv = (TextView) findViewById(R.id.post_address);
+        postAddressTV = (TextView) findViewById(R.id.post_address);
         postAddressStr = getString(R.string.post_address) + " " + specificOrder.getPostAddress();
-        postAddressTv.setText(postAddressStr);
+        postAddressTV.setText(postAddressStr);
 
         if (specificOrder.getIsDelivered()) {
-            deliveryDateTv = (TextView) findViewById(R.id.delivery_date);
+            deliveryDateTV = (TextView) findViewById(R.id.delivery_date);
             deliveryDateStr = getString(R.string.delivery_date) + " " + specificOrder.getDeliveryDate();
-            deliveryDateTv.setText(deliveryDateStr);
-            deliveryDateTv.setVisibility(View.VISIBLE);
+            deliveryDateTV.setText(deliveryDateStr);
+            deliveryDateTV.setVisibility(View.VISIBLE);
 
-            deliveredByTv = (TextView) findViewById(R.id.delivered_by);
+            deliveredByTV = (TextView) findViewById(R.id.delivered_by);
             deliveredByStr = getString(R.string.delivered_by) + " " + specificOrder.getDeliveredBy();
-            deliveredByTv.setText(deliveredByStr);
-            deliveredByTv.setVisibility(View.VISIBLE);
+            deliveredByTV.setText(deliveredByStr);
+            deliveredByTV.setVisibility(View.VISIBLE);
 
             btnDeliverOrder = (Button) findViewById(R.id.btn_deliver_order);
             btnDeliverOrder.setEnabled(false);
 
-            receivedByTv = (TextView) findViewById(R.id.received_by);
-            receivedByTv.setVisibility(View.VISIBLE);
+            receivedByTV = (TextView) findViewById(R.id.received_by);
+            receivedByTV.setVisibility(View.VISIBLE);
 
-            signatureIv = (ImageView) findViewById(R.id.signature_imageview);
+            signatureIV = (ImageView) findViewById(R.id.signature_imageview);
             if (specificOrder.getSignature() != null) {
                 signature = BitmapFactory.decodeByteArray(specificOrder.getSignature(), 0, specificOrder.getSignature().length);
             } else {
                 signature = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.no_signature);
             }
-            signatureIv.setImageBitmap(signature);
-            signatureIv.setVisibility(View.VISIBLE);
+            signatureIV.setImageBitmap(signature);
+            signatureIV.setVisibility(View.VISIBLE);
         } else {
-            deliveryDateTv = (TextView) findViewById(R.id.delivery_date);
-            deliveryDateTv.setVisibility(View.GONE);
+            deliveryDateTV = (TextView) findViewById(R.id.delivery_date);
+            deliveryDateTV.setVisibility(View.GONE);
 
-            receivedByTv = (TextView) findViewById(R.id.received_by);
-            receivedByTv.setVisibility(View.GONE);
+            receivedByTV = (TextView) findViewById(R.id.received_by);
+            receivedByTV.setVisibility(View.GONE);
 
-            deliveredByTv = (TextView) findViewById(R.id.delivered_by);
-            deliveredByTv.setVisibility(View.GONE);
+            deliveredByTV = (TextView) findViewById(R.id.delivered_by);
+            deliveredByTV.setVisibility(View.GONE);
 
-            signatureIv = (ImageView) findViewById(R.id.signature_imageview);
-            signatureIv.setVisibility(View.GONE);
+            signatureIV = (ImageView) findViewById(R.id.signature_imageview);
+            signatureIV.setVisibility(View.GONE);
         }
         Log.d(TAG, "View refreshed");
     }
 
+    /**
+     * openNavigation opens up Google Maps through the openMaps method
+     * @param view The view component that is executed by click handler.
+     */
     public void openNavigation(View view) {
         openMaps();
     }
