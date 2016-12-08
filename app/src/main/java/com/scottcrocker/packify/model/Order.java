@@ -1,16 +1,13 @@
 package com.scottcrocker.packify.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by mavve on 2016-11-11.
+ * Order model class.
  */
+public class Order {
 
-public class Order implements Parcelable{
     private String address;
     private String postAddress;
     private int orderSum;
@@ -23,20 +20,30 @@ public class Order implements Parcelable{
     private String deliveredBy;
     private String customerName;
     private byte[] signature;
-    List<Order> orderList = new ArrayList<>();
-    static List<Order> currentListedOrders = new ArrayList<>();
+    private static List<Order> currentListedOrders = new ArrayList<>();
 
+    /**
+     * Empty constructor for Order class.
+     */
     public Order() {
     }
 
-    public static List<Order> getCurrentListedOrders() {
-        return currentListedOrders;
-    }
-
-    public static void setCurrentListedOrders(List<Order> currentListedOrders) {
-        Order.currentListedOrders = currentListedOrders;
-    }
-
+    /**
+     * Constructor for Order class which takes a lot of arguments.
+     *
+     * @param orderNo      An order number to put into the orderNo variable.
+     * @param customerNo   A customer number to put into the customerNo variable.
+     * @param customerName A customer name to put into the customerName variable.
+     * @param address      An address to put into the address variable.
+     * @param postAddress  A post address to put into the postAddress variable.
+     * @param orderSum     An order sum to put into the orderSum variable.
+     * @param deliveryDate A delivery date to put into the deliveryDate variable.
+     * @param isDelivered  A boolean for determining if an Order is delivered or not, put into the isDelivered variable.
+     * @param deliveredBy  A String for determining which User delivered the Order, put into the deliveredBy variable.
+     * @param longitude    A longitude to put into the longitude variable.
+     * @param latitude     A latitude to put into the latitude variable.
+     * @param signature    A byte array for a signature bitmap to put into the signature variable.
+     */
     public Order(int orderNo, int customerNo, String customerName, String address, String postAddress, int orderSum,
                  String deliveryDate, boolean isDelivered, String deliveredBy, double longitude, double latitude, byte[] signature) {
         this.orderNo = orderNo;
@@ -53,52 +60,14 @@ public class Order implements Parcelable{
         this.signature = signature;
     }
 
-    protected Order(Parcel in) {
-        address = in.readString();
-        postAddress = in.readString();
-        orderSum = in.readInt();
-        orderNo = in.readInt();
-        isDelivered = in.readByte() != 0x00;
-        deliveryDate = in.readString();
-        latitude = in.readDouble();
-        longitude = in.readDouble();
-        customerNo = in.readInt();
-        deliveredBy = in.readString();
-        customerName = in.readString();
+    /**
+     * A List of currently listed orders in ActiveOrdersActivity.
+     *
+     * @return Returns a List of Order objects currently in the ListView in ActiveOrdersActivity.
+     */
+    public static List<Order> getCurrentListedOrders() {
+        return currentListedOrders;
     }
-
-
-    @Override
-    public int describeContents(){
-        return 0;
-    }
-
-
-    @Override
-    public void writeToParcel(Parcel out, int flag){
-        out.writeString(address);
-        out.writeString(postAddress);
-        out.writeInt(orderSum);
-        out.writeInt(orderNo);
-        out.writeByte((byte) (isDelivered ? 0x01 : 0x00));
-        out.writeString(deliveryDate);
-        out.writeDouble(latitude);
-        out.writeDouble(longitude);
-        out.writeInt(customerNo);
-        out.writeString(deliveredBy);
-        out.writeString(customerName);
-    }
-
-    public static final Parcelable.Creator<Order> CREATOR = new Parcelable.Creator<Order>(){
-        public Order createFromParcel(Parcel in) {
-                return new Order(in);
-        }
-
-        @Override
-        public Order[] newArray(int size) {
-            return new Order[size];
-        }
-    };
 
     @Override
     public String toString() {

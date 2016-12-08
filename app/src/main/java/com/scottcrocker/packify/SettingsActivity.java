@@ -11,8 +11,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -31,20 +29,19 @@ import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private static final String TAG = "SettingsActivity";
     SeekBar seekBar;
     private int seekBarMax = 30;
     private int seekBarMin = 5;
     private int seekBarStep = 1;
-    TextView valueOfSeekBar;
-    EditText phoneNumber;
+    TextView valueOfSeekBarTV;
+    EditText phoneNumberET;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     User user;
     int currentUserId;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    TextView currentUserName;
+    TextView currentUserNameTV;
     NavigationView navigationView;
     ValidationHelper validationHelper = new ValidationHelper();
     List<Boolean> isValidInput = new ArrayList<>();
@@ -61,8 +58,8 @@ public class SettingsActivity extends AppCompatActivity {
         user = db.getUser(currentUserId);
 
         seekBar = (SeekBar) findViewById(R.id.seek_bar);
-        valueOfSeekBar = (TextView) findViewById(R.id.number_of_orders);
-        phoneNumber = (EditText) findViewById(R.id.sms_number);
+        valueOfSeekBarTV = (TextView) findViewById(R.id.number_of_orders);
+        phoneNumberET = (EditText) findViewById(R.id.sms_number);
 
         loadSavedSettings();
         seekBar.setMax((seekBarMax - seekBarMin) / seekBarStep);
@@ -76,9 +73,9 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
-        currentUserName = (TextView) header.findViewById(R.id.current_user_name);
+        currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
         String currentUserNameStr = " " + user.getName();
-        currentUserName.setText(currentUserNameStr);
+        currentUserNameTV.setText(currentUserNameStr);
     }
 
     private void setUpNavigationView() {
@@ -163,7 +160,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int value = seekBarMin + (progress * seekBarStep);
-                valueOfSeekBar.setText(String.valueOf(value));
+                valueOfSeekBarTV.setText(String.valueOf(value));
             }
 
             @Override
@@ -185,8 +182,8 @@ public class SettingsActivity extends AppCompatActivity {
     public void onSaveSettings(View view) {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        String savedPhoneNumber = phoneNumber.getText().toString();
-        String savedSeekBarValue = valueOfSeekBar.getText().toString();
+        String savedPhoneNumber = phoneNumberET.getText().toString();
+        String savedSeekBarValue = valueOfSeekBarTV.getText().toString();
         isValidInput.add(validationHelper.validateInputPhoneNr(savedPhoneNumber, "Telefonnummer" ,this));
 
         if (validationHelper.isAllTrue(isValidInput)) {
@@ -206,9 +203,9 @@ public class SettingsActivity extends AppCompatActivity {
         String sharedSeekBarValue = sharedPreferences.getString("seekBarValue", "10");
         String sharedPhoneNumber = sharedPreferences.getString("number", "");
 
-        phoneNumber.setText(sharedPhoneNumber);
+        phoneNumberET.setText(sharedPhoneNumber);
         seekBar.setProgress((Integer.parseInt(sharedSeekBarValue) - seekBarMin));
-        valueOfSeekBar.setText((sharedSeekBarValue).toString());
+        valueOfSeekBarTV.setText((sharedSeekBarValue).toString());
     }
 
     /**

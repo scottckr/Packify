@@ -21,8 +21,12 @@ import static com.scottcrocker.packify.MainActivity.db;
  *
  * @author Scott Crocker
  */
-
 public class OrderViewAdapter extends BaseAdapter {
+
+    private int iconId;
+    private List<Order> dataSource;
+    private LayoutInflater inflater;
+
     /**
      * Constructor for OrderViewAdapter.
      *
@@ -35,11 +39,6 @@ public class OrderViewAdapter extends BaseAdapter {
         this.iconId = iconId;
         dataSource = orders;
     }
-
-    int iconId;
-    ImageView icon;
-    List<Order> dataSource;
-    LayoutInflater inflater;
 
     @Override
     public int getCount() {
@@ -64,7 +63,7 @@ public class OrderViewAdapter extends BaseAdapter {
         } else {
             v = convertView;
         }
-        icon = (ImageView) v.findViewById(R.id.list_item_icon);
+        ImageView icon = (ImageView) v.findViewById(R.id.list_item_icon);
         icon.setImageResource(iconId);
         TextView orderLabelTv = (TextView) v.findViewById(R.id.list_item_label);
         String orderLabelOne = "Ordernummer: " + dataSource.get(pos).getOrderNo();

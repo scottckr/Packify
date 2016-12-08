@@ -28,17 +28,18 @@ import java.util.List;
 import static com.scottcrocker.packify.MainActivity.db;
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 
+/**
+ * OrderHistoryActivity, shows a ListView of undelivered Order objects.
+ */
 public class OrderHistoryActivity extends AppCompatActivity {
 
-    SharedPreferences sharedPreferences;
     private static final String TAG = "OrderHistoryActivity";
-    ListView historyListView;
-    User user;
-    int currentUserId;
+    private ListView historyListView;
+    private User user;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    TextView currentUserName;
-    NavigationView navigationView;
+    private NavigationView navigationView;
+    private List<Order> allOrders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,22 +47,12 @@ public class OrderHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_history);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
-        currentUserId = sharedPreferences.getInt("USERID", -1);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        int currentUserId = sharedPreferences.getInt("USERID", -1);
         user = db.getUser(currentUserId);
+        allOrders = db.getAllOrders();
 
-        List<Order> deliveredOrders = new ArrayList<>();
-
-        for (int i = 0; i < db.getAllOrders().size(); i++) {
-            if (db.getAllOrders().get(i).getIsDelivered()) {
-                deliveredOrders.add(db.getAllOrders().get(i));
-            }
-        }
-
-        final OrderViewAdapter adapter = new OrderViewAdapter(this, deliveredOrders, R.mipmap.package_delivered);
-
-        historyListView = (ListView) findViewById(R.id.order_history_listview);
-        historyListView.setAdapter(adapter);
+        final OrderViewAdapter adapter = refreshView();
 
         TextView emptyText = (TextView)findViewById(R.id.order_history_empty);
         historyListView.setEmptyView(emptyText);
@@ -84,7 +75,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
-        currentUserName = (TextView) header.findViewById(R.id.current_user_name);
+        TextView currentUserName = (TextView) header.findViewById(R.id.current_user_name);
         String currentUserNameStr = " " + user.getName();
         currentUserName.setText(currentUserNameStr);
 
@@ -92,15 +83,13 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
     private void setUpNavigationView() {
         navigationView = (NavigationView) findViewById(R.id.navList);
-
-
         // Disabling menu-item for this activity and admin options for non-admin users
         navigationView.getMenu().findItem(R.id.navDrawer_orderhistory).setVisible(false);
+
         if (!user.getIsAdmin()) {
             navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
             navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
         }
-
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -134,21 +123,17 @@ public class OrderHistoryActivity extends AppCompatActivity {
                         startActivity(intent);
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
-
-
                 }
                 return false;
             }
         });
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -176,13 +161,15 @@ public class OrderHistoryActivity extends AppCompatActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    //TODO Check if method works
-    public void refreshView() {
+    /**
+     * Refreshes the ListView by looking for delivered Order objects and sets the adapter once again.
+     */
+    public OrderViewAdapter refreshView() {
         List<Order> deliveredOrders = new ArrayList<>();
 
-        for (int i = 0; i < db.getAllOrders().size(); i++) {
-            if (db.getAllOrders().get(i).getIsDelivered()) {
-                deliveredOrders.add(db.getAllOrders().get(i));
+        for (int i = 0; i < allOrders.size(); i++) {
+            if (allOrders.get(i).getIsDelivered()) {
+                deliveredOrders.add(allOrders.get(i));
             }
         }
 
@@ -191,5 +178,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
         historyListView = (ListView) findViewById(R.id.order_history_listview);
         historyListView.setAdapter(adapter);
         Log.d(TAG, "ListView refreshed");
+        return adapter;
     }
 }
