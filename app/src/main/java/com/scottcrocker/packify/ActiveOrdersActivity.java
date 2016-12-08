@@ -21,9 +21,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.scottcrocker.packify.controller.OrderViewAdapter;
-import com.scottcrocker.packify.helper.OrderHandlerHelper;
+import com.scottcrocker.packify.helper.ActiveOrdersHelper;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
+
+import java.util.List;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
@@ -39,7 +41,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView navigationView;
-    private OrderHandlerHelper orderHandlerHelper = new OrderHandlerHelper();
+    private ActiveOrdersHelper activeOrdersHelper = new ActiveOrdersHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         }
         getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
-        orderHandlerHelper.updateOrdersDisplayed();
+        activeOrdersHelper.updateOrdersDisplayed();
         View header = navigationView.getHeaderView(0);
 
         TextView emptyTextTV = (TextView)findViewById(R.id.active_orders_empty);
@@ -93,7 +95,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        orderHandlerHelper.updateOrdersDisplayed();
+        activeOrdersHelper.updateOrdersDisplayed();
         refreshView();
     }
 
@@ -166,7 +168,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         }
 
         if (item.getItemId() == R.id.toolbar_update_order) {
-            orderHandlerHelper.updateOrdersDisplayedAndDelivered();
+            activeOrdersHelper.updateOrdersDisplayedAndDelivered();
             refreshView();
             return true;
         } else {
