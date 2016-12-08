@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -75,11 +74,11 @@ public class NewUserActivity extends AppCompatActivity {
                 //IsValidInput is false;
             }
         } else{
-            Toast.makeText(getApplicationContext(), "Användar-ID finns redan!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Användar-ID finns redan", Toast.LENGTH_LONG).show();
         }
 
 
         isValidInput.clear();
 
     }
-}/////////////////////////////////////////////////////
+}

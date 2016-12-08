@@ -1,49 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/new_user_element"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10px">
+    android:padding="10sp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="20dp"
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:text="@string/new_user_add" />
 
         <EditText
             android:id="@+id/input_new_user_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/new_user_name"
             android:inputType="text" />
 
         <EditText
             android:id="@+id/input_new_user_id"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/new_userid"
+            android:hint="@string/new_user_id"
             android:inputType="number" />
 
         <EditText
             android:id="@+id/input_new_user_pass"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/new_user_password"
             android:inputType="textPassword" />
 
         <EditText
             android:id="@+id/input_new_user_phonenr"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/new_user_phonenumber"
             android:inputType="phone" />
@@ -52,28 +50,35 @@
             android:id="@+id/is_new_admin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10sp"
+            android:layout_gravity="end"
             android:text="@string/new_user_is_admin" />
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal|bottom"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/add_new_user_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40sp"
             android:onClick="addNewUser"
-            android:text="@string/new_user_add_button" />
+            android:layout_marginRight="5sp"
+            android:layout_marginEnd="5sp"
+            android:text="@string/new_user_add_button"
+            android:textColor="@color/colorAccent"
+            android:background="@drawable/button_style"/>
 
         <Button
             android:id="@+id/cancel_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="3sp"
+            android:layout_height="40sp"
             android:onClick="cancelBtn"
-            android:text="@string/new_user_cancel_button" />
+            android:text="@string/new_user_cancel_button"
+            android:textColor="@color/colorAccent"
+            android:background="@drawable/button_style"/>
     </LinearLayout>
 </LinearLayout>

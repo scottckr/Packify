@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/login_logo"
     android:paddingBottom="@dimen/activity_vertical_outer_margin"
     android:paddingLeft="@dimen/activity_horizontal_outer_margin"
     android:paddingRight="@dimen/activity_horizontal_outer_margin"
@@ -15,53 +16,46 @@
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
 
-        <TextView
-            android:id="@+id/login_activity_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:text="@string/login_activity_title" />
-
         <EditText
             android:id="@+id/input_login_id"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:ems="10"
-            android:hint="@string/input_userid"
-            android:inputType="number" />
+            android:hint="@string/input_user_id"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:layout_marginBottom="5sp"
+            android:background="@drawable/edittext_style"/>
 
         <EditText
             android:id="@+id/input_login_password"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/input_login_id"
-            android:layout_alignStart="@+id/input_login_id"
-            android:layout_below="@+id/input_login_id"
             android:ems="10"
             android:hint="@string/input_password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textAlignment="center"
+            android:layout_marginBottom="10sp"
+            android:background="@drawable/edittext_style"/>
 
         <Button
             android:id="@+id/btn_login_submit"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/input_login_password"
-            android:layout_centerHorizontal="true"
             android:background="@drawable/button_style"
             android:onClick="loginValidation"
-            android:text="@string/btn_login_submit" />
-    </RelativeLayout>
+            android:text="@string/btn_login_submit"
+            android:textColor="@color/colorAccent" />
+    </LinearLayout>
 </LinearLayout>

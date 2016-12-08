@@ -10,6 +10,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,9 +23,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.SupportMapFragment;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
 
@@ -32,11 +35,18 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
 
 
-public class SpecificOrderActivity extends AppCompatActivity {
+public class SpecificOrderActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     SharedPreferences sharedPreferences;
     private static final String TAG = "SpecificOrderActivity";
@@ -68,6 +78,8 @@ public class SpecificOrderActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     TextView currentUserName;
     NavigationView navigationView;
+    SupportMapFragment mapFragment;
+    GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +96,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
         user = db.getUser(currentUserId);
         orderNumber = getIntent().getIntExtra("ORDERNO", 0);
         specificOrder = db.getOrder(orderNumber);
-        refreshView();
+
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_specific_order);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
@@ -95,7 +107,18 @@ public class SpecificOrderActivity extends AppCompatActivity {
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
         currentUserName = (TextView) header.findViewById(R.id.current_user_name);
-        currentUserName.setText(user.getName());
+        String currentUserNameStr = " " + user.getName();
+        currentUserName.setText(currentUserNameStr);
+
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        if (specificOrder.getIsDelivered()) {
+            mapFragment.getView().setVisibility(View.GONE);
+        }
+
+        refreshView();
     }
 
     private void setUpNavigationView() {
@@ -116,26 +139,31 @@ public class SpecificOrderActivity extends AppCompatActivity {
                     case R.id.navDrawer_settings:
                         intent = new Intent(SpecificOrderActivity.this, SettingsActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_userhandler:
                         intent = new Intent(SpecificOrderActivity.this, UserHandlerActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_orderhandler:
                         intent = new Intent(SpecificOrderActivity.this, OrderHandlerActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_activeorders:
                         intent = new Intent(SpecificOrderActivity.this, ActiveOrdersActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_orderhistory:
                         intent = new Intent(SpecificOrderActivity.this, OrderHistoryActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
 
@@ -158,7 +186,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
                 String currentDate = df.format(Calendar.getInstance().getTime());
                 specificOrder.setIsDelivered(true);
                 specificOrder.setDeliveryDate(currentDate);
-                specificOrder.setDeliveredBy(currentUserId);
+                specificOrder.setDeliveredBy("" + db.getUser(currentUserId).getId() + ", " + db.getUser(currentUserId).getName());
                 specificOrder.setSignature(data.getByteArrayExtra("SIGNATURE"));
 
                 db.editOrder(specificOrder);
@@ -173,12 +201,6 @@ public class SpecificOrderActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        menu.getItem(2).setVisible(false);
-        // TODO: Delete items from toolbar_menu.xml after implementing the navDrawer on all activities
-        menu.getItem(1).setVisible(false);
-        menu.getItem(3).setVisible(false);
-        menu.getItem(4).setVisible(false);
-        menu.getItem(5).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -202,19 +224,42 @@ public class SpecificOrderActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
     }
 
-    //What's this? What's this? Whaaaaaat iiiiiiiis thiiiiiiis?
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+            mMap = googleMap;
+            LatLng pos = new LatLng(specificOrder.getLatitude(), specificOrder.getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14));
+            mMap.addMarker(new MarkerOptions().position(pos).title(specificOrder.getAddress()));
+            mMap.getUiSettings().setAllGesturesEnabled(false);
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    openMaps();
+                }
+            });
+    }
 
+    public void openMaps() {
+        String uri = "geo:" + specificOrder.getLatitude() + "," + specificOrder.getLongitude() +
+                "?q=" + specificOrder.getAddress() + ", " + specificOrder.getPostAddress();
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        intent.setPackage("com.google.android.apps.maps");
+        startActivity(intent);
+    }
 
     public void deliverOrder(View view) {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         String sharedPhoneNumber = sharedPreferences.getString("number", "");
         if (sharedPhoneNumber.equals("")) {
-            Toast.makeText(this, "Du måste fylla i ett telefonnummer i inställningar!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            Toast.makeText(this, "Fyll i ett telefonnummer i inställningar", Toast.LENGTH_SHORT).show();
         } else {
             Intent intent = new Intent(this, SignatureActivity.class);
             startActivityForResult(intent, 1);
@@ -230,6 +275,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
     }
 
     public void refreshView() {
+        specificOrder = db.getOrder(orderNumber);
         orderNumTv = (TextView) findViewById(R.id.order_number);
         orderNumStr = getString(R.string.order_number) + " " + specificOrder.getOrderNo();
         orderNumTv.setText(orderNumStr);
@@ -261,7 +307,7 @@ public class SpecificOrderActivity extends AppCompatActivity {
             deliveryDateTv.setVisibility(View.VISIBLE);
 
             deliveredByTv = (TextView) findViewById(R.id.delivered_by);
-            deliveredByStr = getString(R.string.delivered_by) + " " + specificOrder.getDeliveredBy() + ", " + db.getUser(specificOrder.getDeliveredBy()).getName();
+            deliveredByStr = getString(R.string.delivered_by) + " " + specificOrder.getDeliveredBy();
             deliveredByTv.setText(deliveredByStr);
             deliveredByTv.setVisibility(View.VISIBLE);
 
@@ -272,27 +318,30 @@ public class SpecificOrderActivity extends AppCompatActivity {
             receivedByTv.setVisibility(View.VISIBLE);
 
             signatureIv = (ImageView) findViewById(R.id.signature_imageview);
-            signature = BitmapFactory.decodeByteArray(specificOrder.getSignature(), 0, specificOrder.getSignature().length);
+            if (specificOrder.getSignature() != null) {
+                signature = BitmapFactory.decodeByteArray(specificOrder.getSignature(), 0, specificOrder.getSignature().length);
+            } else {
+                signature = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.no_signature);
+            }
             signatureIv.setImageBitmap(signature);
+            signatureIv.setVisibility(View.VISIBLE);
         } else {
             deliveryDateTv = (TextView) findViewById(R.id.delivery_date);
-            deliveryDateTv.setVisibility(View.INVISIBLE);
+            deliveryDateTv.setVisibility(View.GONE);
 
             receivedByTv = (TextView) findViewById(R.id.received_by);
-            receivedByTv.setVisibility(View.INVISIBLE);
+            receivedByTv.setVisibility(View.GONE);
 
             deliveredByTv = (TextView) findViewById(R.id.delivered_by);
-            deliveredByTv.setVisibility(View.INVISIBLE);
+            deliveredByTv.setVisibility(View.GONE);
+
+            signatureIv = (ImageView) findViewById(R.id.signature_imageview);
+            signatureIv.setVisibility(View.GONE);
         }
         Log.d(TAG, "View refreshed");
     }
 
     public void openNavigation(View view) {
-        String uri = "geo:" + specificOrder.getLatitude() + "," + specificOrder.getLongitude() +
-                "?q=" + specificOrder.getAddress();
-
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        intent.setPackage("com.google.android.apps.maps");
-        startActivity(intent);
+        openMaps();
     }
 }

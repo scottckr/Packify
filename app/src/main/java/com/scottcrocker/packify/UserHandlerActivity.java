@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.controller.NothingSelectedSpinnerAdapter;
 import com.scottcrocker.packify.helper.ValidationHelper;
 import com.scottcrocker.packify.model.User;
 
@@ -42,14 +44,14 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     TextView inputUserId;
     List<Boolean> isValidInput = new ArrayList<>();
 
+    ArrayAdapter<User> dataAdapter;
+
     Switch toggle;
 
     Button saveEditedUserBtn;
     Button deleteUserBtn;
     List<User> users;
     User user;
-    //Variable "currentUser" is only called that because of "user" being used later in code - must be changed
-    User currentUser;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     TextView currentUserName;
@@ -65,8 +67,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         setContentView(R.layout.activity_user_handler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        currentUser = db.getUser(currentUserId);
+        user = db.getUser(currentUserId);
 
         inputName = (EditText) findViewById(R.id.input_user_name);
         inputPassword = (EditText) findViewById(R.id.input_user_password);
@@ -79,6 +80,11 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         saveEditedUserBtn = (Button) findViewById(R.id.btn_save_existing_user);
         deleteUserBtn = (Button) findViewById(R.id.btn_delete_user);
+
+        inputName.setEnabled(false);
+        inputPassword.setEnabled(false);
+        inputPhoneNr.setEnabled(false);
+        toggle.setEnabled(false);
 
         mSpinner = (Spinner) findViewById(R.id.spinner_user_id);
         mSpinner.setOnItemSelectedListener(this);
@@ -93,7 +99,8 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
         currentUserName = (TextView) header.findViewById(R.id.current_user_name);
-        currentUserName.setText(currentUser.getName());
+        String currentUserNameStr = " " + user.getName();
+        currentUserName.setText(currentUserNameStr);
     }
 
     private void setUpNavigationView() {
@@ -101,7 +108,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         // Disabling menu-item for this activity and admin options for non-admin users
         navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
-        if (!currentUser.getIsAdmin()) {
+        if (!user.getIsAdmin()) {
             navigationView.getMenu().findItem(R.id.navDrawer_admin_orderhandler).setVisible(false);
             navigationView.getMenu().findItem(R.id.navDrawer_admin_userhandler).setVisible(false);
         }
@@ -116,21 +123,25 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
                     case R.id.navDrawer_settings:
                         intent = new Intent(UserHandlerActivity.this, SettingsActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_orderhandler:
                         intent = new Intent(UserHandlerActivity.this, OrderHandlerActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_activeorders:
                         intent = new Intent(UserHandlerActivity.this, ActiveOrdersActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_orderhistory:
                         intent = new Intent(UserHandlerActivity.this, OrderHistoryActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
 
@@ -159,7 +170,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         mDrawerToggle.syncState();
     }
 
-    //What's this? What's this? Whaaaaaat iiiiiiiis thiiiiiiis?
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -181,33 +191,43 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
         users = db.getAllUsers();
 
-        ArrayAdapter<User> dataAdapter = new ArrayAdapter<>(this,
+        dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, users);
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setPrompt("Välj en användare...");
 
         // attaching data adapter to spinner
-        mSpinner.setAdapter(dataAdapter);
+        mSpinner.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapter, R.layout.spinner_row_nothing_selected, this));
     }
 
+    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position,
                                long id) {
         // On selecting a spinner item
 
         user = (User) parent.getItemAtPosition(position);
         // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "You selected: " + user,
-                Toast.LENGTH_LONG).show();
-
-        populateInputFields();
-
+        //Toast.makeText(parent.getContext(), "You selected: " + user, Toast.LENGTH_LONG).show();
+        if (position != 0) {
+            inputName.setEnabled(true);
+            inputPassword.setEnabled(true);
+            inputPhoneNr.setEnabled(true);
+            toggle.setEnabled(true);
+            populateInputFields();
+        } else {
+            inputName.setEnabled(false);
+            inputPassword.setEnabled(false);
+            inputPhoneNr.setEnabled(false);
+            toggle.setEnabled(false);
+        }
     }
 
     private void populateInputFields() {
 
         inputName.setText(user.getName());
-        inputUserId.setText("ID:" + String.valueOf(user.getId()));
+        inputUserId.setText("ID: " + String.valueOf(user.getId()));
         inputPassword.setText(user.getPassword());
         inputPhoneNr.setText(String.valueOf(user.getTelephone()));
         toggle.setChecked(user.getIsAdmin());
@@ -215,29 +235,33 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     }
 
     public void saveEditedUser(View view) {
-        if (user.getId() != 0) {
-            String editedName = String.valueOf(inputName.getText());
-            isValidInput.add(validationHelper.validateInputText(editedName, "Namn" ,this));
+        if (user != mSpinner.getItemAtPosition(0)) {
+            if (user.getId() == 0) {
+                refreshView();
+                Toast.makeText(getApplicationContext(), "Otillåtet att ändra denna användare", Toast.LENGTH_LONG).show();
+            } else {
+                String editedName = String.valueOf(inputName.getText());
+                isValidInput.add(validationHelper.validateInputText(editedName, "Namn" ,this));
 
-            String editedPassword = String.valueOf(inputPassword.getText());
-            isValidInput.add(validationHelper.validateInputText(editedPassword, "Lösenord" ,this));
+                String editedPassword = String.valueOf(inputPassword.getText());
+                isValidInput.add(validationHelper.validateInputText(editedPassword, "Lösenord" ,this));
 
-            String editedPhoneNr = String.valueOf(inputPhoneNr.getText());
-            isValidInput.add(validationHelper.validateInputPhoneNr(editedPhoneNr, "Telefonnummer" ,this));
+                String editedPhoneNr = String.valueOf(inputPhoneNr.getText());
+                isValidInput.add(validationHelper.validateInputPhoneNr(editedPhoneNr, "Telefonnummer" ,this));
 
-            if(validationHelper.isAllTrue(isValidInput)){
-                user.setName(String.valueOf(inputName.getText()));
-                user.setPassword(String.valueOf(inputPassword.getText()));
-                user.setTelephone(String.valueOf(inputPhoneNr.getText()));
-                user.setIsAdmin(toggle.isChecked());
-                db.editUser(user);
-                Toast.makeText(getApplicationContext(), "Användaruppgifter uppdaterade", Toast.LENGTH_SHORT).show();
-                recreate();
+                if(validationHelper.isAllTrue(isValidInput)){
+                    user.setName(String.valueOf(inputName.getText()));
+                    user.setPassword(String.valueOf(inputPassword.getText()));
+                    user.setTelephone(String.valueOf(inputPhoneNr.getText()));
+                    user.setIsAdmin(toggle.isChecked());
+                    db.editUser(user);
+                    Toast.makeText(getApplicationContext(), "Användaruppgifter uppdaterade", Toast.LENGTH_SHORT).show();
+                }
+                isValidInput.clear();
             }
-            isValidInput.clear();
-        } else {
-            recreate();
-            Toast.makeText(getApplicationContext(), "Du kan inte redigera huvudadminkontot!", Toast.LENGTH_LONG).show();
+        } else if (user == mSpinner.getItemAtPosition(0)) {
+            refreshView();
+            Toast.makeText(getApplicationContext(), "Du måste välja en användare!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -252,17 +276,34 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
      *
      * @param view
      */
-    // TODO: method shall delete user information in database
     public void deleteUser(View view) {
         Log.d("DELETEUSER", "" + user);
-        if (user.getId() != currentUserId || user.getId() != 0 ) {
-            db.deleteUser(user);
-            Toast.makeText(this, user.getName() + " deleted.", Toast.LENGTH_SHORT).show();
-            recreate();
-        } else {
-            Toast.makeText(this, "You cannot delete yourself or the main admin account!", Toast.LENGTH_LONG).show();
+        if (user != mSpinner.getItemAtPosition(0)) {
+            if (user.getId() == 0 || user.getId() == currentUserId) {
+                refreshView();
+                Toast.makeText(getApplicationContext(), "Otillåtet att radera denna användare", Toast.LENGTH_LONG).show();
+            } else {
+                db.deleteUser(user);
+                Toast.makeText(this, user.getName() + " raderad.", Toast.LENGTH_SHORT).show();
+                refreshView();
+                loadSpinnerData();
+            }
+        } else if (user == mSpinner.getItemAtPosition(0)) {
+            refreshView();
+            Toast.makeText(getApplicationContext(), "Du måste välja en användare!", Toast.LENGTH_LONG).show();
         }
     }
+
+
+    public void refreshView() {
+        mSpinner.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapter, R.layout.spinner_row_nothing_selected, this));
+        inputName.setText("");
+        inputPassword.setText("");
+        inputPhoneNr.setText("");
+        inputUserId.setText("");
+        toggle.setChecked(false);
+    }
+
 
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub

@@ -10,7 +10,6 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -61,14 +60,14 @@ public class LoginActivity extends AppCompatActivity {
 
         inputIdEt = (EditText) findViewById(R.id.input_login_id);
         String inputId = inputIdEt.getText().toString();
-        isValidInput.add(validationHelper.validateInputNumber(inputId, "Användar id" ,this));
+        isValidInput.add(validationHelper.validateInputNumber(inputId, "Användar-ID" ,this));
 
         inputPasswordEt = (EditText) findViewById(R.id.input_login_password);
         String inputPassword = inputPasswordEt.getText().toString();
-        isValidInput.add(validationHelper.validateInputText(inputPassword, "Lösenord" ,this));
+        isValidInput.add(validationHelper.validateInputText(inputPassword, "Lösenord", this));
         userExist = false;
         int currentUserId;
-        if (validationHelper.isAllTrue(isValidInput)){
+        if (validationHelper.isAllTrue(isValidInput)) {
 
             for (int i = 0; i < db.getAllUsers().size(); i++) {
                 if (db.getAllUsers().get(i).getId() == Integer.parseInt(inputId)) {
@@ -81,16 +80,17 @@ public class LoginActivity extends AppCompatActivity {
                         Intent intent = new Intent(this, MainActivity.class);
                         startActivity(intent);
                         isValidInput.clear();
+                        finish();
                     } else {
-                        Toast.makeText(this, "Lösenordet är felaktigt!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Felaktigt lösenord, försök igen", Toast.LENGTH_SHORT).show();
                         editor.putBoolean("isLoggedIn", false);
                         editor.apply();
                         inputPasswordEt.setText("");
                     }
                 }
-
-            }if(!userExist){
-                Toast.makeText(this, "Användarnamnet är felaktigt!", Toast.LENGTH_SHORT).show();
+            }
+            if (!userExist) {
+                Toast.makeText(this, "Felaktigt användarnamn, försök igen", Toast.LENGTH_SHORT).show();
                 editor.putBoolean("isLoggedIn", false);
                 editor.apply();
                 inputPasswordEt.setText("");

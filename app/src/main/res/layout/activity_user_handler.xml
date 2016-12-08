@@ -33,30 +33,23 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/register_user"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:paddingBottom="5dp"
-                android:text="@string/register_user" />
-
             <Spinner
                 android:id="@+id/spinner_user_id"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                style="@style/Base.Widget.AppCompat.Spinner.Underlined"/>
 
             <TextView
                 android:id="@+id/input_user_id"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/input_user_id"
-                android:inputType="number"
                 android:maxLength="9"
-                android:paddingBottom="5dp"
-                android:text="ID:" />
+                android:layout_marginTop="5sp"
+                android:layout_marginLeft="5sp"
+                android:layout_marginStart="5sp"
+                android:text="ID: " />
 
             <EditText
                 android:id="@+id/input_user_name"
@@ -106,18 +99,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/button_style"
                 android:onClick="saveEditedUser"
-                android:text="@string/btn_submit_user" />
+                android:layout_marginEnd="5sp"
+                android:layout_marginRight="5sp"
+                android:text="@string/btn_submit"
+                android:textColor="@color/colorAccent"
+                android:background="@drawable/button_style"/>
 
             <Button
                 android:id="@+id/btn_delete_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/button_style"
                 android:onClick="deleteUser"
-                android:text="@string/btn_delete_user" />
+                android:text="@string/btn_delete"
+                android:textColor="@color/colorAccent"
+                android:background="@drawable/button_style"/>
         </LinearLayout>
 
         <Button
@@ -127,8 +124,11 @@
             android:layout_above="@+id/linearLayout"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_marginBottom="5sp"
             android:onClick="callPopup"
-            android:text="@string/add_new_user" />
+            android:text="@string/btn_add_new_user"
+            android:textColor="@color/darkBackground"
+            android:background="@drawable/button_style_2"/>
     </RelativeLayout>
     </LinearLayout>
 

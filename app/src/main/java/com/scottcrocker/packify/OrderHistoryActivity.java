@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -81,7 +82,8 @@ public class OrderHistoryActivity extends AppCompatActivity {
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
         currentUserName = (TextView) header.findViewById(R.id.current_user_name);
-        currentUserName.setText(user.getName());
+        String currentUserNameStr = " " + user.getName();
+        currentUserName.setText(currentUserNameStr);
 
     }
 
@@ -106,24 +108,28 @@ public class OrderHistoryActivity extends AppCompatActivity {
                     case R.id.navDrawer_settings:
                         intent = new Intent(OrderHistoryActivity.this, SettingsActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
 
                     case R.id.navDrawer_admin_userhandler:
                         intent = new Intent(OrderHistoryActivity.this, UserHandlerActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
 
                     case R.id.navDrawer_admin_orderhandler:
                         intent = new Intent(OrderHistoryActivity.this, OrderHandlerActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
 
                     case R.id.navDrawer_activeorders:
                         intent = new Intent(OrderHistoryActivity.this, ActiveOrdersActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
 
@@ -137,12 +143,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        menu.getItem(2).setVisible(false);
-        // TODO: Delete items from toolbar_menu.xml after implementing the navDrawer on all activities
-        menu.getItem(1).setVisible(false);
-        menu.getItem(3).setVisible(false);
-        menu.getItem(4).setVisible(false);
-        menu.getItem(5).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -167,7 +167,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
     }
 
-    //What's this? What's this? Whaaaaaat iiiiiiiis thiiiiiiis?
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

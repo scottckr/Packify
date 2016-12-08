@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.helper.OrderHandlerHelper;
 import com.scottcrocker.packify.helper.ValidationHelper;
 import com.scottcrocker.packify.model.User;
 
@@ -46,6 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
     NavigationView navigationView;
     ValidationHelper validationHelper = new ValidationHelper();
     List<Boolean> isValidInput = new ArrayList<>();
+    OrderHandlerHelper orderHandlerHelper = new OrderHandlerHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +79,8 @@ public class SettingsActivity extends AppCompatActivity {
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
         currentUserName = (TextView) header.findViewById(R.id.current_user_name);
-        currentUserName.setText(user.getName());
+        String currentUserNameStr = " " + user.getName();
+        currentUserName.setText(currentUserNameStr);
     }
 
     private void setUpNavigationView() {
@@ -97,21 +102,25 @@ public class SettingsActivity extends AppCompatActivity {
                     case R.id.navDrawer_activeorders:
                         intent = new Intent(SettingsActivity.this, ActiveOrdersActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_userhandler:
                         intent = new Intent(SettingsActivity.this, UserHandlerActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_orderhandler:
                         intent = new Intent(SettingsActivity.this, OrderHandlerActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_orderhistory:
                         intent = new Intent(SettingsActivity.this, OrderHistoryActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
 
@@ -186,7 +195,10 @@ public class SettingsActivity extends AppCompatActivity {
             editor.putString("seekBarValue", savedSeekBarValue);
             editor.putString("number", savedPhoneNumber);
             editor.apply();
-            Toast.makeText(this, "Dina inställningar är sparade", Toast.LENGTH_SHORT).show();
+            orderHandlerHelper.setSeekBarValue(Integer.parseInt(savedSeekBarValue));
+            orderHandlerHelper.updateOrdersDisplayed();
+            Toast.makeText(this, "Inställningar sparade", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 
@@ -218,5 +230,8 @@ public class SettingsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        // Kills all activities in backstack
+        ActivityCompat.finishAffinity(SettingsActivity.this);
+        finish();
     }
 }
