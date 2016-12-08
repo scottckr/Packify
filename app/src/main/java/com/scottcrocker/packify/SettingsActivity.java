@@ -31,7 +31,6 @@ import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 public class SettingsActivity extends AppCompatActivity {
 
     SeekBar seekBar;
-    private int seekBarMax = 30;
     private int seekBarMin = 5;
     private int seekBarStep = 1;
     TextView valueOfSeekBarTV;
@@ -64,6 +63,7 @@ public class SettingsActivity extends AppCompatActivity {
         phoneNumberET = (EditText) findViewById(R.id.sms_number);
 
         loadSavedSettings();
+        int seekBarMax = 30;
         seekBar.setMax((seekBarMax - seekBarMin) / seekBarStep);
         onSeekBarChanges();
 
@@ -119,14 +119,11 @@ public class SettingsActivity extends AppCompatActivity {
                         startActivity(intent);
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         return true;
-
-
                 }
                 return false;
             }
         });
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -147,16 +144,12 @@ public class SettingsActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
     }
 
-    //What's this? What's this? Whaaaaaat iiiiiiiis thiiiiiiis?
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    /**
-     * onSeekBarChanges senses when you change the value and displays it in textview field above the bar.
-     */
     private void onSeekBarChanges() {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -177,9 +170,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     /**
      * onSaveSettings saves the settings made by the user in shared preferences called PackifySharedPreferences.
-     * If the user input is valid it shows a confirm message. Else it shows or a warning message.
+     * If the user input is valid a confirm message is displayed.
      *
-     * @param view
+     * @param view The view component that is executed by click handler.
      */
     public void onSaveSettings(View view) {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
@@ -201,7 +194,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     /**
-     * loadSavedSettings gather the users most recent settings and updates the fields.
+     * loadSavedSettings gathers the users most recent settings and updates the fields.
      */
     public void loadSavedSettings() {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
@@ -217,7 +210,7 @@ public class SettingsActivity extends AppCompatActivity {
      * logout sends the user back to the loginActivity.
      * It also clears the username and password saved in shared preferences.
      *
-     * @param view
+     * @param view The view component that is executed by click handler.
      */
     public void logout(View view) {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
