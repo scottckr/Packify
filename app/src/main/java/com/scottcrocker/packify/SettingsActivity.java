@@ -200,7 +200,6 @@ public class SettingsActivity extends AppCompatActivity {
             editor.apply();
             Toast.makeText(this, getResources().getString(R.string.toast_settings_saved), Toast.LENGTH_SHORT).show();
             orderHandlerHelper.setSeekBarValue(Integer.parseInt(savedSeekBarValue));
-            orderHandlerHelper.updateOrdersDisplayed();
             Toast.makeText(this, "Inställningar sparade", Toast.LENGTH_SHORT).show();
             finish();
         }
