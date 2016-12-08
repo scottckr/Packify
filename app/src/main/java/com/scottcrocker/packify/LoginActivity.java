@@ -13,23 +13,21 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.scottcrocker.packify.helper.ValidationHelper;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.scottcrocker.packify.MainActivity.validationHelper;
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
 
+/**
+ * Login activity, let's the user sign in to the app.
+ */
 public class LoginActivity extends AppCompatActivity {
 
-    EditText inputPasswordEt;
-    EditText inputIdEt;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-    ValidationHelper validationHelper = new ValidationHelper();
-    List<Boolean> isValidInput = new ArrayList<>();
-    boolean userExist = false;
+    private EditText inputPasswordEt;
+    private List<Boolean> isValidInput = new ArrayList<>();
+    private boolean userExist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        userExist = false;
 
         inputPasswordEt = (EditText) findViewById(R.id.input_login_password);
         inputPasswordEt.setTypeface(Typeface.DEFAULT);
@@ -54,11 +53,16 @@ public class LoginActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * This method validates the user input in the login fields. If valid, the user is logged in and
+     * ActiveOrder is started via Main.
+     * @param view The view component that is executed by click handler.
+     */
     public void loginValidation(View view) {
-        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        inputIdEt = (EditText) findViewById(R.id.input_login_id);
+        EditText inputIdEt = (EditText) findViewById(R.id.input_login_id);
         String inputId = inputIdEt.getText().toString();
         isValidInput.add(validationHelper.validateInputNumber(inputId, "Användar-ID" ,this));
 
