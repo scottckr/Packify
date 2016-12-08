@@ -5,7 +5,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.scottcrocker.packify.MainActivity;
-import com.scottcrocker.packify.OrderHandlerActivity;
 
 import java.util.List;
 
@@ -15,9 +14,18 @@ import static android.content.ContentValues.TAG;
  * Created by mavve on 2016-11-28.
  */
 
+
+
 public class ValidationHelper {
 
-    //Denna kommer säkert inte behövas när orderhandler får en popup...
+    /**
+     * Returns a boolean to check if an order exists in database
+     * if the order does not exist it sets validAction to false and displays a Toast messsage for the user
+     *
+     * @param context needs a context to know where to show the toast
+     * @param orderNo needs an order number to check
+     * @return a boolean that is either true or false depending on if the order does exist.
+     */
     public static boolean orderExist(Context context, String orderNo){
         boolean validAction = true;
 
@@ -28,6 +36,12 @@ public class ValidationHelper {
         return validAction;
     }
 
+    /**
+     * This method checks all booleans in an ArrayList and returns a boolean.
+     *
+     * @param isAllValid requires a list of Booleans.
+     * @return true only if all the other booleans are true.
+     */
     public static boolean isAllTrue(List<Boolean> isAllValid){
         for(boolean isValid : isAllValid){
             if(!isValid){
@@ -37,6 +51,16 @@ public class ValidationHelper {
         return true;
     }
 
+    /**
+     * This method is validating input for phone numbers it makes a simple RegEx check to see if
+     * the provided input is only containing numbers from 0-9 & is either 9 or 10 digits & that it is not null.
+     * The method displays a different toast depending on the result.
+     *
+     * @param input the input provided to check.
+     * @param fieldName this param is for the toast to write out where it is being shown.
+     * @param context needs a context to know where to show the toast.
+     * @return a boolean that is true or false depending on the result of the check.
+     */
     public boolean validateInputPhoneNr(String input, String fieldName ,Context context) {
         boolean validInput = true;
         if (input.matches("[0-9]{9,10}")) {
@@ -52,6 +76,16 @@ public class ValidationHelper {
         return validInput;
     }
 
+    /**
+     * This method is validating input for numbers it makes a simple RegEx check to see if
+     * the provided input is only containing numbers & that it is not null.
+     * The method displays a different toast depending on the result.
+     *
+     * @param input the input provided to check.
+     * @param fieldName this param is for the toast to write out where it is being shown.
+     * @param context needs a context to know where to show the toast.
+     * @return a boolean that is true or false depending on the result of the check.
+     */
     public boolean validateInputNumber(String input, String fieldName, Context context){
         boolean isValidInput = true;
         if (input.matches("^\\d{1,9}$")){
@@ -66,6 +100,16 @@ public class ValidationHelper {
         return isValidInput;
     }
 
+    /**
+     * This method is validating input for text it makes a check to see if
+     * the provided input is not null.
+     * The method displays a different toast depending on the result.
+     *
+     * @param input the input provided to check.
+     * @param fieldName this param is for the toast to write out where it is being shown.
+     * @param context needs a context to know where to show the toast.
+     * @return a boolean that is true or false depending on the result of the check.
+     */
     public boolean validateInputText(String input, String fieldName, Context context) {
         boolean validInput = true;
         if (input.equals("") || input == null) {

@@ -1,17 +1,10 @@
 package com.scottcrocker.packify.helper;
 
-import android.content.SharedPreferences;
-import android.support.annotation.Nullable;
-import android.util.Log;
-
-import com.scottcrocker.packify.MainActivity;
 import com.scottcrocker.packify.model.Order;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import static com.scottcrocker.packify.MainActivity.db;
 
@@ -190,20 +183,6 @@ public class OrderHandlerHelper {
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
     public void updateOrders(int amount){
