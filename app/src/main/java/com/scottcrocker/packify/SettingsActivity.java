@@ -29,21 +29,19 @@ import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    SeekBar seekBar;
+    private SeekBar seekBar;
     private int seekBarMin = 5;
     private int seekBarStep = 1;
-    TextView valueOfSeekBarTV;
-    EditText phoneNumberET;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-    User user;
-    int currentUserId;
+    private TextView valueOfSeekBarTV;
+    private EditText phoneNumberET;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private User user;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    TextView currentUserNameTV;
-    NavigationView navigationView;
-    ValidationHelper validationHelper = new ValidationHelper();
-    List<Boolean> isValidInput = new ArrayList<>();
+    private NavigationView navigationView;
+    private ValidationHelper validationHelper = new ValidationHelper();
+    private List<Boolean> isValidInput = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
-        currentUserId = sharedPreferences.getInt("USERID", -1);
+        int currentUserId = sharedPreferences.getInt("USERID", -1);
         user = db.getUser(currentUserId);
 
         seekBar = (SeekBar) findViewById(R.id.seek_bar);
@@ -73,7 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
-        currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
+        TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
         String currentUserNameStr = " " + user.getName();
         currentUserNameTV.setText(currentUserNameStr);
     }

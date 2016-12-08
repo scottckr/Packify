@@ -46,38 +46,15 @@ import static com.scottcrocker.packify.MainActivity.db;
 
 public class SpecificOrderActivity extends AppCompatActivity implements OnMapReadyCallback{
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
     private static final String TAG = "SpecificOrderActivity";
-    Order specificOrder;
-    int orderNumber;
-    TextView orderNumTV;
-    String orderNumStr;
-    TextView customerIdTV;
-    String customerIdStr;
-    TextView customerNameTV;
-    String customerNameStr;
-    TextView orderSumTV;
-    String orderSumStr;
-    TextView addressTV;
-    String addressStr;
-    TextView deliveryDateTV;
-    String deliveryDateStr;
-    Button btnDeliverOrder;
-    TextView deliveredByTV;
-    String deliveredByStr;
-    TextView postAddressTV;
-    String postAddressStr;
-    TextView receivedByTV;
-    User user;
-    int currentUserId;
-    ImageView signatureIV;
-    Bitmap signature;
+    private Order specificOrder;
+    private int orderNumber;
+    private User user;
+    private int currentUserId;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    TextView currentUserNameTV;
-    NavigationView navigationView;
-    SupportMapFragment mapFragment;
-    GoogleMap mMap;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,11 +80,11 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
-        currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
+        TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
         String currentUserNameStr = " " + user.getName();
         currentUserNameTV.setText(currentUserNameStr);
 
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -221,7 +198,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
-            mMap = googleMap;
+        GoogleMap mMap = googleMap;
             LatLng pos = new LatLng(specificOrder.getLatitude(), specificOrder.getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14));
             mMap.addMarker(new MarkerOptions().position(pos).title(specificOrder.getAddress()));
@@ -273,48 +250,53 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
 
     private void refreshView() {
         specificOrder = db.getOrder(orderNumber);
-        orderNumTV = (TextView) findViewById(R.id.order_number);
-        orderNumStr = getString(R.string.order_number) + " " + specificOrder.getOrderNo();
+        TextView orderNumTV = (TextView) findViewById(R.id.order_number);
+        String orderNumStr = getString(R.string.order_number) + " " + specificOrder.getOrderNo();
         orderNumTV.setText(orderNumStr);
 
-        customerIdTV = (TextView) findViewById(R.id.customer_id);
-        customerIdStr = getString(R.string.customer_id) + " " + specificOrder.getCustomerNo();
+        TextView customerIdTV = (TextView) findViewById(R.id.customer_id);
+        String customerIdStr = getString(R.string.customer_id) + " " + specificOrder.getCustomerNo();
         customerIdTV.setText(customerIdStr);
 
-        customerNameTV = (TextView) findViewById(R.id.customer_name);
-        customerNameStr = getString(R.string.customer_name) + " " + specificOrder.getCustomerName();
+        TextView customerNameTV = (TextView) findViewById(R.id.customer_name);
+        String customerNameStr = getString(R.string.customer_name) + " " + specificOrder.getCustomerName();
         customerNameTV.setText(customerNameStr);
 
-        orderSumTV = (TextView) findViewById(R.id.order_sum);
-        orderSumStr = getString(R.string.order_sum) + " " + specificOrder.getOrderSum() + " SEK";
+        TextView orderSumTV = (TextView) findViewById(R.id.order_sum);
+        String orderSumStr = getString(R.string.order_sum) + " " + specificOrder.getOrderSum() + " SEK";
         orderSumTV.setText(orderSumStr);
 
-        addressTV = (TextView) findViewById(R.id.address);
-        addressStr = getString(R.string.address) + " " + specificOrder.getAddress();
+        TextView addressTV = (TextView) findViewById(R.id.address);
+        String addressStr = getString(R.string.address) + " " + specificOrder.getAddress();
         addressTV.setText(addressStr);
 
-        postAddressTV = (TextView) findViewById(R.id.post_address);
-        postAddressStr = getString(R.string.post_address) + " " + specificOrder.getPostAddress();
+        TextView postAddressTV = (TextView) findViewById(R.id.post_address);
+        String postAddressStr = getString(R.string.post_address) + " " + specificOrder.getPostAddress();
         postAddressTV.setText(postAddressStr);
 
+        TextView deliveryDateTV;
+        TextView deliveredByTV;
+        TextView receivedByTV;
+        ImageView signatureIV;
         if (specificOrder.getIsDelivered()) {
             deliveryDateTV = (TextView) findViewById(R.id.delivery_date);
-            deliveryDateStr = getString(R.string.delivery_date) + " " + specificOrder.getDeliveryDate();
+            String deliveryDateStr = getString(R.string.delivery_date) + " " + specificOrder.getDeliveryDate();
             deliveryDateTV.setText(deliveryDateStr);
             deliveryDateTV.setVisibility(View.VISIBLE);
 
             deliveredByTV = (TextView) findViewById(R.id.delivered_by);
-            deliveredByStr = getString(R.string.delivered_by) + " " + specificOrder.getDeliveredBy();
+            String deliveredByStr = getString(R.string.delivered_by) + " " + specificOrder.getDeliveredBy();
             deliveredByTV.setText(deliveredByStr);
             deliveredByTV.setVisibility(View.VISIBLE);
 
-            btnDeliverOrder = (Button) findViewById(R.id.btn_deliver_order);
+            Button btnDeliverOrder = (Button) findViewById(R.id.btn_deliver_order);
             btnDeliverOrder.setEnabled(false);
 
             receivedByTV = (TextView) findViewById(R.id.received_by);
             receivedByTV.setVisibility(View.VISIBLE);
 
             signatureIV = (ImageView) findViewById(R.id.signature_imageview);
+            Bitmap signature;
             if (specificOrder.getSignature() != null) {
                 signature = BitmapFactory.decodeByteArray(specificOrder.getSignature(), 0, specificOrder.getSignature().length);
             } else {
