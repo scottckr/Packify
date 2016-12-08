@@ -188,11 +188,12 @@ public class SettingsActivity extends AppCompatActivity {
      * @param view The view component that is executed by click handler.
      */
     public void onSaveSettings(View view) {
+        isValidInput.clear();
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         editor = sharedPreferences.edit();
         String savedPhoneNumber = phoneNumberET.getText().toString();
         String savedSeekBarValue = valueOfSeekBarTV.getText().toString();
-        isValidInput.add(validationHelper.validateInputPhoneNr(savedPhoneNumber, "Telefonnummer" ,this));
+        isValidInput.add(validationHelper.validateInputPhoneNr(savedPhoneNumber, "Telefonnummer", this));
 
         if (validationHelper.isAllTrue(isValidInput)) {
             editor.putString("seekBarValue", savedSeekBarValue);
@@ -200,8 +201,6 @@ public class SettingsActivity extends AppCompatActivity {
             editor.apply();
             Toast.makeText(this, getResources().getString(R.string.toast_settings_saved), Toast.LENGTH_SHORT).show();
             activeOrdersHelper.setSeekBarValue(Integer.parseInt(savedSeekBarValue));
-            activeOrdersHelper.updateOrdersDisplayed();
-            Toast.makeText(this, "Inställningar sparade", Toast.LENGTH_SHORT).show();
             finish();
         }
     }

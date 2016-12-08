@@ -88,7 +88,10 @@ public class ValidationHelper {
         boolean isValidInput = true;
         if (input.matches("^\\d{1,9}$")) {
             Log.d(TAG, "Input for " + fieldName + " is valid");
-        } else if (input.equals(null)) {
+        } else if (input.length() > 10) {
+            isValidInput = false;
+            Toast.makeText(context, fieldName + " är för långt(1-9 siffror)", Toast.LENGTH_SHORT).show();
+        } else if (input.equals(null) || input.equals("")) {
             isValidInput = false;
             Toast.makeText(context, fieldName + " är tom", Toast.LENGTH_SHORT).show();
         } else {

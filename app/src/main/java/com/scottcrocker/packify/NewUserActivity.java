@@ -48,6 +48,7 @@ public class NewUserActivity extends AppCompatActivity {
     }
 
     public void addNewUser(View view) {
+        isValidInput.clear();
 
         String newUserId = inputNewUserId.getText().toString();
         if(!MainActivity.db.doesFieldExist("Users", "userId", newUserId)){
@@ -76,9 +77,5 @@ public class NewUserActivity extends AppCompatActivity {
         } else{
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_newuser_userid), Toast.LENGTH_LONG).show();
         }
-
-
-        isValidInput.clear();
-
     }
 }
