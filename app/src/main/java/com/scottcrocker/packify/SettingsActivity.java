@@ -18,6 +18,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.helper.OrderHandlerHelper;
 import com.scottcrocker.packify.helper.ValidationHelper;
 import com.scottcrocker.packify.model.User;
 
@@ -45,6 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
     NavigationView navigationView;
     ValidationHelper validationHelper = new ValidationHelper();
     List<Boolean> isValidInput = new ArrayList<>();
+    OrderHandlerHelper orderHandlerHelper = new OrderHandlerHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,6 +193,9 @@ public class SettingsActivity extends AppCompatActivity {
             editor.putString("number", savedPhoneNumber);
             editor.apply();
             Toast.makeText(this, getResources().getString(R.string.toast_settings_saved), Toast.LENGTH_SHORT).show();
+            orderHandlerHelper.setSeekBarValue(Integer.parseInt(savedSeekBarValue));
+            orderHandlerHelper.updateOrdersDisplayed();
+            Toast.makeText(this, "Inställningar sparade", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
