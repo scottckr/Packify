@@ -11,10 +11,8 @@ import java.util.List;
 import static android.content.ContentValues.TAG;
 
 /**
- * Created by mavve on 2016-11-28.
+ * ValidationHelper, validates various fields to make sure input is correct.
  */
-
-
 
 public class ValidationHelper {
 
@@ -26,10 +24,10 @@ public class ValidationHelper {
      * @param orderNo needs an order number to check
      * @return a boolean that is either true or false depending on if the order does exist.
      */
-    public static boolean orderExist(Context context, String orderNo){
+    public static boolean orderExist(Context context, String orderNo) {
         boolean validAction = true;
 
-        if (!MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)){
+        if (!MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
             Toast.makeText(context, "Order " + orderNo + " finns inte!", Toast.LENGTH_SHORT).show();
             validAction = false;
         }
@@ -42,9 +40,9 @@ public class ValidationHelper {
      * @param isAllValid requires a list of Booleans.
      * @return true only if all the other booleans are true.
      */
-    public static boolean isAllTrue(List<Boolean> isAllValid){
-        for(boolean isValid : isAllValid){
-            if(!isValid){
+    public static boolean isAllTrue(List<Boolean> isAllValid) {
+        for (boolean isValid : isAllValid) {
+            if (!isValid) {
                 return false;
             }
         }
@@ -56,12 +54,12 @@ public class ValidationHelper {
      * the provided input is only containing numbers from 0-9 & is either 9 or 10 digits & that it is not null.
      * The method displays a different toast depending on the result.
      *
-     * @param input the input provided to check.
+     * @param input     the input provided to check.
      * @param fieldName this param is for the toast to write out where it is being shown.
-     * @param context needs a context to know where to show the toast.
+     * @param context   needs a context to know where to show the toast.
      * @return a boolean that is true or false depending on the result of the check.
      */
-    public boolean validateInputPhoneNr(String input, String fieldName ,Context context) {
+    public boolean validateInputPhoneNr(String input, String fieldName, Context context) {
         boolean validInput = true;
         if (input.matches("[0-9]{9,10}")) {
             Log.d(TAG, "Input for phone nr is valid");
@@ -81,21 +79,21 @@ public class ValidationHelper {
      * the provided input is only containing numbers & that it is not null.
      * The method displays a different toast depending on the result.
      *
-     * @param input the input provided to check.
+     * @param input     the input provided to check.
      * @param fieldName this param is for the toast to write out where it is being shown.
-     * @param context needs a context to know where to show the toast.
+     * @param context   needs a context to know where to show the toast.
      * @return a boolean that is true or false depending on the result of the check.
      */
-    public boolean validateInputNumber(String input, String fieldName, Context context){
+    public boolean validateInputNumber(String input, String fieldName, Context context) {
         boolean isValidInput = true;
-        if (input.matches("^\\d{1,9}$")){
-            Log.d(TAG, "Input for "+fieldName+" is valid");
-        }else if(input.equals(null)){
+        if (input.matches("^\\d{1,9}$")) {
+            Log.d(TAG, "Input for " + fieldName + " is valid");
+        } else if (input.equals(null)) {
             isValidInput = false;
-            Toast.makeText(context, fieldName+" är tom", Toast.LENGTH_SHORT).show();
-        }else{
+            Toast.makeText(context, fieldName + " är tom", Toast.LENGTH_SHORT).show();
+        } else {
             isValidInput = false;
-            Toast.makeText(context, fieldName+" måste bestå av siffror!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, fieldName + " måste bestå av siffror!", Toast.LENGTH_SHORT).show();
         }
         return isValidInput;
     }
@@ -105,9 +103,9 @@ public class ValidationHelper {
      * the provided input is not null.
      * The method displays a different toast depending on the result.
      *
-     * @param input the input provided to check.
+     * @param input     the input provided to check.
      * @param fieldName this param is for the toast to write out where it is being shown.
-     * @param context needs a context to know where to show the toast.
+     * @param context   needs a context to know where to show the toast.
      * @return a boolean that is true or false depending on the result of the check.
      */
     public boolean validateInputText(String input, String fieldName, Context context) {
@@ -118,5 +116,4 @@ public class ValidationHelper {
         }
         return validInput;
     }
-
 }
