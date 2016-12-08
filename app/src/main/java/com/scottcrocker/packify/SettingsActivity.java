@@ -75,8 +75,15 @@ public class SettingsActivity extends AppCompatActivity {
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
         TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
-        String currentUserNameStr = " " + user.getName();
-        currentUserNameTV.setText(currentUserNameStr);
+        try {
+            String currentUserNameStr = " " + user.getName();
+            currentUserNameTV.setText(currentUserNameStr);
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(SettingsActivity.this);
+            startActivity(intent);
+        }
     }
 
     private void setUpNavigationView() {

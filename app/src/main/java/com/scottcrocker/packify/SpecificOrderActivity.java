@@ -82,8 +82,15 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
         TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
-        String currentUserNameStr = " " + user.getName();
-        currentUserNameTV.setText(currentUserNameStr);
+        try {
+            String currentUserNameStr = " " + user.getName();
+            currentUserNameTV.setText(currentUserNameStr);
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(SpecificOrderActivity.this);
+            startActivity(intent);
+        }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
