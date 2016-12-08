@@ -251,7 +251,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * @param view
      */
     public void editOrder(View view) {
-        if (!orderNoET.getText().toString().equals("")) {
+        if (!orderNoET.getText().toString().equals("") && db.doesFieldExist("Orders", "orderNo", orderNoET.getText().toString())) {
             orderInputValidation();
             Order order = db.getOrder(Integer.parseInt(orderNo));
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
@@ -266,8 +266,10 @@ public class OrderHandlerActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Order ändrad", Toast.LENGTH_SHORT).show();
             }
             isValidInput.clear();
-        } else {
-            Toast.makeText(this, "Du måste fylla i ett ordernummer!", Toast.LENGTH_LONG).show();
+        } else if (orderNoET.getText().toString().equals("")) {
+            Toast.makeText(this, "Ordernummer är tomt!", Toast.LENGTH_LONG).show();
+        } else if (!db.doesFieldExist("Orders", "orderNo", orderNoET.getText().toString()) && !orderNoET.getText().toString().equals("")) {
+            Toast.makeText(this, "Ordernumret finns inte!", Toast.LENGTH_LONG).show();
         }
     }
 

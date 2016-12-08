@@ -11,10 +11,16 @@ import android.view.MotionEvent;
 import android.view.View;
 
 /**
- * Created by Scott on 2016-11-29.
+ * DrawingView class, is used in SignatureActivity to be able to write a signature using the touch screen.
  */
 
 public class DrawingView extends View {
+    /**
+     * Constructor for DrawingView class.
+     *
+     * @param context Context to show DrawingView in.
+     * @param attrs   A collection of attributes, as found associated with a tag in an XML document.
+     */
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setupDrawing();
@@ -29,7 +35,6 @@ public class DrawingView extends View {
     private void setupDrawing() {
         drawPath = new Path();
         drawPaint = new Paint();
-
         drawPaint.setColor(paintColor);
         drawPaint.setAntiAlias(true);
         drawPaint.setStrokeWidth(5);

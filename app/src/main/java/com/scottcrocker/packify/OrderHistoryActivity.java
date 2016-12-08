@@ -39,6 +39,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     TextView currentUserName;
     NavigationView navigationView;
+    List<Order> allOrders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +50,13 @@ public class OrderHistoryActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
         user = db.getUser(currentUserId);
+        allOrders = db.getAllOrders();
 
         List<Order> deliveredOrders = new ArrayList<>();
 
-        for (int i = 0; i < db.getAllOrders().size(); i++) {
-            if (db.getAllOrders().get(i).getIsDelivered()) {
-                deliveredOrders.add(db.getAllOrders().get(i));
+        for (int i = 0; i < allOrders.size(); i++) {
+            if (allOrders.get(i).getIsDelivered()) {
+                deliveredOrders.add(allOrders.get(i));
             }
         }
 

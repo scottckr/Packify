@@ -10,12 +10,17 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by samantha on 2016-11-11.
+ * GPSHelper class, has methods for getting longitude and latitude from an address.
  */
 
 public class GPSHelper extends AppCompatActivity {
     Context context;
 
+    /**
+     * Constructor for GPSHelper class.
+     *
+     * @param context Takes a context to use the GPSHelper in.
+     */
     public GPSHelper(Context context) {
         this.context = context;
     }
