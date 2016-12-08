@@ -55,7 +55,7 @@ public class NewUserActivity extends AppCompatActivity {
         String newUserId = inputNewUserId.getText().toString();
         if(!MainActivity.db.doesFieldExist("Users", "userId", newUserId)){
 
-            isValidInput.add(validationHelper.validateInputNumber(newUserId, "Användar id" ,this));
+            isValidInput.add(validationHelper.validateInputNumber(newUserId, "Användar-ID" ,this));
 
             String newUsername = String.valueOf(inputNewUserName.getText());
             isValidInput.add(validationHelper.validateInputText(newUsername, "Namn" ,this));
