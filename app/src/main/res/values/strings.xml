@@ -100,5 +100,6 @@
     <string name="toast_list_updated">Listan är uppdaterad</string>
     <string name="toast_order_updated">Order uppdaterad</string>
     <string name="toast_orderhandler_non_exist">Ordernumret finns inte</string>
+    <string name="orderhandler_search_tv">Fyll i ordernummer för att söka efter order</string>
 
 </resources>
