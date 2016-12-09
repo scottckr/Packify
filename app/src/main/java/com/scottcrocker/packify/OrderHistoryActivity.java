@@ -31,7 +31,7 @@ import static com.scottcrocker.packify.MainActivity.db;
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 
 /**
- * OrderHistoryActivity, shows a ListView of delivered Order objects.
+ * OrderHistoryActivity, displays a ListView of delivered Order objects.
  */
 public class OrderHistoryActivity extends AppCompatActivity {
 

@@ -274,7 +274,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     public void deleteUser(View view) {
         Log.d("DELETEUSER", "" + selectedUser);
         if (selectedUser != mSpinner.getItemAtPosition(0)) {
-            if (selectedUser.getId() == 0 || selectedUser.getId() == currentUserId) {
+            if (selectedUser.getId() == 0 || selectedUser.getId() == user.getId()) {
                 refreshView();
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_userhandler_admin_delete), Toast.LENGTH_LONG).show();
             } else {

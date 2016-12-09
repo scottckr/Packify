@@ -20,6 +20,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.helper.ActiveOrdersHelper;
 import com.scottcrocker.packify.helper.GPSHelper;
 import com.scottcrocker.packify.helper.ValidationHelper;
 import com.scottcrocker.packify.model.Order;
@@ -34,6 +35,9 @@ import java.util.List;
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
 
+/**
+ * OrderHandlerActivity lets the user edit and delete orders from the database
+ */
 public class OrderHandlerActivity extends AppCompatActivity {
 
     private EditText orderNoET;
@@ -50,6 +54,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ValidationHelper validationHelper = new ValidationHelper();
     private GPSHelper gps;
+    private ActiveOrdersHelper activeOrdersHelper = new ActiveOrdersHelper();
 
     private String orderNo;
     private String customerId;
@@ -167,6 +172,22 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        orderNoET.setText("");
+        customerIdET.setText("");
+        customerNameET.setText("");
+        orderSumET.setText("");
+        addressET.setText("");
+        postAddressET.setText("");
+        super.onResume();
+    }
+
     private void setUpNavigationView() {
         navigationView = (NavigationView) findViewById(R.id.navList);
         // Disabling menu-item for this activity and admin options for non-admin users
@@ -251,7 +272,6 @@ public class OrderHandlerActivity extends AppCompatActivity {
      * @param view The view component that is executed by click handler.
      */
     public void addOrder(View view) {
-
         Intent intent = new Intent(this, NewOrderActivity.class);
         startActivity(intent);
     }
@@ -289,6 +309,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
      */
     public void deleteOrder(View view) {
         if (!orderNoET.getText().toString().equals("")) {
+            isValidInput.clear();
             orderNo = orderNoET.getText().toString();
             Order order = db.getOrder(Integer.parseInt(orderNo));
             isValidInput.add(validationHelper.validateInputNumber(orderNo, "Ordernummer", this));
@@ -298,7 +319,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_orderhandler_deleted), Toast.LENGTH_SHORT).show();
                 cleanAllFields();
             }
-            isValidInput.clear();
+            activeOrdersHelper.updateOrdersDisplayed();
         } else {
             Toast.makeText(this, getResources().getString(R.string.toast_orderhandler_orderno), Toast.LENGTH_LONG).show();
         }

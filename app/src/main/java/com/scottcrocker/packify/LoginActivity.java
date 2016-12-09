@@ -21,7 +21,7 @@ import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
 
 /**
- * Login activity, let's the user sign in to the app.
+ * LoginActivity, lets the user sign in to the app.
  */
 public class LoginActivity extends AppCompatActivity {
 
@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * This method validates the user input in the login fields. If valid, the user is logged in and
-     * ActiveOrder is started via Main.
+     * ActiveOrdersActivity is started via Main.
      * @param view The view component that is executed by click handler.
      */
     public void loginValidation(View view) {

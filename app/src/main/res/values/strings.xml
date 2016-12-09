@@ -34,12 +34,11 @@
     <string name="input_new_order_address">Adress:</string>
     <string name="input_new_postaddress">Postadress:</string>
 
-    <string name="btn_submit">Spara</string>
     <string name="btn_delete">Radera</string>
     <string name="btn_login_submit">Logga in</string>
     <string name="btn_deliver_order">Levererad</string>
     <string name="btn_open_map">Vägbeskrivning</string>
-    <string name="btn_edit_order">Spara order</string>
+    <string name="btn_edit">Spara ändringar</string>
     <string name="btn_save_signature_button">Spara signatur</string>
     <string name="btn_add_new_user">Lägg till användare</string>
     <string name="btn_cancel">Avbryt</string>

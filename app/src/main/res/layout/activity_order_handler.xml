@@ -113,7 +113,7 @@
                 android:onClick="editOrder"
                 android:layout_marginEnd="5sp"
                 android:layout_marginRight="5sp"
-                android:text="@string/btn_edit_order"
+                android:text="@string/btn_edit"
                 android:textColor="@color/colorAccent"
                 android:background="@drawable/button_style"/>
 

@@ -18,7 +18,7 @@ public class ValidationHelper {
 
     /**
      * Returns a boolean to check if an order exists in database
-     * if the order does not exist it sets validAction to false and displays a Toast messsage for the user
+     * if the order does not exist it sets validAction to false and displays a Toast message for the user
      *
      * @param context needs a context to know where to show the toast
      * @param orderNo needs an order number to check
@@ -50,8 +50,8 @@ public class ValidationHelper {
     }
 
     /**
-     * This method is validating input for phone numbers it makes a simple RegEx check to see if
-     * the provided input is only containing numbers from 0-9 & is either 9 or 10 digits & that it is not null.
+     * This method validates input for phone numbers. It makes a simple RegEx check to see if
+     * the provided input contains numbers from 0-9 & is either 9 or 10 digits & that it is not null.
      * The method displays a different toast depending on the result.
      *
      * @param input     the input provided to check.
@@ -75,8 +75,8 @@ public class ValidationHelper {
     }
 
     /**
-     * This method is validating input for numbers it makes a simple RegEx check to see if
-     * the provided input is only containing numbers & that it is not null.
+     * This method validates input for numbers. It makes a simple RegEx check to see if
+     * the provided input contains numbers & that it is not null.
      * The method displays a different toast depending on the result.
      *
      * @param input     the input provided to check.
@@ -88,7 +88,10 @@ public class ValidationHelper {
         boolean isValidInput = true;
         if (input.matches("^\\d{1,9}$")) {
             Log.d(TAG, "Input for " + fieldName + " is valid");
-        } else if (input.equals(null)) {
+        } else if (input.length() > 10) {
+            isValidInput = false;
+            Toast.makeText(context, fieldName + " är för långt(1-9 siffror)", Toast.LENGTH_SHORT).show();
+        } else if (input.equals(null) || input.equals("")) {
             isValidInput = false;
             Toast.makeText(context, fieldName + " är tom", Toast.LENGTH_SHORT).show();
         } else {
@@ -99,7 +102,7 @@ public class ValidationHelper {
     }
 
     /**
-     * This method is validating input for text it makes a check to see if
+     * This method validates input for text it makes a check to see if
      * the provided input is not null.
      * The method displays a different toast depending on the result.
      *

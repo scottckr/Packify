@@ -28,6 +28,9 @@ import java.util.List;
 import static com.scottcrocker.packify.MainActivity.db;
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 
+/**
+ * SettingsActivity contains seekbar, logout-button and is where phone number for shared preferences is set.
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     private SeekBar seekBar;
@@ -182,17 +185,18 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     /**
-     * onSaveSettings saves the settings made by the user in shared preferences called PackifySharedPreferences.
+     * Saves the settings made by the user in shared preferences called PackifySharedPreferences.
      * If the user input is valid a confirm message is displayed.
      *
      * @param view The view component that is executed by click handler.
      */
     public void onSaveSettings(View view) {
+        isValidInput.clear();
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         editor = sharedPreferences.edit();
         String savedPhoneNumber = phoneNumberET.getText().toString();
         String savedSeekBarValue = valueOfSeekBarTV.getText().toString();
-        isValidInput.add(validationHelper.validateInputPhoneNr(savedPhoneNumber, "Telefonnummer" ,this));
+        isValidInput.add(validationHelper.validateInputPhoneNr(savedPhoneNumber, "Telefonnummer", this));
 
         if (validationHelper.isAllTrue(isValidInput)) {
             editor.putString("seekBarValue", savedSeekBarValue);
@@ -200,14 +204,12 @@ public class SettingsActivity extends AppCompatActivity {
             editor.apply();
             Toast.makeText(this, getResources().getString(R.string.toast_settings_saved), Toast.LENGTH_SHORT).show();
             activeOrdersHelper.setSeekBarValue(Integer.parseInt(savedSeekBarValue));
-            activeOrdersHelper.updateOrdersDisplayed();
-            Toast.makeText(this, "Inställningar sparade", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
 
     /**
-     * loadSavedSettings gathers the users most recent settings and updates the fields.
+     * Gathers the users most recent settings and updates the fields.
      */
     public void loadSavedSettings() {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
@@ -220,7 +222,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     /**
-     * logout sends the user back to the loginActivity.
+     * Sends the user back to the loginActivity.
      * It also clears the username and password saved in shared preferences.
      *
      * @param view The view component that is executed by click handler.

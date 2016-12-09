@@ -10,7 +10,7 @@ import com.scottcrocker.packify.controller.DBHandler;
 import com.scottcrocker.packify.helper.ValidationHelper;
 
 /**
- * Main activity, it's sole purpose is to declare and assign public static variables and redirect the user based on login status.
+ * MainActivity, its sole purpose is to declare and assign public static variables and redirect the user based on login status.
  */
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
