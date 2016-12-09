@@ -29,6 +29,17 @@ public class ActiveOrdersHelper {
         ActiveOrdersHelper.seekBarValue = seekBarValue;
     }
 
+    public void updateCurrentOrdersOnDelete(int deletedOrderNo){
+        filterOrders();
+
+        Iterator<Order> iterator = Order.getCurrentListedOrders().iterator();
+            while (iterator.hasNext()) {
+                if (iterator.next().getOrderNo() == deletedOrderNo) {
+                    iterator.remove();
+                }
+            }
+    }
+
     /**
      * Checks if the amount of orders currently displayed is needed to be changed to meet
      * the seekBar value chosen in SettingsActivity and updates the list to the right amount of orders

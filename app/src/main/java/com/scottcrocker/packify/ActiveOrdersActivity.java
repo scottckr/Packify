@@ -42,6 +42,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView navigationView;
     private ActiveOrdersHelper activeOrdersHelper = new ActiveOrdersHelper();
+    OrderViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,8 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         int currentUserId = sharedPreferences.getInt("USERID", -1);
         user = db.getUser(currentUserId);
 
-        final OrderViewAdapter adapter = refreshView();
+        adapter = new OrderViewAdapter(this, Order.getCurrentListedOrders(), R.mipmap.package_undelivered);
+        refreshView();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_active_orders);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
@@ -93,15 +95,17 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        activeOrdersHelper.updateOrdersDisplayed();
-        refreshView();
+    protected void onRestart() {
+        super.onRestart();
+
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
+        //adapter.clearAdapter();
+        //activeOrdersHelper.updateOrdersDisplayed();
+        //refreshView();
     }
 
     private void setUpNavigationView() {
@@ -191,11 +195,10 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     /**
      * Refreshes the ListView by checking for undelivered Order objects and sets the adapter once again.
      */
-    public OrderViewAdapter refreshView() {
-        final OrderViewAdapter adapter = new OrderViewAdapter(this, Order.getCurrentListedOrders(), R.mipmap.package_undelivered);
+    public void refreshView() {
+
         listView = (ListView) findViewById(R.id.active_orders_listview);
         listView.setAdapter(adapter);
         Log.d(TAG, "ListView finished");
-        return adapter;
     }
 }
