@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
@@ -33,6 +34,7 @@ import com.scottcrocker.packify.model.User;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -54,8 +56,8 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
     private int orderNumber;
     private User user;
     private int currentUserId;
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
 
     @Override
@@ -74,10 +76,10 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         orderNumber = getIntent().getIntExtra("ORDERNO", 0);
         specificOrder = db.getOrder(orderNumber);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_specific_order);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+        drawerLayout = (DrawerLayout) findViewById(R.id.activity_specific_order);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 R.string.drawer_open, R.string.drawer_close);
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        drawerLayout.addDrawerListener(drawerToggle);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }        getSupportActionBar().setHomeButtonEnabled(true);
@@ -99,7 +101,9 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         mapFragment.getMapAsync(this);
 
         if (specificOrder.getIsDelivered()) {
-            mapFragment.getView().setVisibility(View.GONE);
+            if (mapFragment.getView() != null) {
+                mapFragment.getView().setVisibility(View.GONE);
+            }
         }
 
         refreshView();
@@ -123,38 +127,38 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 Intent intent;
                 int id = menuItem.getItemId();
                 switch (id) {
                     case R.id.navDrawer_settings:
                         intent = new Intent(SpecificOrderActivity.this, SettingsActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_userhandler:
                         intent = new Intent(SpecificOrderActivity.this, UserHandlerActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_orderhandler:
                         intent = new Intent(SpecificOrderActivity.this, OrderHandlerActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_activeorders:
                         intent = new Intent(SpecificOrderActivity.this, ActiveOrdersActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_orderhistory:
                         intent = new Intent(SpecificOrderActivity.this, OrderHistoryActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
                 }
                 return false;
@@ -167,7 +171,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK) {
 
-                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH);
                 String currentDate = df.format(Calendar.getInstance().getTime());
                 specificOrder.setIsDelivered(true);
                 specificOrder.setDeliveryDate(currentDate);
@@ -190,7 +194,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -206,27 +210,26 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+        drawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        GoogleMap mMap = googleMap;
-            LatLng pos = new LatLng(specificOrder.getLatitude(), specificOrder.getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14));
-            mMap.addMarker(new MarkerOptions().position(pos).title(specificOrder.getAddress()));
-            mMap.getUiSettings().setAllGesturesEnabled(false);
-            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                @Override
-                public void onMapClick(LatLng latLng) {
-                    openMaps();
-                }
-            });
+        LatLng pos = new LatLng(specificOrder.getLatitude(), specificOrder.getLongitude());
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14));
+        googleMap.addMarker(new MarkerOptions().position(pos).title(specificOrder.getAddress()));
+        googleMap.getUiSettings().setAllGesturesEnabled(false);
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                openMaps();
+            }
+        });
     }
 
     private void openMaps() {
