@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * RandomHelper class, uses Random class.
  */
-public class RandomHelper {
+class RandomHelper {
 
     /**
      * Generates a random number from 0 to an input value.

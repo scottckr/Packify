@@ -54,7 +54,6 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView navigationView;
     private ValidationHelper validationHelper = new ValidationHelper();
-    private TextView currentUserNameTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +77,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
 
-        currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
+        TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
         inputNameET = (EditText) findViewById(R.id.input_user_name);
         inputPasswordET = (EditText) findViewById(R.id.input_user_password);
         inputPhoneNrET = (EditText) findViewById(R.id.input_user_phone);

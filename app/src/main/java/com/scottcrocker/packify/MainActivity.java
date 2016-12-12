@@ -31,11 +31,6 @@ public class MainActivity extends AppCompatActivity {
      */
     public static final String SHARED_PREFERENCES = "PackifySharedPreferences";
 
-    /**
-     * An int variable for storing the currently logged in user for usage everywhere, is assigned in LoginActivity.
-     */
-    public static int currentUserId;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

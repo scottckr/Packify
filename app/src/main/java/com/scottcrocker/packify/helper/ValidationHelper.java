@@ -43,7 +43,7 @@ public class ValidationHelper {
         if (input.matches("[0-9]{9,10}")) {
             Log.d(TAG, "Input for phone nr is valid");
 
-        } else if (input.equals(null)) {
+        } else if (input.equals("")) {
             Toast.makeText(context, fieldName + " är tom", Toast.LENGTH_SHORT).show();
             validInput = false;
         } else {
@@ -70,7 +70,7 @@ public class ValidationHelper {
         } else if (input.length() > 10) {
             isValidInput = false;
             Toast.makeText(context, fieldName + " är för långt (1-9 siffror)", Toast.LENGTH_SHORT).show();
-        } else if (input.equals(null) || input.equals("")) {
+        } else if (input.equals("")) {
             isValidInput = false;
             Toast.makeText(context, fieldName + " är tom", Toast.LENGTH_SHORT).show();
         } else {
@@ -92,7 +92,7 @@ public class ValidationHelper {
      */
     public boolean validateInputText(String input, String fieldName, Context context) {
         boolean validInput = true;
-        if (input.equals("") || input == null) {
+        if (input.equals("")) {
             Toast.makeText(context, fieldName + " är tom", Toast.LENGTH_SHORT).show();
             validInput = false;
         }

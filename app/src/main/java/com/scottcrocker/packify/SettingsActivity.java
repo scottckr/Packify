@@ -3,6 +3,7 @@ package com.scottcrocker.packify;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
@@ -46,7 +47,6 @@ public class SettingsActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ValidationHelper validationHelper = new ValidationHelper();
     private List<Boolean> isValidInput = new ArrayList<>();
-    private ActiveOrdersHelper activeOrdersHelper = new ActiveOrdersHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +108,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 Intent intent;
                 int id = menuItem.getItemId();
                 switch (id) {
@@ -143,15 +143,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
+        return mDrawerToggle.onOptionsItemSelected(item) || item.getItemId() == R.id.toolbar_update_order || super.onOptionsItemSelected(item);
 
-        if (item.getItemId() == R.id.toolbar_update_order) {
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override
@@ -198,12 +191,12 @@ public class SettingsActivity extends AppCompatActivity {
         String savedSeekBarValue = valueOfSeekBarTV.getText().toString();
         isValidInput.add(validationHelper.validateInputPhoneNr(savedPhoneNumber, "Telefonnummer", this));
 
-        if (validationHelper.isAllTrue(isValidInput)) {
+        if (ValidationHelper.isAllTrue(isValidInput)) {
             editor.putString("seekBarValue", savedSeekBarValue);
             editor.putString("number", savedPhoneNumber);
             editor.apply();
             Toast.makeText(this, getResources().getString(R.string.toast_settings_saved), Toast.LENGTH_SHORT).show();
-            activeOrdersHelper.setSeekBarValue(Integer.parseInt(savedSeekBarValue));
+            ActiveOrdersHelper.setSeekBarValue(Integer.parseInt(savedSeekBarValue));
             finish();
         }
     }
@@ -218,7 +211,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         phoneNumberET.setText(sharedPhoneNumber);
         seekBar.setProgress((Integer.parseInt(sharedSeekBarValue) - seekBarMin));
-        valueOfSeekBarTV.setText((sharedSeekBarValue).toString());
+        valueOfSeekBarTV.setText((sharedSeekBarValue));
     }
 
     /**

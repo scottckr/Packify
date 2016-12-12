@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.scottcrocker.packify.helper.ValidationHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * This method validates the user input in the login fields. If valid, the user is logged in and
      * ActiveOrdersActivity is started via Main.
+     *
      * @param view The view component that is executed by click handler.
      */
     public void loginValidation(View view) {
@@ -64,14 +67,14 @@ public class LoginActivity extends AppCompatActivity {
 
         EditText inputIdEt = (EditText) findViewById(R.id.input_login_id);
         String inputId = inputIdEt.getText().toString();
-        isValidInput.add(validationHelper.validateInputNumber(inputId, "Användar-ID" ,this));
+        isValidInput.add(validationHelper.validateInputNumber(inputId, "Användar-ID", this));
 
         inputPasswordEt = (EditText) findViewById(R.id.input_login_password);
         String inputPassword = inputPasswordEt.getText().toString();
         isValidInput.add(validationHelper.validateInputText(inputPassword, "Lösenord", this));
         userExist = false;
         int currentUserId;
-        if (validationHelper.isAllTrue(isValidInput)) {
+        if (ValidationHelper.isAllTrue(isValidInput)) {
 
             for (int i = 0; i < db.getAllUsers().size(); i++) {
                 if (db.getAllUsers().get(i).getId() == Integer.parseInt(inputId)) {

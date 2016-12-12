@@ -13,15 +13,12 @@ import static com.scottcrocker.packify.MainActivity.db;
  */
 public class ActiveOrdersHelper {
 
-    private List<Order> allOrders = new ArrayList<>();
     private List<Order> undeliveredOrders = new ArrayList<>();
     private List<Order> deliveredOrders = new ArrayList<>();
     private static int seekBarValue;
     private RandomHelper rnd = new RandomHelper();
 
-
-
-    public static int getSeekBarValue() {
+    private static int getSeekBarValue() {
         return seekBarValue;
     }
 
@@ -29,20 +26,20 @@ public class ActiveOrdersHelper {
         ActiveOrdersHelper.seekBarValue = seekBarValue;
     }
 
-
     /**
      * Uses the ordernumber and removes that order from the currentListedOrders list.
+     *
      * @param deletedOrderNo -  is the ordernumber of the deleted order.
      */
-    public void updateCurrentOrdersOnDelete(int deletedOrderNo){
+    public void updateCurrentOrdersOnDelete(int deletedOrderNo) {
         filterOrders();
 
         Iterator<Order> iterator = Order.getCurrentListedOrders().iterator();
-            while (iterator.hasNext()) {
-                if (iterator.next().getOrderNo() == deletedOrderNo) {
-                    iterator.remove();
-                }
+        while (iterator.hasNext()) {
+            if (iterator.next().getOrderNo() == deletedOrderNo) {
+                iterator.remove();
             }
+        }
     }
 
     /**
@@ -121,7 +118,7 @@ public class ActiveOrdersHelper {
      * Filter all orders into delivered and undelivered lists
      */
     private void filterOrders() {
-        allOrders = db.getAllOrders();
+        List<Order> allOrders = db.getAllOrders();
         undeliveredOrders.clear();
         for (int i = 0; i < allOrders.size(); i++) {
             if (!allOrders.get(i).getIsDelivered()) {
@@ -136,6 +133,7 @@ public class ActiveOrdersHelper {
      * Check if more or less orders are needed to meet the orderAmountToShow value.
      * If less orders are needed it removes the last one till currentListedOrders amount is right.
      * If more orders are needed it adds a random order from undeliveredOrders till currentListedOrders amount is right.
+     *
      * @param orderAmountToShow - is the right amount of orders to be displayed
      */
     private void editCurrentListedOrders(int orderAmountToShow) {

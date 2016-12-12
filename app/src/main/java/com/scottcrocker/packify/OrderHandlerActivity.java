@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
@@ -31,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
@@ -206,7 +208,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 Intent intent;
                 int id = menuItem.getItemId();
                 switch (id) {
@@ -269,6 +271,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
     /**
      * This method opens NewOrderActivity where the user can add new orders.
+     *
      * @param view The view component that is executed by click handler.
      */
     public void addOrder(View view) {
@@ -278,16 +281,17 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
     /**
      * This method edits an order in the database from according to user input.
+     *
      * @param view The view component that is executed by click handler.
      */
     public void editOrder(View view) {
         if (!orderNoET.getText().toString().equals("") && db.doesFieldExist("Orders", "orderNo", orderNoET.getText().toString())) {
             orderInputValidation();
             Order order = db.getOrder(Integer.parseInt(orderNo));
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH);
             String currentDate = df.format(Calendar.getInstance().getTime());
             order.setDeliveryDate(currentDate);
-            if (validationHelper.isAllTrue(isValidInput)) {
+            if (ValidationHelper.isAllTrue(isValidInput)) {
                 isDeliveredSwitch = (Switch) findViewById(R.id.is_delivered_switch);
                 Order editedOrder = new Order(Integer.parseInt(orderNo), Integer.parseInt(customerId),
                         customerName, address, postAddress, Integer.parseInt(orderSum), order.getDeliveryDate(), isDeliveredSwitch.isChecked(),
@@ -305,6 +309,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
     /**
      * This method deletes an order from database selected by user input.
+     *
      * @param view The view component that is executed by click handler.
      */
     public void deleteOrder(View view) {
@@ -313,7 +318,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
             orderNo = orderNoET.getText().toString();
             Order order = db.getOrder(Integer.parseInt(orderNo));
             isValidInput.add(validationHelper.validateInputNumber(orderNo, "Ordernummer", this));
-            if (validationHelper.isAllTrue(isValidInput) && db.doesFieldExist("Orders", "orderNo", orderNo)) {
+            if (ValidationHelper.isAllTrue(isValidInput) && db.doesFieldExist("Orders", "orderNo", orderNo)) {
                 activeOrdersHelper.updateCurrentOrdersOnDelete(Integer.parseInt(orderNo));
                 db.deleteOrder(order);
 
@@ -335,7 +340,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
         postAddressET.setText("");
     }
 
-    private void orderInputValidation(){
+    private void orderInputValidation() {
         orderNoET = (EditText) findViewById(R.id.input_order_number);
         orderNo = orderNoET.getText().toString();
         isValidInput.add(validationHelper.validateInputNumber(orderNo, "Ordernummer", this));

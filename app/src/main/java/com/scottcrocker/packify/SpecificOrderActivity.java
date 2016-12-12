@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
@@ -33,6 +34,7 @@ import com.scottcrocker.packify.model.User;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -46,7 +48,7 @@ import static com.scottcrocker.packify.MainActivity.db;
 /**
  * SpecificOrderActivity displays information on a specific order
  */
-public class SpecificOrderActivity extends AppCompatActivity implements OnMapReadyCallback{
+public class SpecificOrderActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private SharedPreferences sharedPreferences;
     private static final String TAG = "SpecificOrderActivity";
@@ -80,7 +82,8 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }        getSupportActionBar().setHomeButtonEnabled(true);
+        }
+        getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
         TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
@@ -99,7 +102,9 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         mapFragment.getMapAsync(this);
 
         if (specificOrder.getIsDelivered()) {
-            mapFragment.getView().setVisibility(View.GONE);
+            if (mapFragment.getView() != null) {
+                mapFragment.getView().setVisibility(View.GONE);
+            }
         }
 
         refreshView();
@@ -123,7 +128,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 Intent intent;
                 int id = menuItem.getItemId();
                 switch (id) {
@@ -165,9 +170,9 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK) {
 
-                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH);
                 String currentDate = df.format(Calendar.getInstance().getTime());
                 specificOrder.setIsDelivered(true);
                 specificOrder.setDeliveryDate(currentDate);
@@ -214,19 +219,19 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        GoogleMap mMap = googleMap;
-            LatLng pos = new LatLng(specificOrder.getLatitude(), specificOrder.getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14));
-            mMap.addMarker(new MarkerOptions().position(pos).title(specificOrder.getAddress()));
-            mMap.getUiSettings().setAllGesturesEnabled(false);
-            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                @Override
-                public void onMapClick(LatLng latLng) {
-                    openMaps();
-                }
-            });
+        LatLng pos = new LatLng(specificOrder.getLatitude(), specificOrder.getLongitude());
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14));
+        googleMap.addMarker(new MarkerOptions().position(pos).title(specificOrder.getAddress()));
+        googleMap.getUiSettings().setAllGesturesEnabled(false);
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                openMaps();
+            }
+        });
     }
 
     private void openMaps() {
@@ -240,6 +245,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
 
     /**
      * Checks if a phone number has been saved in shared preferences. If not user is sent to SettingsActivity, otherwise user is sent to SignatureActivity
+     *
      * @param view The view component that is executed by click handler.
      */
     public void deliverOrder(View view) {
@@ -340,6 +346,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
 
     /**
      * Opens up Google Maps through the openMaps method
+     *
      * @param view The view component that is executed by click handler.
      */
     public void openNavigation(View view) {

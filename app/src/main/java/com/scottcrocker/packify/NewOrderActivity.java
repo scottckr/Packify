@@ -52,44 +52,46 @@ public class NewOrderActivity extends AppCompatActivity {
 
     /**
      * Adds a new order in the database from user input.
+     *
      * @param view The view component that is executed by click handler.
      */
     public void addNewOrder(View view) {
-            String newOrderNr = String.valueOf(orderNr.getText());
-            isValidInput.add(validationHelper.validateInputNumber(String.valueOf(newOrderNr), "Ordernummer", this));
+        String newOrderNr = String.valueOf(orderNr.getText());
+        isValidInput.add(validationHelper.validateInputNumber(String.valueOf(newOrderNr), "Ordernummer", this));
 
-            String newCustomerName = String.valueOf(customerName.getText());
-            isValidInput.add(validationHelper.validateInputText(newCustomerName, "Namn", this));
+        String newCustomerName = String.valueOf(customerName.getText());
+        isValidInput.add(validationHelper.validateInputText(newCustomerName, "Namn", this));
 
-            String newCustomerNr = String.valueOf(customerNr.getText());
-            isValidInput.add(validationHelper.validateInputNumber(String.valueOf(newCustomerNr), "Kundnummer", this));
+        String newCustomerNr = String.valueOf(customerNr.getText());
+        isValidInput.add(validationHelper.validateInputNumber(String.valueOf(newCustomerNr), "Kundnummer", this));
 
-            String newOrderSum = String.valueOf(orderSum.getText());
-            isValidInput.add(validationHelper.validateInputNumber(String.valueOf(newOrderSum), "Ordersumma", this));
+        String newOrderSum = String.valueOf(orderSum.getText());
+        isValidInput.add(validationHelper.validateInputNumber(String.valueOf(newOrderSum), "Ordersumma", this));
 
-            String newAdress = String.valueOf(address.getText());
-            isValidInput.add(validationHelper.validateInputText(newAdress, "Adress", this));
+        String newAdress = String.valueOf(address.getText());
+        isValidInput.add(validationHelper.validateInputText(newAdress, "Adress", this));
 
-            String newPostAddress = String.valueOf(postAddress.getText());
-            isValidInput.add(validationHelper.validateInputText(newPostAddress, "Postadress", this));
+        String newPostAddress = String.valueOf(postAddress.getText());
+        isValidInput.add(validationHelper.validateInputText(newPostAddress, "Postadress", this));
 
-            if (validationHelper.isAllTrue(isValidInput) && !db.doesFieldExist("Orders", "orderNo", newOrderNr)) {
-                Order order = new Order(Integer.parseInt(newOrderNr), Integer.parseInt(newCustomerNr),
-                        newCustomerName, newAdress, newPostAddress, Integer.parseInt(newOrderSum), "---",
-                        isDelivered.isChecked(), "---", gps.getLongitude(newAdress + ", " + newPostAddress),
-                        gps.getLatitude(newAdress + ", " + newPostAddress), null);
+        if (ValidationHelper.isAllTrue(isValidInput) && !db.doesFieldExist("Orders", "orderNo", newOrderNr)) {
+            Order order = new Order(Integer.parseInt(newOrderNr), Integer.parseInt(newCustomerNr),
+                    newCustomerName, newAdress, newPostAddress, Integer.parseInt(newOrderSum), "---",
+                    isDelivered.isChecked(), "---", gps.getLongitude(newAdress + ", " + newPostAddress),
+                    gps.getLatitude(newAdress + ", " + newPostAddress), null);
 
-                db.addOrder(order);
-                finish();
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_neworder_saved), Toast.LENGTH_SHORT).show();
-            } else if (db.doesFieldExist("Orders", "orderNo", newOrderNr)) {
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_neworder_orderno), Toast.LENGTH_LONG).show();
-            }
-            isValidInput.clear();
+            db.addOrder(order);
+            finish();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_neworder_saved), Toast.LENGTH_SHORT).show();
+        } else if (db.doesFieldExist("Orders", "orderNo", newOrderNr)) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_neworder_orderno), Toast.LENGTH_LONG).show();
         }
+        isValidInput.clear();
+    }
 
     /**
      * Closes the activity.
+     *
      * @param view The view component that is executed by click handler.
      */
     public void cancelBtn(View view) {
