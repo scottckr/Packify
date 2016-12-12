@@ -17,24 +17,6 @@ import static android.content.ContentValues.TAG;
 public class ValidationHelper {
 
     /**
-     * Returns a boolean to check if an order exists in database
-     * if the order does not exist it sets validAction to false and displays a Toast message for the user
-     *
-     * @param context needs a context to know where to show the toast
-     * @param orderNo needs an order number to check
-     * @return a boolean that is either true or false depending on if the order does exist.
-     */
-    public static boolean orderExist(Context context, String orderNo) {
-        boolean validAction = true;
-
-        if (!MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
-            Toast.makeText(context, "Order " + orderNo + " finns inte!", Toast.LENGTH_SHORT).show();
-            validAction = false;
-        }
-        return validAction;
-    }
-
-    /**
      * This method checks all booleans in an ArrayList and returns a boolean.
      *
      * @param isAllValid requires a list of Booleans.

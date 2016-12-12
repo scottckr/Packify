@@ -314,7 +314,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
             Order order = db.getOrder(Integer.parseInt(orderNo));
             isValidInput.add(validationHelper.validateInputNumber(orderNo, "Ordernummer", this));
 
-            if (validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)) {
+            if (validationHelper.isAllTrue(isValidInput) && db.doesFieldExist("Orders", "orderNo", orderNo)) {
                 db.deleteOrder(order);
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_orderhandler_deleted), Toast.LENGTH_SHORT).show();
                 cleanAllFields();
