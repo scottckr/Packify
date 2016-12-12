@@ -68,7 +68,7 @@ public class NewOrderActivity extends AppCompatActivity {
             isValidInput.add(validationHelper.validateInputNumber(String.valueOf(newOrderSum), "Ordersumma", this));
 
             String newAdress = String.valueOf(address.getText());
-            isValidInput.add(validationHelper.validateInputText(newAdress, "Address", this));
+            isValidInput.add(validationHelper.validateInputText(newAdress, "Adress", this));
 
             String newPostAddress = String.valueOf(postAddress.getText());
             isValidInput.add(validationHelper.validateInputText(newPostAddress, "Postadress", this));

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Packify</string>
+
     <string name="label_active_orders">Aktiva ordrar</string>
     <string name="label_order_history">Orderhistorik</string>
     <string name="label_specific_order">Orderspecifikation</string>
@@ -48,7 +49,6 @@
     <string name="btn_logout">Logga ut</string>
     <string name="btn_new_user_add">Lägg till</string>
 
-
     <string name="order_number">Ordernummer:</string>
     <string name="customer_id">Kundnummer:</string>
     <string name="customer_name">Kundnamn:</string>
@@ -79,8 +79,6 @@
     <string name="new_user_add">Lägg till ny användare</string>
     <string name="new_order_add">Registrera ny order</string>
 
-    <string name="toast_active_orders_one">levererad order togs bort</string>
-    <string name="toast_active_orders_several">levererade ordrar togs bort</string>
     <string name="toast_login_password">Felaktigt lösenord, försök igen</string>
     <string name="toast_login_username">Felaktigt användarnamn, försök igen</string>
     <string name="toast_neworder_saved"> Order sparad</string>
@@ -99,4 +97,9 @@
     <string name="toast_userhandler_user">Välj en användare</string>
     <string name="toast_userhandler_admin_delete">Otillåtet att radera denna användare</string>
     <string name="toast_userhandler_deleted">raderad</string>
+    <string name="toast_list_updated">Listan är uppdaterad</string>
+    <string name="toast_order_updated">Order uppdaterad</string>
+    <string name="toast_orderhandler_non_exist">Ordernumret finns inte</string>
+    <string name="orderhandler_search_tv">Fyll i ordernummer för att söka efter order</string>
+
 </resources>

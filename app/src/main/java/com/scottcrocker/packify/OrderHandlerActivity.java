@@ -297,9 +297,9 @@ public class OrderHandlerActivity extends AppCompatActivity {
             }
             isValidInput.clear();
         } else if (orderNoET.getText().toString().equals("")) {
-            Toast.makeText(this, "Ordernummer är tomt!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.toast_orderhandler_orderno), Toast.LENGTH_LONG).show();
         } else if (!db.doesFieldExist("Orders", "orderNo", orderNoET.getText().toString()) && !orderNoET.getText().toString().equals("")) {
-            Toast.makeText(this, "Ordernumret finns inte!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.toast_orderhandler_non_exist), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -314,12 +314,19 @@ public class OrderHandlerActivity extends AppCompatActivity {
             Order order = db.getOrder(Integer.parseInt(orderNo));
             isValidInput.add(validationHelper.validateInputNumber(orderNo, "Ordernummer", this));
 
+<<<<<<< HEAD
             if (validationHelper.isAllTrue(isValidInput) && db.doesFieldExist("Orders", "orderNo", orderNo)) {
+=======
+            if (validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)) {
+                activeOrdersHelper.updateCurrentOrdersOnDelete(Integer.parseInt(orderNo));
+>>>>>>> fa0c7e31d39329e2dc93f3448b581054ca258fd2
                 db.deleteOrder(order);
+
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_orderhandler_deleted), Toast.LENGTH_SHORT).show();
                 cleanAllFields();
+
             }
-            activeOrdersHelper.updateOrdersDisplayed();
+
         } else {
             Toast.makeText(this, getResources().getString(R.string.toast_orderhandler_orderno), Toast.LENGTH_LONG).show();
         }

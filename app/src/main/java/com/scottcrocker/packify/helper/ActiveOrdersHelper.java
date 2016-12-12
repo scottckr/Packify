@@ -29,41 +29,20 @@ public class ActiveOrdersHelper {
         ActiveOrdersHelper.seekBarValue = seekBarValue;
     }
 
-    /**
-     * Filters all orders into delivered and undelivered lists
-     */
-    private void filterOrders() {
-        allOrders = db.getAllOrders();
-        undeliveredOrders.clear();
-        for (int i = 0; i < allOrders.size(); i++) {
-            if (!allOrders.get(i).getIsDelivered()) {
-                undeliveredOrders.add(allOrders.get(i));
-            } else {
-                deliveredOrders.add(allOrders.get(i));
-            }
-        }
-    }
 
     /**
-     * Checks if more or less orders are needed to meet the orderAmountToShow value.
-     * If less orders are needed it removes the last one till currentListedOrders amount is right.
-     * If more orders are needed it adds a random order from undeliveredOrders till currentListedOrders amount is right.
-     * @param orderAmountToShow - is the right amount of orders to be displayed
+     * Uses the ordernumber and removes that order from the currentListedOrders list.
+     * @param deletedOrderNo -  is the ordernumber of the deleted order.
      */
-    private void editCurrentListedOrders(int orderAmountToShow) {
-        if (orderAmountToShow < Order.getCurrentListedOrders().size()) {
-            while (Order.getCurrentListedOrders().size() > orderAmountToShow) {
-                Order.getCurrentListedOrders().remove(Order.getCurrentListedOrders().size() - 1);
-            }
-        } else if (orderAmountToShow > Order.getCurrentListedOrders().size()) {
-            int rndOrder;
+    public void updateCurrentOrdersOnDelete(int deletedOrderNo){
+        filterOrders();
 
-            while (Order.getCurrentListedOrders().size() < orderAmountToShow) {
-                rndOrder = rnd.randomNrGenerator(undeliveredOrders.size());
-                Order.getCurrentListedOrders().add(undeliveredOrders.get(rndOrder));
-                undeliveredOrders.remove(rndOrder);
+        Iterator<Order> iterator = Order.getCurrentListedOrders().iterator();
+            while (iterator.hasNext()) {
+                if (iterator.next().getOrderNo() == deletedOrderNo) {
+                    iterator.remove();
+                }
             }
-        }
     }
 
     /**
@@ -136,5 +115,42 @@ public class ActiveOrdersHelper {
             }
         }
         editCurrentListedOrders(orderAmountToShow);
+    }
+
+    /**
+     * Filter all orders into delivered and undelivered lists
+     */
+    private void filterOrders() {
+        allOrders = db.getAllOrders();
+        undeliveredOrders.clear();
+        for (int i = 0; i < allOrders.size(); i++) {
+            if (!allOrders.get(i).getIsDelivered()) {
+                undeliveredOrders.add(allOrders.get(i));
+            } else {
+                deliveredOrders.add(allOrders.get(i));
+            }
+        }
+    }
+
+    /**
+     * Check if more or less orders are needed to meet the orderAmountToShow value.
+     * If less orders are needed it removes the last one till currentListedOrders amount is right.
+     * If more orders are needed it adds a random order from undeliveredOrders till currentListedOrders amount is right.
+     * @param orderAmountToShow - is the right amount of orders to be displayed
+     */
+    private void editCurrentListedOrders(int orderAmountToShow) {
+        if (orderAmountToShow < Order.getCurrentListedOrders().size()) {
+            while (Order.getCurrentListedOrders().size() > orderAmountToShow) {
+                Order.getCurrentListedOrders().remove(Order.getCurrentListedOrders().size() - 1);
+            }
+        } else if (orderAmountToShow > Order.getCurrentListedOrders().size()) {
+            int rndOrder;
+
+            while (Order.getCurrentListedOrders().size() < orderAmountToShow) {
+                rndOrder = rnd.randomNrGenerator(undeliveredOrders.size());
+                Order.getCurrentListedOrders().add(undeliveredOrders.get(rndOrder));
+                undeliveredOrders.remove(rndOrder);
+            }
+        }
     }
 }

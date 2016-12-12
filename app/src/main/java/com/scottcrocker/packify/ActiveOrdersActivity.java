@@ -19,13 +19,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.scottcrocker.packify.controller.OrderViewAdapter;
 import com.scottcrocker.packify.helper.ActiveOrdersHelper;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
-
-import java.util.List;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
@@ -42,6 +41,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView navigationView;
     private ActiveOrdersHelper activeOrdersHelper = new ActiveOrdersHelper();
+    OrderViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,8 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         int currentUserId = sharedPreferences.getInt("USERID", -1);
         user = db.getUser(currentUserId);
 
-        final OrderViewAdapter adapter = refreshView();
+        adapter = new OrderViewAdapter(this, Order.getCurrentListedOrders(), R.mipmap.package_undelivered);
+        refreshView();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_active_orders);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
@@ -90,18 +91,6 @@ public class ActiveOrdersActivity extends AppCompatActivity {
             ActivityCompat.finishAffinity(ActiveOrdersActivity.this);
             startActivity(intent);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        activeOrdersHelper.updateOrdersDisplayed();
-        refreshView();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     private void setUpNavigationView() {
@@ -170,6 +159,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.toolbar_update_order) {
             activeOrdersHelper.updateOrdersDisplayedAndDelivered();
             refreshView();
+            Toast.makeText(this, getResources().getString(R.string.toast_list_updated), Toast.LENGTH_SHORT).show();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -191,11 +181,10 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     /**
      * Refreshes the ListView by checking for undelivered Order objects and sets the adapter once again.
      */
-    public OrderViewAdapter refreshView() {
-        final OrderViewAdapter adapter = new OrderViewAdapter(this, Order.getCurrentListedOrders(), R.mipmap.package_undelivered);
+    public void refreshView() {
+
         listView = (ListView) findViewById(R.id.active_orders_listview);
         listView.setAdapter(adapter);
         Log.d(TAG, "ListView finished");
-        return adapter;
     }
 }
