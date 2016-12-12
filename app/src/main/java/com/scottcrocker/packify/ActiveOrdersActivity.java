@@ -25,8 +25,6 @@ import com.scottcrocker.packify.helper.ActiveOrdersHelper;
 import com.scottcrocker.packify.model.Order;
 import com.scottcrocker.packify.model.User;
 
-import java.util.List;
-
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
 import static com.scottcrocker.packify.MainActivity.db;
 
@@ -92,20 +90,6 @@ public class ActiveOrdersActivity extends AppCompatActivity {
             ActivityCompat.finishAffinity(ActiveOrdersActivity.this);
             startActivity(intent);
         }
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //adapter.clearAdapter();
-        //activeOrdersHelper.updateOrdersDisplayed();
-        //refreshView();
     }
 
     private void setUpNavigationView() {

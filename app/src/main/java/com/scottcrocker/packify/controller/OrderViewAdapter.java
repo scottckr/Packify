@@ -73,9 +73,4 @@ public class OrderViewAdapter extends BaseAdapter {
         orderLabelTv.setText(orderLabelTwo);
         return v;
     }
-    public void clearAdapter(){
-        dataSource.clear();
-        notifyDataSetChanged();
-        dataSource.addAll(Order.getCurrentListedOrders());
-    }
 }

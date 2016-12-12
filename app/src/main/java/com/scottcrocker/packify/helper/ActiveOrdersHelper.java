@@ -29,6 +29,11 @@ public class ActiveOrdersHelper {
         ActiveOrdersHelper.seekBarValue = seekBarValue;
     }
 
+
+    /**
+     * Uses the ordernumber and removes that order from the currentListedOrders list.
+     * @param deletedOrderNo -  is the ordernumber of the deleted order.
+     */
     public void updateCurrentOrdersOnDelete(int deletedOrderNo){
         filterOrders();
 

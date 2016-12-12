@@ -13,7 +13,6 @@ import static android.content.ContentValues.TAG;
 /**
  * ValidationHelper, validates various fields to make sure input is correct.
  */
-
 public class ValidationHelper {
 
     /**

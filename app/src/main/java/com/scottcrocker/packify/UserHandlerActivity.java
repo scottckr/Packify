@@ -301,6 +301,10 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         isAdminSwitch.setChecked(false);
     }
 
+    /**
+     * Method has to exist for fundamental functions.
+     * @param arg0 - The default user which is empty at start.
+     */
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {
         // Method has to exist for some reason.

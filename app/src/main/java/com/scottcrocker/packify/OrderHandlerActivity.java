@@ -316,14 +316,12 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
             if (validationHelper.isAllTrue(isValidInput) && validationHelper.orderExist(this, orderNo)) {
                 activeOrdersHelper.updateCurrentOrdersOnDelete(Integer.parseInt(orderNo));
-                //activeOrdersHelper.updateOrdersDisplayed();
                 db.deleteOrder(order);
 
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_orderhandler_deleted), Toast.LENGTH_SHORT).show();
                 cleanAllFields();
 
             }
-            //activeOrdersHelper.updateOrdersDisplayed();
 
         } else {
             Toast.makeText(this, getResources().getString(R.string.toast_orderhandler_orderno), Toast.LENGTH_LONG).show();
