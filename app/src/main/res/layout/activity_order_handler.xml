@@ -34,6 +34,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/orderhandler_search_tv"/>
             <EditText
                 android:id="@+id/input_order_number"
                 android:layout_width="match_parent"

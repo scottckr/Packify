@@ -297,9 +297,9 @@ public class OrderHandlerActivity extends AppCompatActivity {
             }
             isValidInput.clear();
         } else if (orderNoET.getText().toString().equals("")) {
-            Toast.makeText(this, "Ordernummer är tomt!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.toast_orderhandler_orderno), Toast.LENGTH_LONG).show();
         } else if (!db.doesFieldExist("Orders", "orderNo", orderNoET.getText().toString()) && !orderNoET.getText().toString().equals("")) {
-            Toast.makeText(this, "Ordernumret finns inte!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.toast_orderhandler_non_exist), Toast.LENGTH_LONG).show();
         }
     }
 

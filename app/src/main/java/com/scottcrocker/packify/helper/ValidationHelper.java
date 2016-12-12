@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.scottcrocker.packify.MainActivity;
+import com.scottcrocker.packify.R;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class ValidationHelper {
         boolean validAction = true;
 
         if (!MainActivity.db.doesFieldExist("Orders", "orderNo", orderNo)) {
-            Toast.makeText(context, "Order " + orderNo + " finns inte!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Order " + orderNo + " existerar inte", Toast.LENGTH_SHORT).show();
             validAction = false;
         }
         return validAction;
@@ -67,7 +68,7 @@ public class ValidationHelper {
             Toast.makeText(context, fieldName + " är tom", Toast.LENGTH_SHORT).show();
             validInput = false;
         } else {
-            Toast.makeText(context, fieldName + " måste bestå 9-10 av siffror!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, fieldName + " måste bestå av 9-10 siffror", Toast.LENGTH_SHORT).show();
             validInput = false;
         }
         return validInput;
@@ -89,13 +90,13 @@ public class ValidationHelper {
             Log.d(TAG, "Input for " + fieldName + " is valid");
         } else if (input.length() > 10) {
             isValidInput = false;
-            Toast.makeText(context, fieldName + " är för långt(1-9 siffror)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, fieldName + " är för långt (1-9 siffror)", Toast.LENGTH_SHORT).show();
         } else if (input.equals(null) || input.equals("")) {
             isValidInput = false;
             Toast.makeText(context, fieldName + " är tom", Toast.LENGTH_SHORT).show();
         } else {
             isValidInput = false;
-            Toast.makeText(context, fieldName + " måste bestå av siffror!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, fieldName + " måste bestå av siffror", Toast.LENGTH_SHORT).show();
         }
         return isValidInput;
     }

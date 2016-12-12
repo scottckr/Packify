@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.scottcrocker.packify.controller.OrderViewAdapter;
 import com.scottcrocker.packify.helper.ActiveOrdersHelper;
@@ -158,6 +159,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.toolbar_update_order) {
             activeOrdersHelper.updateOrdersDisplayedAndDelivered();
             refreshView();
+            Toast.makeText(this, getResources().getString(R.string.toast_list_updated), Toast.LENGTH_SHORT).show();
             return true;
         } else {
             return super.onOptionsItemSelected(item);

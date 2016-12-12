@@ -195,7 +195,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         }
 
         if (item.getItemId() == R.id.toolbar_update_order) {
-            Toast.makeText(this, "Order uppdaterad", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.toast_order_updated), Toast.LENGTH_SHORT).show();
             refreshView();
             return true;
         } else {
