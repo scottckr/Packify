@@ -215,13 +215,14 @@ public class SettingsActivity extends AppCompatActivity {
 
     /**
      * Sends the user back to the loginActivity.
-     * It also clears the username and password saved in shared preferences.
+     * It also clears the user id saved in shared preferences.
      *
      * @param view The view component that is executed by click handler.
      */
     public void logout(View view) {
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         editor = sharedPreferences.edit();
+        editor.remove("USERID");
         editor.putBoolean("isLoggedIn", false);
         editor.apply();
 
