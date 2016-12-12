@@ -40,7 +40,7 @@ import static com.scottcrocker.packify.MainActivity.db;
  */
 public class UserHandlerActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private Spinner mSpinner;
+    private Spinner spinner;
     private EditText inputNameET;
     private EditText inputPasswordET;
     private EditText inputPhoneNrET;
@@ -50,8 +50,8 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
     private Switch isAdminSwitch;
     private User user;
     private User selectedUser;
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
     private ValidationHelper validationHelper = new ValidationHelper();
 
@@ -66,9 +66,9 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         int currentUserId = sharedPreferences.getInt("USERID", -1);
         user = db.getUser(currentUserId);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_user_handler);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        drawerLayout = (DrawerLayout) findViewById(R.id.activity_user_handler);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close);
+        drawerLayout.addDrawerListener(drawerToggle);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -85,13 +85,13 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         inputPasswordET.setTypeface(Typeface.DEFAULT);
         inputPasswordET.setTransformationMethod(new PasswordTransformationMethod());
         isAdminSwitch = (Switch) findViewById(R.id.admin_switch);
-        mSpinner = (Spinner) findViewById(R.id.spinner_user_id);
+        spinner = (Spinner) findViewById(R.id.spinner_user_id);
 
         inputNameET.setEnabled(false);
         inputPasswordET.setEnabled(false);
         inputPhoneNrET.setEnabled(false);
         isAdminSwitch.setEnabled(false);
-        mSpinner.setOnItemSelectedListener(this);
+        spinner.setOnItemSelectedListener(this);
         loadSpinnerData();
 
         try {
@@ -130,25 +130,25 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
                     case R.id.navDrawer_settings:
                         intent = new Intent(UserHandlerActivity.this, SettingsActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_orderhandler:
                         intent = new Intent(UserHandlerActivity.this, OrderHandlerActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_activeorders:
                         intent = new Intent(UserHandlerActivity.this, ActiveOrdersActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_orderhistory:
                         intent = new Intent(UserHandlerActivity.this, OrderHistoryActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
                 }
                 return false;
@@ -158,20 +158,20 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return mDrawerToggle.onOptionsItemSelected(item) || item.getItemId() == R.id.toolbar_update_order
+        return drawerToggle.onOptionsItemSelected(item) || item.getItemId() == R.id.toolbar_update_order
                 || super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+        drawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -188,8 +188,8 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
         List<User> users = db.getAllUsers();
         dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, users);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinner.setPrompt("Välj en användare...");
-        mSpinner.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapter, R.layout.spinner_row_nothing_selected, this));
+        spinner.setPrompt("Välj en användare...");
+        spinner.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapter, R.layout.spinner_row_nothing_selected, this));
     }
 
     @Override
@@ -224,7 +224,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
      * @param view The view component that is executed by click handler.
      */
     public void saveEditedUser(View view) {
-        if (selectedUser != mSpinner.getItemAtPosition(0)) {
+        if (selectedUser != spinner.getItemAtPosition(0)) {
             if (selectedUser.getId() == 0) {
                 refreshView();
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_userhandler_admin_change), Toast.LENGTH_LONG).show();
@@ -248,7 +248,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
                 }
                 isValidInput.clear();
             }
-        } else if (selectedUser == mSpinner.getItemAtPosition(0)) {
+        } else if (selectedUser == spinner.getItemAtPosition(0)) {
             refreshView();
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_userhandler_user), Toast.LENGTH_LONG).show();
         }
@@ -271,7 +271,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
      */
     public void deleteUser(View view) {
         Log.d("DELETEUSER", "" + selectedUser);
-        if (selectedUser != mSpinner.getItemAtPosition(0)) {
+        if (selectedUser != spinner.getItemAtPosition(0)) {
             if (selectedUser.getId() == 0 || selectedUser.getId() == user.getId()) {
                 refreshView();
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_userhandler_admin_delete), Toast.LENGTH_LONG).show();
@@ -281,7 +281,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
                 refreshView();
                 loadSpinnerData();
             }
-        } else if (selectedUser == mSpinner.getItemAtPosition(0)) {
+        } else if (selectedUser == spinner.getItemAtPosition(0)) {
             refreshView();
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_userhandler_user), Toast.LENGTH_LONG).show();
         }
@@ -291,7 +291,7 @@ public class UserHandlerActivity extends AppCompatActivity implements AdapterVie
      * Refreshes User objects in the dropdown Spinner, also clears all input fields.
      */
     public void refreshView() {
-        mSpinner.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapter, R.layout.spinner_row_nothing_selected, this));
+        spinner.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapter, R.layout.spinner_row_nothing_selected, this));
         inputNameET.setText("");
         inputPasswordET.setText("");
         inputPhoneNrET.setText("");

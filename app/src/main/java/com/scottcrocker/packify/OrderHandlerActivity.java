@@ -51,8 +51,8 @@ public class OrderHandlerActivity extends AppCompatActivity {
     private Switch isDeliveredSwitch;
     private List<Boolean> isValidInput = new ArrayList<>();
     private User user;
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
     private ValidationHelper validationHelper = new ValidationHelper();
     private GPSHelper gps;
@@ -151,10 +151,10 @@ public class OrderHandlerActivity extends AppCompatActivity {
             }
         });
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_order_handler);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+        drawerLayout = (DrawerLayout) findViewById(R.id.activity_order_handler);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 R.string.drawer_open, R.string.drawer_close);
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        drawerLayout.addDrawerListener(drawerToggle);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -215,25 +215,25 @@ public class OrderHandlerActivity extends AppCompatActivity {
                     case R.id.navDrawer_settings:
                         intent = new Intent(OrderHandlerActivity.this, SettingsActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_userhandler:
                         intent = new Intent(OrderHandlerActivity.this, UserHandlerActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_activeorders:
                         intent = new Intent(OrderHandlerActivity.this, ActiveOrdersActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_orderhistory:
                         intent = new Intent(OrderHandlerActivity.this, OrderHistoryActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
 
@@ -245,7 +245,7 @@ public class OrderHandlerActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -260,13 +260,13 @@ public class OrderHandlerActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+        drawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
     }
 
     /**

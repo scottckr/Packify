@@ -56,8 +56,8 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
     private int orderNumber;
     private User user;
     private int currentUserId;
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
 
     @Override
@@ -76,10 +76,10 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         orderNumber = getIntent().getIntExtra("ORDERNO", 0);
         specificOrder = db.getOrder(orderNumber);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_specific_order);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+        drawerLayout = (DrawerLayout) findViewById(R.id.activity_specific_order);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 R.string.drawer_open, R.string.drawer_close);
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        drawerLayout.addDrawerListener(drawerToggle);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -135,31 +135,31 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
                     case R.id.navDrawer_settings:
                         intent = new Intent(SpecificOrderActivity.this, SettingsActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_userhandler:
                         intent = new Intent(SpecificOrderActivity.this, UserHandlerActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_admin_orderhandler:
                         intent = new Intent(SpecificOrderActivity.this, OrderHandlerActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_activeorders:
                         intent = new Intent(SpecificOrderActivity.this, ActiveOrdersActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
                     case R.id.navDrawer_orderhistory:
                         intent = new Intent(SpecificOrderActivity.this, OrderHistoryActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
                 }
                 return false;
@@ -195,7 +195,7 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -211,13 +211,13 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+        drawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
