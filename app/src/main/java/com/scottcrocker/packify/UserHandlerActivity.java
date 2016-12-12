@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.scottcrocker.packify.MainActivity.SHARED_PREFERENCES;
-import static com.scottcrocker.packify.MainActivity.currentUserId;
 import static com.scottcrocker.packify.MainActivity.db;
 
 /**

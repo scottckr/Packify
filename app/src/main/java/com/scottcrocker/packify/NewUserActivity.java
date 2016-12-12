@@ -16,6 +16,8 @@ import com.scottcrocker.packify.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.scottcrocker.packify.MainActivity.db;
+
 /**
  * NewUserActivity lets the user add new user to the database
  */
@@ -54,7 +56,7 @@ public class NewUserActivity extends AppCompatActivity {
         isValidInput.clear();
 
         String newUserId = inputNewUserId.getText().toString();
-        if(!MainActivity.db.doesFieldExist("Users", "userId", newUserId)){
+        if(!db.doesFieldExist("Users", "userId", newUserId)){
 
             isValidInput.add(validationHelper.validateInputNumber(newUserId, "Användar-ID" ,this));
 
@@ -69,7 +71,7 @@ public class NewUserActivity extends AppCompatActivity {
 
             if (ValidationHelper.isAllTrue(isValidInput)) {
                 User user = new User(Integer.parseInt(newUserId), newUserPass, newUsername, newUserPhoneNr, toggle.isChecked());
-                MainActivity.db.addUser(user);
+                db.addUser(user);
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_newuser_saved), Toast.LENGTH_SHORT).show();
                 finish();
                 Intent intent = new Intent(this, UserHandlerActivity.class);
