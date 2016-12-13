@@ -59,6 +59,8 @@
     <string name="delivered_by">Levererad av:</string>
     <string name="received_by">Mottagen av:</string>
     <string name="please_sign_below"><u>Signera nedan, tack!</u></string>
+    <string name="orderhandler_search_tv">Fyll i ordernummer för att söka efter order</string>
+
 
     <string name="active_orders_empty">Det finns inga aktiva ordrar.</string>
     <string name="order_history_empty">Det finns inga levererade ordrar.</string>
@@ -73,7 +75,7 @@
     <string name="menu_update_order">Uppdatera</string>
 
     <string name="spinner_choose_user">Välj en användare...</string>
-    <string name="switch_is_admin">Admin</string>
+    <string name="switch_is_admin">Administratör</string>
     <string name="switch_is_delivered">Levererad</string>
 
     <string name="new_user_add">Lägg till ny användare</string>
@@ -100,6 +102,5 @@
     <string name="toast_list_updated">Listan är uppdaterad</string>
     <string name="toast_order_updated">Order uppdaterad</string>
     <string name="toast_orderhandler_non_exist">Ordernumret finns inte</string>
-    <string name="orderhandler_search_tv">Fyll i ordernummer för att söka efter order</string>
 
 </resources>

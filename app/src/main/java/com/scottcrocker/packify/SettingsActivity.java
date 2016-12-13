@@ -47,6 +47,7 @@ public class SettingsActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ValidationHelper validationHelper = new ValidationHelper();
     private List<Boolean> isValidInput = new ArrayList<>();
+    private ActiveOrdersHelper activeOrdersHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,6 +187,7 @@ public class SettingsActivity extends AppCompatActivity {
         isValidInput.clear();
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
         String savedPhoneNumber = phoneNumberET.getText().toString();
         String savedSeekBarValue = valueOfSeekBarTV.getText().toString();
         isValidInput.add(validationHelper.validateInputPhoneNr(savedPhoneNumber, "Telefonnummer", this));

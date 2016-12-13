@@ -41,7 +41,7 @@ public class ActiveOrdersActivity extends AppCompatActivity {
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
     private ActiveOrdersHelper activeOrdersHelper = new ActiveOrdersHelper();
-    OrderViewAdapter adapter;
+    private OrderViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,9 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         int currentUserId = sharedPreferences.getInt("USERID", -1);
         user = db.getUser(currentUserId);
 
+
+        activeOrdersHelper.setSeekBarValue(Integer.parseInt(sharedPreferences.getString("seekBarValue", "10")));
+        activeOrdersHelper.updateOrdersDisplayed();
         adapter = new OrderViewAdapter(this, Order.getCurrentListedOrders(), R.mipmap.package_undelivered);
         refreshView();
 
@@ -65,7 +68,6 @@ public class ActiveOrdersActivity extends AppCompatActivity {
         }
         getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
-        activeOrdersHelper.updateOrdersDisplayed();
         View header = navigationView.getHeaderView(0);
 
         TextView emptyTextTV = (TextView)findViewById(R.id.active_orders_empty);
@@ -91,6 +93,19 @@ public class ActiveOrdersActivity extends AppCompatActivity {
             ActivityCompat.finishAffinity(ActiveOrdersActivity.this);
             startActivity(intent);
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        activeOrdersHelper.updateOrdersDisplayed();
+        refreshView();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     private void setUpNavigationView() {
