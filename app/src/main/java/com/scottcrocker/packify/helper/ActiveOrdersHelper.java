@@ -57,6 +57,8 @@ public class ActiveOrdersHelper {
                 }
             }
         }
+        int x = getSeekBarValue();
+
 
         if (getSeekBarValue() < 1) {
             setSeekBarValue(30);

@@ -75,7 +75,6 @@ public class LoginActivity extends AppCompatActivity {
         userExist = false;
         int currentUserId;
         if (ValidationHelper.isAllTrue(isValidInput)) {
-
             for (int i = 0; i < db.getAllUsers().size(); i++) {
                 if (db.getAllUsers().get(i).getId() == Integer.parseInt(inputId)) {
                     userExist = true;
