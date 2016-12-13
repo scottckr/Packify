@@ -71,8 +71,8 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
 
         sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("USERID", -1);
-
         user = db.getUser(currentUserId);
+
         orderNumber = getIntent().getIntExtra("ORDERNO", 0);
         specificOrder = db.getOrder(orderNumber);
 
@@ -86,19 +86,10 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
-        TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
-        try {
-            String currentUserNameStr = " " + user.getName();
-            currentUserNameTV.setText(currentUserNameStr);
-        } catch (Exception e) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            ActivityCompat.finishAffinity(SpecificOrderActivity.this);
-            startActivity(intent);
-        }
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+
         mapFragment.getMapAsync(this);
 
         if (specificOrder.getIsDelivered()) {
@@ -108,6 +99,16 @@ public class SpecificOrderActivity extends AppCompatActivity implements OnMapRea
         }
 
         refreshView();
+
+        try {
+            String currentUserNameStr = " " + user.getName();
+            currentUserNameTV.setText(currentUserNameStr);
+        } catch (Exception e) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityCompat.finishAffinity(SpecificOrderActivity.this);
+            startActivity(intent);
+        }
     }
 
     private void setUpNavigationView() {

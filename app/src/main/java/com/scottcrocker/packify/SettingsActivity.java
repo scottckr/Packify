@@ -69,15 +69,16 @@ public class SettingsActivity extends AppCompatActivity {
         onSeekBarChanges();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_settings);
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
-                R.string.drawer_open, R.string.drawer_close);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }        getSupportActionBar().setHomeButtonEnabled(true);
         setUpNavigationView();
         View header = navigationView.getHeaderView(0);
+
         TextView currentUserNameTV = (TextView) header.findViewById(R.id.current_user_name);
+
         try {
             String currentUserNameStr = " " + user.getName();
             currentUserNameTV.setText(currentUserNameStr);
